@@ -1,2 +1,3 @@
-export * from './lib/async';
-export * from './lib/number';
+export * from './lib/email';
+export * from './lib/user';
+export * from './lib/project';
