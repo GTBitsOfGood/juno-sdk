@@ -1,36 +1,70 @@
-import { ProjectApi } from "../internal/api";
+import { CreateProjectModel, LinkUserModel, ProjectApi } from '../internal/api';
+import http from 'http';
 
-type projectInputType = {
-  name: string;
-  id?: never;
-} | {
-  id: string;
-  name?: never;
-};
+type projectInputType =
+  | {
+      name: string;
+      id?: never;
+    }
+  | {
+      id: string;
+      name?: never;
+    };
 
 type ProjectAPI = {
-  createProject: () => void;
+  createProject: (projectName: string) => Promise<ProjectResponseType>;
   // Shou;d be by ID or Name
-  getProject: (input: projectInputType) => void;
+  getProject: (input: projectInputType) => Promise<ProjectResponseType>;
   // Shou;d be by ID or Name
-  linkProjectToUser: (input: projectInputType) => void;
+  linkProjectToUser: (
+    input: projectInputType,
+    email: string,
+    id: number
+  ) => Promise<ProjectResponseType>;
+};
+
+type ProjectResponseType = {
+  response: http.IncomingMessage;
+  body?: any;
 };
 
 const projectApi = new ProjectApi();
 
 export const projectAPI: ProjectAPI = {
-  createProject: function (): void {
-    throw new Error('Function not implemented.');
+  createProject: async function (
+    projectName: string
+  ): Promise<ProjectResponseType> {
+    const createProjectModel = new CreateProjectModel();
+    createProjectModel.name = projectName;
+
+    return await projectApi.projectControllerCreateProject(createProjectModel);
   },
 
-  getProject: function (input: projectInputType): Promise<any> {
-    if (!input.id) {
-      return projectApi.projectControllerGetProjectByName(input.name)
-    } 
-      return projectApi.projectControllerGetProjectById(input.id)
+  getProject: async function (
+    input: projectInputType
+  ): Promise<ProjectResponseType> {
+    return input.id
+      ? await projectApi.projectControllerGetProjectById(input.id)
+      : await projectApi.projectControllerGetProjectByName(input.name);
   },
 
-  linkProjectToUser: function (input: projectInputType): void {
-    throw new Error('Function not implemented.');
+  linkProjectToUser: async function (
+    input: projectInputType,
+    email: string,
+    id: number
+  ): Promise<ProjectResponseType> {
+    const linkUserModel = new LinkUserModel();
+    linkUserModel.email = email;
+    linkUserModel.id = id;
+
+    return input.id
+      ? await projectApi.projectControllerLinkUserWithProjectId(
+          input.id,
+          linkUserModel
+        )
+      : await projectApi.projectControllerLinkUserWithProjectName(
+          input.name,
+          linkUserModel
+        );
   },
 };
