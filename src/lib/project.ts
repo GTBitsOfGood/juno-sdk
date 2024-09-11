@@ -35,6 +35,10 @@ export const projectAPI: ProjectAPI = {
   createProject: async function (
     projectName: string
   ): Promise<ProjectResponseType> {
+    if (!projectName) {
+      throw new Error('The project name must be provided as an input!');
+    }
+
     try {
       const createProjectModel = new CreateProjectModel();
       createProjectModel.name = projectName;
@@ -51,6 +55,12 @@ export const projectAPI: ProjectAPI = {
   getProject: async function (
     input: projectInputType
   ): Promise<ProjectResponseType> {
+    if (!input) {
+      throw new Error(
+        'The project input provided must include either the id or name and cannot be null!'
+      );
+    }
+
     try {
       const res = input.id
         ? await projectApi.projectControllerGetProjectById(input.id)
@@ -66,6 +76,12 @@ export const projectAPI: ProjectAPI = {
     email: string,
     id: number
   ): Promise<ProjectResponseType> {
+    if (!input || !email || !id) {
+      throw new Error(
+        'Please verify the email is non empty, the id is non empty, and the input includes a project id or name!'
+      );
+    }
+
     try {
       const linkUserModel = new LinkUserModel();
       linkUserModel.email = email;
