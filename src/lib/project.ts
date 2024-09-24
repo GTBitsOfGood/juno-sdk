@@ -4,7 +4,6 @@ import {
   ProjectApi,
   ProjectResponse,
 } from '../internal/api';
-import http from 'http';
 
 // syntax error if name and both id are provided, only either or can be provided
 type projectInputType =
@@ -13,7 +12,7 @@ type projectInputType =
       id?: never;
     }
   | {
-      id: string;
+      id: number;
       name?: never;
     };
 
@@ -39,7 +38,7 @@ const checkInput = (input: projectInputType) => {
   }
   if (!input.id && input.name.trim().length === 0) {
     throw new Error('The project input name cannot be empty!');
-  } else if (!input.name && input.id.trim().length === 0) {
+  } else if (!input.name && !input.id) {
     throw new Error('The project input id cannot be empty!');
   }
 };
@@ -74,7 +73,7 @@ export const projectAPI: ProjectAPI = {
 
     try {
       const res = input.id
-        ? await projectApi.projectControllerGetProjectById(input.id)
+        ? await projectApi.projectControllerGetProjectById(`${input.id}`)
         : await projectApi.projectControllerGetProjectByName(input.name);
       return res.body;
     } catch (e) {

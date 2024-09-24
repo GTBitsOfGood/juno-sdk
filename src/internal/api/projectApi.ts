@@ -307,7 +307,7 @@ export class ProjectApi {
      * @param id 
      * @param linkUserModel 
      */
-    public async projectControllerLinkUserWithProjectId (id: string, linkUserModel: LinkUserModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async projectControllerLinkUserWithProjectId (id: number, linkUserModel: LinkUserModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/project/id/{id}/user'
             .replace('{' + 'id' + '}', encodeURIComponent(String(id)));
         let localVarQueryParameters: any = {};

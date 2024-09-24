@@ -5,15 +5,19 @@ export * from './createUserModel';
 export * from './emailContent';
 export * from './emailRecipient';
 export * from './emailSender';
+export * from './issueApiKeyRequest';
+export * from './issueApiKeyResponse';
 export * from './linkProjectModel';
 export * from './linkUserModel';
 export * from './projectResponse';
+export * from './registerDomainModel';
 export * from './registerEmailModel';
 export * from './registerEmailResponse';
 export * from './sendEmailModel';
 export * from './sendEmailResponse';
 export * from './setUserTypeModel';
 export * from './userResponse';
+export * from './verifyDomainModel';
 
 import * as fs from 'fs';
 
@@ -33,15 +37,19 @@ import { CreateUserModel } from './createUserModel';
 import { EmailContent } from './emailContent';
 import { EmailRecipient } from './emailRecipient';
 import { EmailSender } from './emailSender';
+import { IssueApiKeyRequest } from './issueApiKeyRequest';
+import { IssueApiKeyResponse } from './issueApiKeyResponse';
 import { LinkProjectModel } from './linkProjectModel';
 import { LinkUserModel } from './linkUserModel';
 import { ProjectResponse } from './projectResponse';
+import { RegisterDomainModel } from './registerDomainModel';
 import { RegisterEmailModel } from './registerEmailModel';
 import { RegisterEmailResponse } from './registerEmailResponse';
 import { SendEmailModel } from './sendEmailModel';
 import { SendEmailResponse } from './sendEmailResponse';
 import { SetUserTypeModel } from './setUserTypeModel';
 import { UserResponse } from './userResponse';
+import { VerifyDomainModel } from './verifyDomainModel';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -64,15 +72,19 @@ let typeMap: {[index: string]: any} = {
     "EmailContent": EmailContent,
     "EmailRecipient": EmailRecipient,
     "EmailSender": EmailSender,
+    "IssueApiKeyRequest": IssueApiKeyRequest,
+    "IssueApiKeyResponse": IssueApiKeyResponse,
     "LinkProjectModel": LinkProjectModel,
     "LinkUserModel": LinkUserModel,
     "ProjectResponse": ProjectResponse,
+    "RegisterDomainModel": RegisterDomainModel,
     "RegisterEmailModel": RegisterEmailModel,
     "RegisterEmailResponse": RegisterEmailResponse,
     "SendEmailModel": SendEmailModel,
     "SendEmailResponse": SendEmailResponse,
     "SetUserTypeModel": SetUserTypeModel,
     "UserResponse": UserResponse,
+    "VerifyDomainModel": VerifyDomainModel,
 }
 
 export class ObjectSerializer {
