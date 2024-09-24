@@ -1,4 +1,9 @@
-import { CreateProjectModel, LinkUserModel, ProjectApi } from '../internal/api';
+import {
+  CreateProjectModel,
+  LinkUserModel,
+  ProjectApi,
+  ProjectResponse,
+} from '../internal/api';
 import http from 'http';
 
 // syntax error if name and both id are provided, only either or can be provided
@@ -13,20 +18,15 @@ type projectInputType =
     };
 
 type ProjectAPI = {
-  createProject: (projectName: string) => Promise<ProjectResponseType>;
+  createProject: (projectName: string) => Promise<ProjectResponse>;
   // Should be by ID or Name
-  getProject: (input: projectInputType) => Promise<ProjectResponseType>;
+  getProject: (input: projectInputType) => Promise<ProjectResponse>;
   // Should be by ID or Name
   linkProjectToUser: (
     input: projectInputType,
     email: string,
     id: number
-  ) => Promise<ProjectResponseType>;
-};
-
-type ProjectResponseType = {
-  response: http.IncomingMessage;
-  body?: any;
+  ) => Promise<ProjectResponse>;
 };
 
 const projectApi = new ProjectApi();
@@ -47,7 +47,7 @@ const checkInput = (input: projectInputType) => {
 export const projectAPI: ProjectAPI = {
   createProject: async function (
     projectName: string
-  ): Promise<ProjectResponseType> {
+  ): Promise<ProjectResponse> {
     if (!projectName || projectName.trim().length === 0) {
       throw new Error(
         'The project name must be provided as an input and has to be nonempty!'
@@ -61,7 +61,7 @@ export const projectAPI: ProjectAPI = {
       const res = await projectApi.projectControllerCreateProject(
         createProjectModel
       );
-      return res;
+      return res.body;
     } catch (e) {
       throw new Error(e);
     }
@@ -69,14 +69,14 @@ export const projectAPI: ProjectAPI = {
 
   getProject: async function (
     input: projectInputType
-  ): Promise<ProjectResponseType> {
+  ): Promise<ProjectResponse> {
     checkInput(input);
 
     try {
       const res = input.id
         ? await projectApi.projectControllerGetProjectById(input.id)
         : await projectApi.projectControllerGetProjectByName(input.name);
-      return res;
+      return res.body;
     } catch (e) {
       throw new Error(e);
     }
@@ -86,7 +86,7 @@ export const projectAPI: ProjectAPI = {
     input: projectInputType,
     email: string,
     id: number
-  ): Promise<ProjectResponseType> {
+  ): Promise<ProjectResponse> {
     checkInput(input);
     if (
       !email ||
@@ -113,7 +113,7 @@ export const projectAPI: ProjectAPI = {
             input.name,
             linkUserModel
           );
-      return res;
+      return res.body;
     } catch (e) {
       throw new Error(e);
     }

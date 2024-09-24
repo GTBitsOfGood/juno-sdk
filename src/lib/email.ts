@@ -8,17 +8,14 @@ import {
   RegisterEmailResponse,
   EmailApi,
 } from '../internal/api';
-import http from 'http';
 
 type EmailAPI = {
   sendEmail: (
     recipients: Array<EmailRecipient>,
     sender: EmailSender,
     content: Array<EmailContent>
-  ) => Promise<{ response: http.IncomingMessage; body: SendEmailResponse }>;
-  registerSenderAddress: (
-    email: string
-  ) => Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse }>;
+  ) => Promise<SendEmailResponse>;
+  registerSenderAddress: (email: string) => Promise<RegisterEmailResponse>;
 };
 
 const emailApiInternal = new EmailApi();
@@ -28,7 +25,7 @@ export const emailAPI: EmailAPI = {
     recipients: Array<EmailRecipient>,
     sender: EmailSender,
     contents: Array<EmailContent>
-  ): Promise<{ response: http.IncomingMessage; body: SendEmailResponse }> {
+  ): Promise<SendEmailResponse> {
     if (!recipients || !sender || !contents) {
       throw new Error(
         'Parameter recipients or sender or content cannot be null'
@@ -52,14 +49,14 @@ export const emailAPI: EmailAPI = {
       const result = await emailApiInternal.emailControllerSendEmail(
         sendEmailModel
       );
-      return result;
+      return result.body;
     } catch (e) {
       throw new Error(e);
     }
   },
   registerSenderAddress: async function (
     email: string
-  ): Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse }> {
+  ): Promise<RegisterEmailResponse> {
     if (!email || email.trim().length === 0) {
       throw new Error('Email cannot be null or empty string');
     }
@@ -71,7 +68,7 @@ export const emailAPI: EmailAPI = {
         await emailApiInternal.emailControllerRegisterSenderAddress(
           registerEmailModel
         );
-      return result;
+      return result.body;
     } catch (e) {
       throw new Error(e);
     }
