@@ -16,7 +16,7 @@ type projectInputType =
       name?: never;
     };
 
-type ProjectAPI = {
+export type ProjectAPI = {
   createProject: (projectName: string) => Promise<ProjectResponse>;
   // Should be by ID or Name
   getProject: (input: projectInputType) => Promise<ProjectResponse>;

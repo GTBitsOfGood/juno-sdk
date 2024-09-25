@@ -9,7 +9,7 @@ import {
   EmailApi,
 } from '../internal/api';
 
-type EmailAPI = {
+export type EmailAPI = {
   sendEmail: (
     recipients: Array<EmailRecipient>,
     sender: EmailSender,
