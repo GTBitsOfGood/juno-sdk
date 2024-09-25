@@ -6,7 +6,7 @@ import {
   UserResponse,
 } from '../internal/api';
 
-type UserAPI = {
+export type UserAPI = {
   getUser: (
     id: string,
     options: { headers: { [name: string]: string } }
