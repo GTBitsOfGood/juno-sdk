@@ -14,7 +14,7 @@ import { RequestFile } from './models';
 
 export class RegisterDomainModel {
     'domain': string;
-    'subdomain': string;
+    'subdomain'?: string;
 
     static discriminator: string | undefined = undefined;
 

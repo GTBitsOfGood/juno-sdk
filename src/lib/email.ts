@@ -6,6 +6,8 @@ import {
   EmailContent,
   SendEmailResponse,
   RegisterEmailResponse,
+  RegisterDomainModel,
+  VerifyDomainModel,
   EmailApi,
 } from '../internal/api';
 
@@ -16,6 +18,8 @@ export type EmailAPI = {
     content: Array<EmailContent>
   ) => Promise<SendEmailResponse>;
   registerSenderAddress: (email: string) => Promise<RegisterEmailResponse>;
+  registerDomain: (domain: string, subdomain?: string) => Promise<RegisterEmailResponse>;
+  verifyDomain: (domain: string) => Promise<RegisterEmailResponse>;
 };
 
 const emailApiInternal = new EmailApi();
@@ -73,6 +77,51 @@ export const emailAPI: EmailAPI = {
       throw new Error(e);
     }
   },
+  registerDomain: async function (
+    domain: string,
+    subdomain?: string
+  ): Promise<RegisterEmailResponse> {
+    if (!domain || domain.trim().length === 0) {
+      throw new Error('Domain cannot be null or empty string');
+    }
+    
+    try {
+      const registerDomainModel = new RegisterDomainModel();
+      registerDomainModel.domain = domain;
+
+      if (subdomain && subdomain.trim().length > 0) {
+        registerDomainModel.subdomain = subdomain;
+      }
+
+      const result =
+        await emailApiInternal.emailControllerRegisterEmailDomain(
+          registerDomainModel
+        );
+      return result.body;
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+  verifyDomain: async function (
+    domain: string
+  ): Promise<RegisterEmailResponse> {
+    if (!domain || domain.trim().length === 0) {
+      throw new Error('Domain cannot be null or empty string');
+    }
+    
+    try {
+      const verifyDomainModel = new VerifyDomainModel();
+      verifyDomainModel.domain = domain;
+
+      const result =
+        await emailApiInternal.emailControllerVerifySenderDomain(
+          verifyDomainModel
+        );
+      return result.body;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 };
 
 const validateEmailRecipient = (recipient: EmailRecipient) => {
