@@ -1,6 +1,7 @@
 import { EmailAPI, emailAPI } from './email';
 import { ProjectAPI, projectAPI } from './project';
 import { UserAPI, userAPI } from './user';
+import { AuthAPI, authAPI } from './auth';
 
 type JunoAPI = {
   apiKey?: string;
@@ -8,6 +9,7 @@ type JunoAPI = {
   user: UserAPI;
   email: EmailAPI;
   project: ProjectAPI;
+  auth: AuthAPI
 };
 
 export const juno: JunoAPI = {
@@ -18,4 +20,5 @@ export const juno: JunoAPI = {
   user: userAPI,
   email: emailAPI,
   project: projectAPI,
+  auth: authAPI
 };
