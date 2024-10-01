@@ -18,7 +18,7 @@ export type EmailAPI = {
     content: Array<EmailContent>
   ) => Promise<SendEmailResponse>;
   registerSenderAddress: (email: string) => Promise<RegisterEmailResponse>;
-  registerDomain: (domain: string, subdomain?: string) => Promise<RegisterEmailResponse>;
+  registerDomain: (domain: string, subdomain: string) => Promise<RegisterEmailResponse>;
   verifyDomain: (domain: string) => Promise<RegisterEmailResponse>;
 };
 
@@ -79,19 +79,20 @@ export const emailAPI: EmailAPI = {
   },
   registerDomain: async function (
     domain: string,
-    subdomain?: string
+    subdomain: string
   ): Promise<RegisterEmailResponse> {
     if (!domain || domain.trim().length === 0) {
       throw new Error('Domain cannot be null or empty string');
+    }
+
+    if (!subdomain || subdomain.trim().length === 0) {
+      throw new Error('Subdomain cannot be null or empty string');
     }
     
     try {
       const registerDomainModel = new RegisterDomainModel();
       registerDomainModel.domain = domain;
-
-      if (subdomain && subdomain.trim().length > 0) {
-        registerDomainModel.subdomain = subdomain;
-      }
+      registerDomainModel.subdomain = subdomain;
 
       const result =
         await emailApiInternal.emailControllerRegisterEmailDomain(
