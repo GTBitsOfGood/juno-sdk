@@ -16,37 +16,12 @@ type projectInputType =
       name?: never;
     };
 
-export type ProjectAPI = {
-  createProject: (projectName: string) => Promise<ProjectResponse>;
-  // Should be by ID or Name
-  getProject: (input: projectInputType) => Promise<ProjectResponse>;
-  // Should be by ID or Name
-  linkProjectToUser: (
-    input: projectInputType,
-    email: string,
-    id: number
-  ) => Promise<ProjectResponse>;
-};
-
-const projectApi = new ProjectApi();
-
-const checkInput = (input: projectInputType) => {
-  if (!input) {
-    throw new Error(
-      'The project input provided must include either the id or name and cannot be null!'
-    );
+export class ProjectAPI {
+  private internalApi: ProjectApi;
+  constructor(baseURL?: string) {
+    this.internalApi = new ProjectApi(baseURL);
   }
-  if (!input.id && input.name.trim().length === 0) {
-    throw new Error('The project input name cannot be empty!');
-  } else if (!input.name && !input.id) {
-    throw new Error('The project input id cannot be empty!');
-  }
-};
-
-export const projectAPI: ProjectAPI = {
-  createProject: async function (
-    projectName: string
-  ): Promise<ProjectResponse> {
+  async createProject(projectName: string): Promise<ProjectResponse> {
     if (!projectName || projectName.trim().length === 0) {
       throw new Error(
         'The project name must be provided as an input and has to be nonempty!'
@@ -57,31 +32,29 @@ export const projectAPI: ProjectAPI = {
       const createProjectModel = new CreateProjectModel();
       createProjectModel.name = projectName;
 
-      const res = await projectApi.projectControllerCreateProject(
+      const res = await this.internalApi.projectControllerCreateProject(
         createProjectModel
       );
       return res.body;
     } catch (e) {
       throw new Error(e);
     }
-  },
-
-  getProject: async function (
-    input: projectInputType
-  ): Promise<ProjectResponse> {
+  }
+  // Should be by ID or Name
+  async getProject(input: projectInputType): Promise<ProjectResponse> {
     checkInput(input);
 
     try {
       const res = input.id
-        ? await projectApi.projectControllerGetProjectById(`${input.id}`)
-        : await projectApi.projectControllerGetProjectByName(input.name);
+        ? await this.internalApi.projectControllerGetProjectById(`${input.id}`)
+        : await this.internalApi.projectControllerGetProjectByName(input.name);
       return res.body;
     } catch (e) {
       throw new Error(e);
     }
-  },
-
-  linkProjectToUser: async function (
+  }
+  // Should be by ID or Name
+  async linkProjectToUser(
     input: projectInputType,
     email: string,
     id: number
@@ -104,11 +77,11 @@ export const projectAPI: ProjectAPI = {
       linkUserModel.id = id;
 
       const res = input.id
-        ? await projectApi.projectControllerLinkUserWithProjectId(
+        ? await this.internalApi.projectControllerLinkUserWithProjectId(
             input.id,
             linkUserModel
           )
-        : await projectApi.projectControllerLinkUserWithProjectName(
+        : await this.internalApi.projectControllerLinkUserWithProjectName(
             input.name,
             linkUserModel
           );
@@ -116,5 +89,18 @@ export const projectAPI: ProjectAPI = {
     } catch (e) {
       throw new Error(e);
     }
-  },
+  }
+}
+
+const checkInput = (input: projectInputType) => {
+  if (!input) {
+    throw new Error(
+      'The project input provided must include either the id or name and cannot be null!'
+    );
+  }
+  if (!input.id && input.name.trim().length === 0) {
+    throw new Error('The project input name cannot be empty!');
+  } else if (!input.name && !input.id) {
+    throw new Error('The project input id cannot be empty!');
+  }
 };

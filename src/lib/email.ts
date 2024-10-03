@@ -10,22 +10,16 @@ import {
   VerifyDomainModel,
   EmailApi,
 } from '../internal/api';
+import { AuthAPI } from './auth';
 
-export type EmailAPI = {
-  sendEmail: (
-    recipients: Array<EmailRecipient>,
-    sender: EmailSender,
-    content: Array<EmailContent>
-  ) => Promise<SendEmailResponse>;
-  registerSenderAddress: (email: string) => Promise<RegisterEmailResponse>;
-  registerDomain: (domain: string, subdomain: string) => Promise<RegisterEmailResponse>;
-  verifyDomain: (domain: string) => Promise<RegisterEmailResponse>;
-};
-
-const emailApiInternal = new EmailApi();
-
-export const emailAPI: EmailAPI = {
-  sendEmail: async function (
+export class EmailAPI {
+  private internalApi: EmailApi;
+  private auth?: AuthAPI;
+  constructor(baseURL?: string, auth?: AuthAPI) {
+    this.internalApi = new EmailApi(baseURL);
+    this.auth = auth;
+  }
+  async sendEmail(
     recipients: Array<EmailRecipient>,
     sender: EmailSender,
     contents: Array<EmailContent>
@@ -50,17 +44,22 @@ export const emailAPI: EmailAPI = {
       sendEmailModel.sender = sender;
       sendEmailModel.content = contents;
 
-      const result = await emailApiInternal.emailControllerSendEmail(
-        sendEmailModel
+      const jwt = await this.auth.createJWT();
+
+      const result = await this.internalApi.emailControllerSendEmail(
+        sendEmailModel,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt.apiKey}`,
+          },
+        }
       );
       return result.body;
     } catch (e) {
       throw new Error(e);
     }
-  },
-  registerSenderAddress: async function (
-    email: string
-  ): Promise<RegisterEmailResponse> {
+  }
+  async registerSenderAddress(email: string): Promise<RegisterEmailResponse> {
     if (!email || email.trim().length === 0) {
       throw new Error('Email cannot be null or empty string');
     }
@@ -69,15 +68,15 @@ export const emailAPI: EmailAPI = {
       registerEmailModel.email = email;
 
       const result =
-        await emailApiInternal.emailControllerRegisterSenderAddress(
+        await this.internalApi.emailControllerRegisterSenderAddress(
           registerEmailModel
         );
       return result.body;
     } catch (e) {
       throw new Error(e);
     }
-  },
-  registerDomain: async function (
+  }
+  async registerDomain(
     domain: string,
     subdomain: string
   ): Promise<RegisterEmailResponse> {
@@ -88,42 +87,38 @@ export const emailAPI: EmailAPI = {
     if (!subdomain || subdomain.trim().length === 0) {
       throw new Error('Subdomain cannot be null or empty string');
     }
-    
+
     try {
       const registerDomainModel = new RegisterDomainModel();
       registerDomainModel.domain = domain;
       registerDomainModel.subdomain = subdomain;
 
-      const result =
-        await emailApiInternal.emailControllerRegisterEmailDomain(
-          registerDomainModel
-        );
-      return result.body;
-    } catch (e) {
-      throw new Error(e);
-    }
-  },
-  verifyDomain: async function (
-    domain: string
-  ): Promise<RegisterEmailResponse> {
-    if (!domain || domain.trim().length === 0) {
-      throw new Error('Domain cannot be null or empty string');
-    }
-    
-    try {
-      const verifyDomainModel = new VerifyDomainModel();
-      verifyDomainModel.domain = domain;
-
-      const result =
-        await emailApiInternal.emailControllerVerifySenderDomain(
-          verifyDomainModel
-        );
+      const result = await this.internalApi.emailControllerRegisterEmailDomain(
+        registerDomainModel
+      );
       return result.body;
     } catch (e) {
       throw new Error(e);
     }
   }
-};
+  async verifyDomain(domain: string): Promise<RegisterEmailResponse> {
+    if (!domain || domain.trim().length === 0) {
+      throw new Error('Domain cannot be null or empty string');
+    }
+
+    try {
+      const verifyDomainModel = new VerifyDomainModel();
+      verifyDomainModel.domain = domain;
+
+      const result = await this.internalApi.emailControllerVerifySenderDomain(
+        verifyDomainModel
+      );
+      return result.body;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+}
 
 const validateEmailRecipient = (recipient: EmailRecipient) => {
   if (!recipient) {
