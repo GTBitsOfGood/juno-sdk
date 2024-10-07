@@ -13,7 +13,13 @@
 import { RequestFile } from './models';
 
 export class RegisterDomainModel {
+    /**
+    * Domain to be registered
+    */
     'domain': string;
+    /**
+    * Subdomain to be registered
+    */
     'subdomain': string;
 
     static discriminator: string | undefined = undefined;

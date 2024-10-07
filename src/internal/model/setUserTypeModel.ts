@@ -16,15 +16,15 @@ export class SetUserTypeModel {
     /**
     * User email
     */
-    'email': string;
+    'email'?: string;
     /**
     * User id
     */
-    'id': number;
+    'id'?: number;
     /**
     * New user type
     */
-    'type': number;
+    'type': SetUserTypeModel.TypeEnum;
 
     static discriminator: string | undefined = undefined;
 
@@ -42,7 +42,7 @@ export class SetUserTypeModel {
         {
             "name": "type",
             "baseName": "type",
-            "type": "number"
+            "type": "SetUserTypeModel.TypeEnum"
         }    ];
 
     static getAttributeTypeMap() {
@@ -50,3 +50,11 @@ export class SetUserTypeModel {
     }
 }
 
+export namespace SetUserTypeModel {
+    export enum TypeEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_MINUS_1 = <any> -1
+    }
+}

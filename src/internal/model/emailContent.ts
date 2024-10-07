@@ -13,7 +13,13 @@
 import { RequestFile } from './models';
 
 export class EmailContent {
+    /**
+    * MIME type for the content
+    */
     'type': string;
+    /**
+    * Content of the email
+    */
     'value': string;
 
     static discriminator: string | undefined = undefined;

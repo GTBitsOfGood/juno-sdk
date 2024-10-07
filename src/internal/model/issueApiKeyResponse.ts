@@ -13,6 +13,9 @@
 import { RequestFile } from './models';
 
 export class IssueApiKeyResponse {
+    /**
+    * The generated API key
+    */
     'apiKey': string;
 
     static discriminator: string | undefined = undefined;

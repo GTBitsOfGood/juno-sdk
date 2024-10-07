@@ -5,20 +5,29 @@ import { UserAPI } from './user';
 
 class JunoAPI {
   private apiKey?: string;
-  private userAPI: UserAPI;
-  private emailAPI: EmailAPI;
-  private projectAPI: ProjectAPI;
-  private authAPI: AuthAPI;
+  private userAPI?: UserAPI;
+  private emailAPI?: EmailAPI;
+  private projectAPI?: ProjectAPI;
+  private authAPI?: AuthAPI;
 
   get user(): UserAPI {
+    if (!this.userAPI) {
+      throw new Error('juno.init() must be called before using the Juno SDK');
+    }
     return this.userAPI;
   }
 
   get email(): EmailAPI {
+    if (!this.emailAPI) {
+      throw new Error('juno.init() must be called before using the Juno SDK');
+    }
     return this.emailAPI;
   }
 
   get project(): ProjectAPI {
+    if (!this.projectAPI) {
+      throw new Error('juno.init() must be called before using the Juno SDK');
+    }
     return this.projectAPI;
   }
 

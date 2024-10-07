@@ -16,8 +16,25 @@ import { EmailRecipient } from './emailRecipient';
 import { EmailSender } from './emailSender';
 
 export class SendEmailModel {
+    /**
+    * List of recipients for the email
+    */
     'recipients': Array<EmailRecipient>;
+    /**
+    * List of email addresses to CC on the email
+    */
+    'cc': Array<EmailRecipient>;
+    /**
+    * List of email addresses to BCC on the email
+    */
+    'bcc': Array<EmailRecipient>;
+    /**
+    * The sender of the email
+    */
     'sender': EmailSender;
+    /**
+    * List of MIME content to send in the email
+    */
     'content': Array<EmailContent>;
 
     static discriminator: string | undefined = undefined;
@@ -26,6 +43,16 @@ export class SendEmailModel {
         {
             "name": "recipients",
             "baseName": "recipients",
+            "type": "Array<EmailRecipient>"
+        },
+        {
+            "name": "cc",
+            "baseName": "cc",
+            "type": "Array<EmailRecipient>"
+        },
+        {
+            "name": "bcc",
+            "baseName": "bcc",
             "type": "Array<EmailRecipient>"
         },
         {

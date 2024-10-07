@@ -13,6 +13,9 @@
 import { RequestFile } from './models';
 
 export class RegisterEmailResponse {
+    /**
+    * The email registered
+    */
     'email': string;
 
     static discriminator: string | undefined = undefined;

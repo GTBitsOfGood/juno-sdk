@@ -16,11 +16,11 @@ export class LinkUserModel {
     /**
     * The ID of the user
     */
-    'id': number;
+    'id'?: number;
     /**
     * The email of the user
     */
-    'email': string;
+    'email'?: string;
 
     static discriminator: string | undefined = undefined;
 

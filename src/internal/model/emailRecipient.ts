@@ -13,7 +13,13 @@
 import { RequestFile } from './models';
 
 export class EmailRecipient {
+    /**
+    * Recipient email address
+    */
     'email': string;
+    /**
+    * Recipient name
+    */
     'name'?: string;
 
     static discriminator: string | undefined = undefined;

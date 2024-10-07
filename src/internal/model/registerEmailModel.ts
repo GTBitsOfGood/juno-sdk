@@ -13,7 +13,18 @@
 import { RequestFile } from './models';
 
 export class RegisterEmailModel {
+    /**
+    * The email to register
+    */
     'email': string;
+    /**
+    * The name to assosicate with the email
+    */
+    'name': string;
+    /**
+    * The email to reply-to
+    */
+    'replyTo'?: string;
 
     static discriminator: string | undefined = undefined;
 
@@ -21,6 +32,16 @@ export class RegisterEmailModel {
         {
             "name": "email",
             "baseName": "email",
+            "type": "string"
+        },
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string"
+        },
+        {
+            "name": "replyTo",
+            "baseName": "replyTo",
             "type": "string"
         }    ];
 

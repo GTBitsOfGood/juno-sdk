@@ -40,7 +40,7 @@ export class ProjectApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new HttpBearerAuth(),
+        'API_Key': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -87,7 +87,7 @@ export class ProjectApi {
     }
 
     set accessToken(accessToken: string | (() => string)) {
-        this.authentications.bearer.accessToken = accessToken;
+        this.authentications.API_Key.accessToken = accessToken;
     }
 
     public addInterceptor(interceptor: Interceptor) {
@@ -97,9 +97,11 @@ export class ProjectApi {
     /**
      * 
      * @summary Creates a new project with the specified parameters.
+     * @param xUserPassword Password of the admin or superadmin user
+     * @param xUserEmail Email of an admin or superadmin user
      * @param createProjectModel 
      */
-    public async projectControllerCreateProject (createProjectModel: CreateProjectModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ProjectResponse;  }> {
+    public async projectControllerCreateProject (xUserPassword: string, xUserEmail: string, createProjectModel: CreateProjectModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: ProjectResponse;  }> {
         const localVarPath = this.basePath + '/project';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -112,11 +114,23 @@ export class ProjectApi {
         }
         let localVarFormParams: any = {};
 
+        // verify required parameter 'xUserPassword' is not null or undefined
+        if (xUserPassword === null || xUserPassword === undefined) {
+            throw new Error('Required parameter xUserPassword was null or undefined when calling projectControllerCreateProject.');
+        }
+
+        // verify required parameter 'xUserEmail' is not null or undefined
+        if (xUserEmail === null || xUserEmail === undefined) {
+            throw new Error('Required parameter xUserEmail was null or undefined when calling projectControllerCreateProject.');
+        }
+
         // verify required parameter 'createProjectModel' is not null or undefined
         if (createProjectModel === null || createProjectModel === undefined) {
             throw new Error('Required parameter createProjectModel was null or undefined when calling projectControllerCreateProject.');
         }
 
+        localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(xUserPassword, "string");
+        localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(xUserEmail, "string");
         (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;

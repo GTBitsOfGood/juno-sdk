@@ -21,7 +21,12 @@ export class ProjectAPI {
   constructor(baseURL?: string) {
     this.internalApi = new ProjectApi(baseURL);
   }
-  async createProject(projectName: string): Promise<ProjectResponse> {
+  async createProject(options: {
+    projectName: string;
+    superadminEmail: string;
+    superadminPassword: string;
+  }): Promise<ProjectResponse> {
+    const { projectName, superadminEmail, superadminPassword } = options;
     if (!projectName || projectName.trim().length === 0) {
       throw new Error(
         'The project name must be provided as an input and has to be nonempty!'
@@ -33,6 +38,8 @@ export class ProjectAPI {
       createProjectModel.name = projectName;
 
       const res = await this.internalApi.projectControllerCreateProject(
+        superadminPassword,
+        superadminEmail,
         createProjectModel
       );
       return res.body;
@@ -54,11 +61,12 @@ export class ProjectAPI {
     }
   }
   // Should be by ID or Name
-  async linkProjectToUser(
-    input: projectInputType,
-    email: string,
-    id: number
-  ): Promise<ProjectResponse> {
+  async linkProjectToUser(options: {
+    input: projectInputType;
+    email: string | undefined;
+    id: number | undefined;
+  }): Promise<ProjectResponse> {
+    const { input, email, id } = options;
     checkInput(input);
     if (
       !email ||

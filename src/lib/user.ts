@@ -11,11 +11,14 @@ export class UserAPI {
   constructor(baseURL?: string) {
     this.internalApi = new UserApi(baseURL);
   }
-  async createUser(
-    email: string,
-    name: string,
-    password: string
-  ): Promise<UserResponse> {
+  async createUser(options: {
+    email: string;
+    name: string;
+    password: string;
+    adminEmail: string;
+    adminPassword: string;
+  }): Promise<UserResponse> {
+    let { email, name, password, adminEmail, adminPassword } = options;
     if (!email || email.trim().length === 0) {
       throw new Error('The email must be nonempty');
     }
@@ -32,6 +35,8 @@ export class UserAPI {
     try {
       const createUserModel: CreateUserModel = { email, name, password };
       const res = await this.internalApi.userControllerCreateUser(
+        adminPassword,
+        adminEmail,
         createUserModel
       );
       return res.body;
@@ -39,12 +44,14 @@ export class UserAPI {
       throw e;
     }
   }
-  async linkToProject(
-    userId: string,
-    projectId: number,
-    projectName: string,
-    options?: { headers?: { [name: string]: string } }
-  ): Promise<UserResponse> {
+  async linkToProject(options: {
+    userId: string;
+    projectId: number;
+    projectName: string;
+    email: string;
+    password: string;
+  }): Promise<UserResponse> {
+    let { userId, projectId, projectName, email, password } = options;
     if (!userId || userId.trim().length === 0) {
       throw new Error('The user ID must be a non-empty string.');
     }
@@ -59,57 +66,52 @@ export class UserAPI {
       name: projectName.trim(),
     };
 
-    const headers = options?.headers || {};
-
     try {
       const response =
         await this.internalApi.userControllerLinkUserWithProjectId(
-          userId.trim(),
-          linkProjectModel,
-          { headers }
+          userId,
+          password,
+          email,
+          linkProjectModel
         );
       return response.body;
     } catch (e) {
       throw e;
     }
   }
-  async setUserType(
-    email: string,
-    id: number,
-    type: number,
-    options?: { headers?: { [name: string]: string } }
-  ): Promise<UserResponse> {
+  async setUserType(options: {
+    email: string;
+    type: number;
+    adminEmail: string;
+    adminPassword: string;
+  }): Promise<UserResponse> {
+    const { email, type, adminEmail, adminPassword } = options;
     if (!email || email.trim().length === 0) {
       throw new Error('The email must be a non-empty string.');
     }
 
     const setUserTypeModel: SetUserTypeModel = {
       email: email.trim(),
-      id,
       type,
     };
 
-    const headers = options?.headers || {};
-
     try {
       const response = await this.internalApi.userControllerSetUserType(
-        setUserTypeModel,
-        { headers }
+        adminPassword,
+        adminEmail,
+        setUserTypeModel
       );
       return response.body;
     } catch (e) {
       throw e;
     }
   }
-  async getUser(
-    id: string,
-    options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<UserResponse> {
+  async getUser(id: string): Promise<UserResponse> {
     if (!id || id.trim()) {
       throw new Error('The id must be nonempty');
     }
     try {
-      const res = await this.internalApi.userControllerGetUserById(id, options);
+      const res = await this.internalApi.userControllerGetUserById(id);
       return res.body;
     } catch (e) {
       throw e;
