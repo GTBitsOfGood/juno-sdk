@@ -7,15 +7,20 @@ export * from './emailRecipient';
 export * from './emailSender';
 export * from './issueApiKeyRequest';
 export * from './issueApiKeyResponse';
+export * from './issueJWTResponse';
 export * from './linkProjectModel';
 export * from './linkUserModel';
 export * from './projectResponse';
 export * from './registerDomainModel';
+export * from './registerDomainResponse';
 export * from './registerEmailModel';
 export * from './registerEmailResponse';
 export * from './sendEmailModel';
 export * from './sendEmailResponse';
+export * from './sendGridDNSRecord';
+export * from './sendGridDNSResponse';
 export * from './setUserTypeModel';
+export * from './setupEmailServiceModel';
 export * from './userResponse';
 export * from './verifyDomainModel';
 
@@ -39,15 +44,20 @@ import { EmailRecipient } from './emailRecipient';
 import { EmailSender } from './emailSender';
 import { IssueApiKeyRequest } from './issueApiKeyRequest';
 import { IssueApiKeyResponse } from './issueApiKeyResponse';
+import { IssueJWTResponse } from './issueJWTResponse';
 import { LinkProjectModel } from './linkProjectModel';
 import { LinkUserModel } from './linkUserModel';
 import { ProjectResponse } from './projectResponse';
 import { RegisterDomainModel } from './registerDomainModel';
+import { RegisterDomainResponse } from './registerDomainResponse';
 import { RegisterEmailModel } from './registerEmailModel';
 import { RegisterEmailResponse } from './registerEmailResponse';
 import { SendEmailModel } from './sendEmailModel';
 import { SendEmailResponse } from './sendEmailResponse';
+import { SendGridDNSRecord } from './sendGridDNSRecord';
+import { SendGridDNSResponse } from './sendGridDNSResponse';
 import { SetUserTypeModel } from './setUserTypeModel';
+import { SetupEmailServiceModel } from './setupEmailServiceModel';
 import { UserResponse } from './userResponse';
 import { VerifyDomainModel } from './verifyDomainModel';
 
@@ -64,6 +74,8 @@ let primitives = [
                  ];
 
 let enumsMap: {[index: string]: any} = {
+        "SetUserTypeModel.TypeEnum": SetUserTypeModel.TypeEnum,
+        "UserResponse.TypeEnum": UserResponse.TypeEnum,
 }
 
 let typeMap: {[index: string]: any} = {
@@ -74,15 +86,20 @@ let typeMap: {[index: string]: any} = {
     "EmailSender": EmailSender,
     "IssueApiKeyRequest": IssueApiKeyRequest,
     "IssueApiKeyResponse": IssueApiKeyResponse,
+    "IssueJWTResponse": IssueJWTResponse,
     "LinkProjectModel": LinkProjectModel,
     "LinkUserModel": LinkUserModel,
     "ProjectResponse": ProjectResponse,
     "RegisterDomainModel": RegisterDomainModel,
+    "RegisterDomainResponse": RegisterDomainResponse,
     "RegisterEmailModel": RegisterEmailModel,
     "RegisterEmailResponse": RegisterEmailResponse,
     "SendEmailModel": SendEmailModel,
     "SendEmailResponse": SendEmailResponse,
+    "SendGridDNSRecord": SendGridDNSRecord,
+    "SendGridDNSResponse": SendGridDNSResponse,
     "SetUserTypeModel": SetUserTypeModel,
+    "SetupEmailServiceModel": SetupEmailServiceModel,
     "UserResponse": UserResponse,
     "VerifyDomainModel": VerifyDomainModel,
 }

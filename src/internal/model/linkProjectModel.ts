@@ -14,13 +14,13 @@ import { RequestFile } from './models';
 
 export class LinkProjectModel {
     /**
-    * id of project to be linked
+    * ID of project to be linked
     */
-    'id': number;
+    'id'?: number;
     /**
-    * name of project to be linked
+    * Name of project to be linked
     */
-    'name': string;
+    'name'?: string;
 
     static discriminator: string | undefined = undefined;
 

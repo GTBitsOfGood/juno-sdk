@@ -9,6 +9,7 @@ import {
   RegisterDomainModel,
   VerifyDomainModel,
   EmailApi,
+  RegisterDomainResponse,
 } from '../internal/api';
 import { AuthAPI } from './auth';
 
@@ -19,11 +20,14 @@ export class EmailAPI {
     this.internalApi = new EmailApi(baseURL);
     this.auth = auth;
   }
-  async sendEmail(
-    recipients: Array<EmailRecipient>,
-    sender: EmailSender,
-    contents: Array<EmailContent>
-  ): Promise<SendEmailResponse> {
+  async sendEmail(options: {
+    recipients: Array<EmailRecipient>;
+    cc: Array<EmailRecipient>;
+    bcc: Array<EmailRecipient>;
+    sender: EmailSender;
+    contents: Array<EmailContent>;
+  }): Promise<SendEmailResponse> {
+    const { recipients, cc, bcc, sender, contents } = options;
     if (!recipients || !sender || !contents) {
       throw new Error(
         'Parameter recipients or sender or content cannot be null'
@@ -43,14 +47,14 @@ export class EmailAPI {
       sendEmailModel.recipients = recipients;
       sendEmailModel.sender = sender;
       sendEmailModel.content = contents;
-
-      const jwt = await this.auth.createJWT();
+      sendEmailModel.cc = cc;
+      sendEmailModel.bcc = bcc;
 
       const result = await this.internalApi.emailControllerSendEmail(
         sendEmailModel,
         {
           headers: {
-            Authorization: `Bearer ${jwt.apiKey}`,
+            Authorization: `Bearer ${this.auth.junoApiKey}`,
           },
         }
       );
@@ -59,33 +63,42 @@ export class EmailAPI {
       throw new Error(e);
     }
   }
-  async registerSenderAddress(email: string): Promise<RegisterEmailResponse> {
+  async registerSenderAddress(options: {
+    email: string;
+    name: string;
+    replyTo: string | undefined;
+  }): Promise<RegisterEmailResponse> {
+    let { email, name, replyTo } = options;
     if (!email || email.trim().length === 0) {
       throw new Error('Email cannot be null or empty string');
     }
     try {
       const registerEmailModel = new RegisterEmailModel();
       registerEmailModel.email = email;
+      registerEmailModel.name = name;
+      registerEmailModel.replyTo = replyTo;
 
       const result =
         await this.internalApi.emailControllerRegisterSenderAddress(
-          registerEmailModel
+          registerEmailModel,
+          {
+            headers: {
+              Authorization: `Bearer ${this.auth.junoApiKey}`,
+            },
+          }
         );
       return result.body;
     } catch (e) {
       throw new Error(e);
     }
   }
-  async registerDomain(
-    domain: string,
-    subdomain: string
-  ): Promise<RegisterEmailResponse> {
+  async registerDomain(options: {
+    domain: string;
+    subdomain: string | undefined;
+  }): Promise<RegisterDomainResponse> {
+    const { domain, subdomain } = options;
     if (!domain || domain.trim().length === 0) {
       throw new Error('Domain cannot be null or empty string');
-    }
-
-    if (!subdomain || subdomain.trim().length === 0) {
-      throw new Error('Subdomain cannot be null or empty string');
     }
 
     try {
@@ -94,14 +107,22 @@ export class EmailAPI {
       registerDomainModel.subdomain = subdomain;
 
       const result = await this.internalApi.emailControllerRegisterEmailDomain(
-        registerDomainModel
+        registerDomainModel,
+        {
+          headers: {
+            Authorization: `Bearer ${this.auth.junoApiKey}`,
+          },
+        }
       );
       return result.body;
     } catch (e) {
       throw new Error(e);
     }
   }
-  async verifyDomain(domain: string): Promise<RegisterEmailResponse> {
+  async verifyDomain(options: {
+    domain: string;
+  }): Promise<RegisterDomainResponse> {
+    const { domain } = options;
     if (!domain || domain.trim().length === 0) {
       throw new Error('Domain cannot be null or empty string');
     }
@@ -111,7 +132,12 @@ export class EmailAPI {
       verifyDomainModel.domain = domain;
 
       const result = await this.internalApi.emailControllerVerifySenderDomain(
-        verifyDomainModel
+        verifyDomainModel,
+        {
+          headers: {
+            Authorization: `Bearer ${this.auth.junoApiKey}`,
+          },
+        }
       );
       return result.body;
     } catch (e) {

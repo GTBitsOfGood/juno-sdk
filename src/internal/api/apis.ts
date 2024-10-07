@@ -1,5 +1,5 @@
-export * from './defaultApi';
-import { DefaultApi } from './defaultApi';
+export * from './authApi';
+import { AuthApi } from './authApi';
 export * from './emailApi';
 import { EmailApi } from './emailApi';
 export * from './projectApi';
@@ -17,4 +17,4 @@ export class HttpError extends Error {
 
 export { RequestFile } from '../model/models';
 
-export const APIS = [DefaultApi, EmailApi, ProjectApi, UserApi];
+export const APIS = [AuthApi, EmailApi, ProjectApi, UserApi];

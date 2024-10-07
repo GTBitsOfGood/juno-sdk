@@ -1,23 +1,28 @@
 import {
-  DefaultApi,
+  AuthApi,
   IssueApiKeyResponse,
   IssueApiKeyRequest,
+  IssueJWTResponse,
 } from '../internal/api';
 
 export class AuthAPI {
-  private internalApi: DefaultApi;
+  private internalApi: AuthApi;
   private apiKey?: string;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new DefaultApi(baseURL);
+    this.internalApi = new AuthApi(baseURL);
     this.apiKey = apiKey;
   }
-  async createKey(
-    email: string,
-    password: string,
-    environment: string,
-    description: string = '',
-    options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<IssueApiKeyResponse> {
+  get junoApiKey(): string {
+    return this.apiKey;
+  }
+  async createKey(options: {
+    email: string;
+    password: string;
+    project: string;
+    environment: string;
+    description: string | undefined;
+  }): Promise<IssueApiKeyResponse> {
+    let { email, password, project, environment, description } = options;
     if (!email || email.trim().length === 0) {
       throw new Error('The email must be nonempty');
     }
@@ -33,39 +38,36 @@ export class AuthAPI {
     description = description.trim();
     try {
       const issueApiKeyRequest: IssueApiKeyRequest = {
-        email,
-        password,
         description,
         environment,
+        project: {
+          name: project,
+        },
       };
       const result = await this.internalApi.authControllerCreateApiKey(
-        issueApiKeyRequest,
-        options
+        email,
+        password,
+        issueApiKeyRequest
       );
       return result.body;
     } catch (e) {
       throw e;
     }
   }
-  async revokeKey(
-    authorization: string,
-    options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<any> {
-    if (!authorization || authorization.trim().length === 0) {
+  async revokeKey(options: { apiKey: string }): Promise<any> {
+    let { apiKey } = options;
+    if (!apiKey || apiKey.trim().length === 0) {
       throw new Error('The authorization token must be nonempty');
     }
-    authorization = authorization.trim();
+    apiKey = apiKey.trim();
     try {
-      const result = await this.internalApi.authControllerDeleteApiKey(
-        authorization,
-        options
-      );
+      const result = await this.internalApi.authControllerDeleteApiKey(apiKey);
       return result.body;
     } catch (e) {
       throw e;
     }
   }
-  async createJWT(): Promise<IssueApiKeyResponse> {
+  async createJWT(): Promise<IssueJWTResponse> {
     try {
       const result = await this.internalApi.authControllerGetJWT(
         'Bearer ' + this.apiKey

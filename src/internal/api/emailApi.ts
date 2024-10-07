@@ -16,10 +16,12 @@ import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { RegisterDomainModel } from '../model/registerDomainModel';
+import { RegisterDomainResponse } from '../model/registerDomainResponse';
 import { RegisterEmailModel } from '../model/registerEmailModel';
 import { RegisterEmailResponse } from '../model/registerEmailResponse';
 import { SendEmailModel } from '../model/sendEmailModel';
 import { SendEmailResponse } from '../model/sendEmailResponse';
+import { SetupEmailServiceModel } from '../model/setupEmailServiceModel';
 import { VerifyDomainModel } from '../model/verifyDomainModel';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
@@ -43,7 +45,7 @@ export class EmailApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new HttpBearerAuth(),
+        'API_Key': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -90,7 +92,7 @@ export class EmailApi {
     }
 
     set accessToken(accessToken: string | (() => string)) {
-        this.authentications.bearer.accessToken = accessToken;
+        this.authentications.API_Key.accessToken = accessToken;
     }
 
     public addInterceptor(interceptor: Interceptor) {
@@ -98,11 +100,11 @@ export class EmailApi {
     }
 
     /**
-     * This endpoint registers a sender domain
-     * @summary 
+     * 
+     * @summary Registers a sender domain.
      * @param registerDomainModel 
      */
-    public async emailControllerRegisterEmailDomain (registerDomainModel: RegisterDomainModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse;  }> {
+    public async emailControllerRegisterEmailDomain (registerDomainModel: RegisterDomainModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: RegisterDomainResponse;  }> {
         const localVarPath = this.basePath + '/email/register-domain';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -135,9 +137,6 @@ export class EmailApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -153,13 +152,13 @@ export class EmailApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: RegisterDomainResponse;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "RegisterEmailResponse");
+                            body = ObjectSerializer.deserialize(body, "RegisterDomainResponse");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -170,8 +169,8 @@ export class EmailApi {
         });
     }
     /**
-     * This endpoint registers a sender email address
-     * @summary 
+     * 
+     * @summary Registers a sender email address.
      * @param registerEmailModel 
      */
     public async emailControllerRegisterSenderAddress (registerEmailModel: RegisterEmailModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse;  }> {
@@ -207,9 +206,6 @@ export class EmailApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -242,8 +238,8 @@ export class EmailApi {
         });
     }
     /**
-     * This endpoint sends an email
-     * @summary 
+     * 
+     * @summary Sends an email using Juno services.
      * @param sendEmailModel 
      */
     public async emailControllerSendEmail (sendEmailModel: SendEmailModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: SendEmailResponse;  }> {
@@ -279,9 +275,6 @@ export class EmailApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -314,11 +307,72 @@ export class EmailApi {
         });
     }
     /**
-     * This endpoint verifies a sender domain registration status
-     * @summary 
+     * 
+     * @summary Sets up an email service with the given Sendgrid API Key
+     * @param setupEmailServiceModel 
+     */
+    public async emailControllerSetup (setupEmailServiceModel: SetupEmailServiceModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+        const localVarPath = this.basePath + '/email/setup';
+        let localVarQueryParameters: any = {};
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
+        let localVarFormParams: any = {};
+
+        // verify required parameter 'setupEmailServiceModel' is not null or undefined
+        if (setupEmailServiceModel === null || setupEmailServiceModel === undefined) {
+            throw new Error('Required parameter setupEmailServiceModel was null or undefined when calling emailControllerSetup.');
+        }
+
+        (<any>Object).assign(localVarHeaderParams, options.headers);
+
+        let localVarUseFormData = false;
+
+        let localVarRequestOptions: localVarRequest.Options = {
+            method: 'POST',
+            qs: localVarQueryParameters,
+            headers: localVarHeaderParams,
+            uri: localVarPath,
+            useQuerystring: this._useQuerystring,
+            json: true,
+            body: ObjectSerializer.serialize(setupEmailServiceModel, "SetupEmailServiceModel")
+        };
+
+        let authenticationPromise = Promise.resolve();
+        authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
+            if (Object.keys(localVarFormParams).length) {
+                if (localVarUseFormData) {
+                    (<any>localVarRequestOptions).formData = localVarFormParams;
+                } else {
+                    localVarRequestOptions.form = localVarFormParams;
+                }
+            }
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
+                localVarRequest(localVarRequestOptions, (error, response, body) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            resolve({ response: response, body: body });
+                        } else {
+                            reject(new HttpError(response, body, response.statusCode));
+                        }
+                    }
+                });
+            });
+        });
+    }
+    /**
+     * 
+     * @summary Verifies a sender domain registration status.
      * @param verifyDomainModel 
      */
-    public async emailControllerVerifySenderDomain (verifyDomainModel: VerifyDomainModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse;  }> {
+    public async emailControllerVerifySenderDomain (verifyDomainModel: VerifyDomainModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: RegisterDomainResponse;  }> {
         const localVarPath = this.basePath + '/email/verify-domain';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -351,9 +405,6 @@ export class EmailApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        if (this.authentications.bearer.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.bearer.applyToRequest(localVarRequestOptions));
-        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -369,13 +420,13 @@ export class EmailApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: RegisterDomainResponse;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "RegisterEmailResponse");
+                            body = ObjectSerializer.deserialize(body, "RegisterDomainResponse");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));

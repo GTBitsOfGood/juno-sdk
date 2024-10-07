@@ -14,35 +14,21 @@ import { RequestFile } from './models';
 
 export class IssueApiKeyRequest {
     /**
-    * Issuing user email
-    */
-    'email': string;
-    /**
-    * Issuing user password
-    */
-    'password': string;
-    /**
     * Optional description for key
     */
-    'description': string;
+    'description'?: string;
     /**
-    * Environemnt this key should be tied to
+    * Environment the key will be tied to
     */
     'environment': string;
+    /**
+    * Project identifier
+    */
+    'project': object;
 
     static discriminator: string | undefined = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "email",
-            "baseName": "email",
-            "type": "string"
-        },
-        {
-            "name": "password",
-            "baseName": "password",
-            "type": "string"
-        },
         {
             "name": "description",
             "baseName": "description",
@@ -52,6 +38,11 @@ export class IssueApiKeyRequest {
             "name": "environment",
             "baseName": "environment",
             "type": "string"
+        },
+        {
+            "name": "project",
+            "baseName": "project",
+            "type": "object"
         }    ];
 
     static getAttributeTypeMap() {

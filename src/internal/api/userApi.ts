@@ -41,7 +41,7 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'bearer': new HttpBearerAuth(),
+        'API_Key': new HttpBearerAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -88,7 +88,7 @@ export class UserApi {
     }
 
     set accessToken(accessToken: string | (() => string)) {
-        this.authentications.bearer.accessToken = accessToken;
+        this.authentications.API_Key.accessToken = accessToken;
     }
 
     public addInterceptor(interceptor: Interceptor) {
@@ -97,10 +97,12 @@ export class UserApi {
 
     /**
      * 
-     * @summary Create a new user
+     * @summary Create a new user.
+     * @param xUserPassword Password of the admin or superadmin user
+     * @param xUserEmail Email of an admin or superadmin user
      * @param createUserModel The user details
      */
-    public async userControllerCreateUser (createUserModel: CreateUserModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: UserResponse;  }> {
+    public async userControllerCreateUser (xUserPassword: string, xUserEmail: string, createUserModel: CreateUserModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: UserResponse;  }> {
         const localVarPath = this.basePath + '/user';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -113,11 +115,23 @@ export class UserApi {
         }
         let localVarFormParams: any = {};
 
+        // verify required parameter 'xUserPassword' is not null or undefined
+        if (xUserPassword === null || xUserPassword === undefined) {
+            throw new Error('Required parameter xUserPassword was null or undefined when calling userControllerCreateUser.');
+        }
+
+        // verify required parameter 'xUserEmail' is not null or undefined
+        if (xUserEmail === null || xUserEmail === undefined) {
+            throw new Error('Required parameter xUserEmail was null or undefined when calling userControllerCreateUser.');
+        }
+
         // verify required parameter 'createUserModel' is not null or undefined
         if (createUserModel === null || createUserModel === undefined) {
             throw new Error('Required parameter createUserModel was null or undefined when calling userControllerCreateUser.');
         }
 
+        localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(xUserPassword, "string");
+        localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(xUserEmail, "string");
         (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
@@ -166,7 +180,7 @@ export class UserApi {
     }
     /**
      * 
-     * @summary Get an existing user
+     * @summary Retrieve an existing user.
      * @param id The unique identifier of the user
      */
     public async userControllerGetUserById (id: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: UserResponse;  }> {
@@ -234,12 +248,14 @@ export class UserApi {
         });
     }
     /**
-     * Associates a user with a project by their IDs.
-     * @summary Link User to Project
-     * @param id User ID that is being linked to a project
+     * Associates a user with a project ID.
+     * @summary Link user to project.
+     * @param id User ID being linked to a project
+     * @param xUserPassword Password of the admin or superadmin user
+     * @param xUserEmail Email of an admin or superadmin user
      * @param linkProjectModel Project details to link with the user
      */
-    public async userControllerLinkUserWithProjectId (id: string, linkProjectModel: LinkProjectModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async userControllerLinkUserWithProjectId (id: string, xUserPassword: string, xUserEmail: string, linkProjectModel: LinkProjectModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/user/id/{id}/project'
             .replace('{' + 'id' + '}', encodeURIComponent(String(id)));
         let localVarQueryParameters: any = {};
@@ -251,11 +267,23 @@ export class UserApi {
             throw new Error('Required parameter id was null or undefined when calling userControllerLinkUserWithProjectId.');
         }
 
+        // verify required parameter 'xUserPassword' is not null or undefined
+        if (xUserPassword === null || xUserPassword === undefined) {
+            throw new Error('Required parameter xUserPassword was null or undefined when calling userControllerLinkUserWithProjectId.');
+        }
+
+        // verify required parameter 'xUserEmail' is not null or undefined
+        if (xUserEmail === null || xUserEmail === undefined) {
+            throw new Error('Required parameter xUserEmail was null or undefined when calling userControllerLinkUserWithProjectId.');
+        }
+
         // verify required parameter 'linkProjectModel' is not null or undefined
         if (linkProjectModel === null || linkProjectModel === undefined) {
             throw new Error('Required parameter linkProjectModel was null or undefined when calling userControllerLinkUserWithProjectId.');
         }
 
+        localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(xUserPassword, "string");
+        localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(xUserEmail, "string");
         (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
@@ -302,11 +330,13 @@ export class UserApi {
         });
     }
     /**
-     * Updates the user type for an existing user.
-     * @summary Set User Type
+     * Updates the user type for an existing user. User type can be thought of as a role with role-based permissions, e.g. SUPERADMIN could have permissions an ADMIN would not. Only SUPERADMIN users can set types
+     * @summary Update user type.
+     * @param xUserPassword Password of the admin or superadmin user
+     * @param xUserEmail Email of an admin or superadmin user
      * @param setUserTypeModel User ID, email, and the new type to be set
      */
-    public async userControllerSetUserType (setUserTypeModel: SetUserTypeModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: UserResponse;  }> {
+    public async userControllerSetUserType (xUserPassword: string, xUserEmail: string, setUserTypeModel: SetUserTypeModel, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: UserResponse;  }> {
         const localVarPath = this.basePath + '/user/type';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -319,11 +349,23 @@ export class UserApi {
         }
         let localVarFormParams: any = {};
 
+        // verify required parameter 'xUserPassword' is not null or undefined
+        if (xUserPassword === null || xUserPassword === undefined) {
+            throw new Error('Required parameter xUserPassword was null or undefined when calling userControllerSetUserType.');
+        }
+
+        // verify required parameter 'xUserEmail' is not null or undefined
+        if (xUserEmail === null || xUserEmail === undefined) {
+            throw new Error('Required parameter xUserEmail was null or undefined when calling userControllerSetUserType.');
+        }
+
         // verify required parameter 'setUserTypeModel' is not null or undefined
         if (setUserTypeModel === null || setUserTypeModel === undefined) {
             throw new Error('Required parameter setUserTypeModel was null or undefined when calling userControllerSetUserType.');
         }
 
+        localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(xUserPassword, "string");
+        localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(xUserEmail, "string");
         (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;

@@ -13,6 +13,9 @@
 import { RequestFile } from './models';
 
 export class VerifyDomainModel {
+    /**
+    * Domain to be verified
+    */
     'domain': string;
 
     static discriminator: string | undefined = undefined;

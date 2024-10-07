@@ -28,7 +28,7 @@ export class UserResponse {
     /**
     * User type
     */
-    'type': number;
+    'type': UserResponse.TypeEnum;
 
     static discriminator: string | undefined = undefined;
 
@@ -51,7 +51,7 @@ export class UserResponse {
         {
             "name": "type",
             "baseName": "type",
-            "type": "number"
+            "type": "UserResponse.TypeEnum"
         }    ];
 
     static getAttributeTypeMap() {
@@ -59,3 +59,11 @@ export class UserResponse {
     }
 }
 
+export namespace UserResponse {
+    export enum TypeEnum {
+        NUMBER_0 = <any> 0,
+        NUMBER_1 = <any> 1,
+        NUMBER_2 = <any> 2,
+        NUMBER_MINUS_1 = <any> -1
+    }
+}
