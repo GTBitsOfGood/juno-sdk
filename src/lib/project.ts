@@ -18,8 +18,9 @@ type projectInputType =
 
 export class ProjectAPI {
   private internalApi: ProjectApi;
-  constructor(baseURL?: string) {
+  constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new ProjectApi(baseURL);
+    this.internalApi.accessToken = apiKey;
   }
   async createProject(options: {
     projectName: string;

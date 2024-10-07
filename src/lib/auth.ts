@@ -11,6 +11,7 @@ export class AuthAPI {
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new AuthApi(baseURL);
     this.apiKey = apiKey;
+    this.internalApi.accessToken = this.apiKey;
   }
   get junoApiKey(): string {
     return this.apiKey;

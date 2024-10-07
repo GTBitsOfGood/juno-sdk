@@ -19,6 +19,7 @@ export class EmailAPI {
   constructor(baseURL?: string, auth?: AuthAPI) {
     this.internalApi = new EmailApi(baseURL);
     this.auth = auth;
+    this.internalApi.accessToken = this.auth?.junoApiKey;
   }
   async sendEmail(options: {
     recipients: Array<EmailRecipient>;
