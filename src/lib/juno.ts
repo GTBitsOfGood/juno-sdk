@@ -36,7 +36,7 @@ class JunoAPI {
     this.authAPI = new AuthAPI(options.baseURL, this.apiKey);
     this.userAPI = new UserAPI(options.baseURL);
     this.emailAPI = new EmailAPI(options.baseURL, this.authAPI);
-    this.projectAPI = new ProjectAPI(options.baseURL);
+    this.projectAPI = new ProjectAPI(options.baseURL, this.apiKey);
   }
 }
 

@@ -208,6 +208,9 @@ export class AuthApi {
         };
 
         let authenticationPromise = Promise.resolve();
+        if (this.authentications.API_Key.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.API_Key.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
@@ -276,6 +279,9 @@ export class AuthApi {
         };
 
         let authenticationPromise = Promise.resolve();
+        if (this.authentications.API_Key.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.API_Key.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
         let interceptorPromise = authenticationPromise;
