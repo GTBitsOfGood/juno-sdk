@@ -23,8 +23,8 @@ export class EmailAPI {
   }
   async sendEmail(options: {
     recipients: Array<EmailRecipient>;
-    cc: Array<EmailRecipient>;
-    bcc: Array<EmailRecipient>;
+    cc?: Array<EmailRecipient>;
+    bcc?: Array<EmailRecipient>;
     sender: EmailSender;
     subject: string;
     contents: Array<EmailContent>;
@@ -49,8 +49,8 @@ export class EmailAPI {
       sendEmailModel.recipients = recipients;
       sendEmailModel.sender = sender;
       sendEmailModel.content = contents;
-      sendEmailModel.cc = cc;
-      sendEmailModel.bcc = bcc;
+      sendEmailModel.cc = cc ?? [];
+      sendEmailModel.bcc = bcc ?? [];
       sendEmailModel.subject = options.subject;
 
       const result = await this.internalApi.emailControllerSendEmail(
