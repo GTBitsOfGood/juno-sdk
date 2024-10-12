@@ -26,6 +26,7 @@ export class EmailAPI {
     cc: Array<EmailRecipient>;
     bcc: Array<EmailRecipient>;
     sender: EmailSender;
+    subject: string;
     contents: Array<EmailContent>;
   }): Promise<SendEmailResponse> {
     const { recipients, cc, bcc, sender, contents } = options;
@@ -50,6 +51,7 @@ export class EmailAPI {
       sendEmailModel.content = contents;
       sendEmailModel.cc = cc;
       sendEmailModel.bcc = bcc;
+      sendEmailModel.subject = options.subject;
 
       const result = await this.internalApi.emailControllerSendEmail(
         sendEmailModel,
