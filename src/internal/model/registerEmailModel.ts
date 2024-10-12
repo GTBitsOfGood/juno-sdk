@@ -25,6 +25,30 @@ export class RegisterEmailModel {
     * The email to reply-to
     */
     'replyTo'?: string;
+    /**
+    * The nickname to assosicate with the sender (only visible in sendgrid)
+    */
+    'nickname': string;
+    /**
+    * The address to assosicate with the sender
+    */
+    'address': string;
+    /**
+    * The city to assosicate with the sender
+    */
+    'city': string;
+    /**
+    * The state to assosicate with the sender
+    */
+    'state': string;
+    /**
+    * The zip code to assosicate with the sender
+    */
+    'zip': string;
+    /**
+    * The country to assosicate with the sender
+    */
+    'country': string;
 
     static discriminator: string | undefined = undefined;
 
@@ -42,6 +66,36 @@ export class RegisterEmailModel {
         {
             "name": "replyTo",
             "baseName": "replyTo",
+            "type": "string"
+        },
+        {
+            "name": "nickname",
+            "baseName": "nickname",
+            "type": "string"
+        },
+        {
+            "name": "address",
+            "baseName": "address",
+            "type": "string"
+        },
+        {
+            "name": "city",
+            "baseName": "city",
+            "type": "string"
+        },
+        {
+            "name": "state",
+            "baseName": "state",
+            "type": "string"
+        },
+        {
+            "name": "zip",
+            "baseName": "zip",
+            "type": "string"
+        },
+        {
+            "name": "country",
+            "baseName": "country",
             "type": "string"
         }    ];
 

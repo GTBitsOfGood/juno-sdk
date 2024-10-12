@@ -33,6 +33,10 @@ export class SendEmailModel {
     */
     'sender': EmailSender;
     /**
+    * The subject of the email
+    */
+    'subject': string;
+    /**
     * List of MIME content to send in the email
     */
     'content': Array<EmailContent>;
@@ -59,6 +63,11 @@ export class SendEmailModel {
             "name": "sender",
             "baseName": "sender",
             "type": "EmailSender"
+        },
+        {
+            "name": "subject",
+            "baseName": "subject",
+            "type": "string"
         },
         {
             "name": "content",
