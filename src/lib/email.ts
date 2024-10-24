@@ -38,7 +38,7 @@ export class EmailAPI {
       );
     }
 
-    if (recipients.length === 0 && cc?.length === 0 && bcc?.length === 0) {
+    if ((!recipients || recipients.length === 0) && (!cc || cc.length === 0) && (!bcc || bcc.length === 0)) {
       throw new JunoValidationError("Email request must have at least one recipient, cc, or bcc.")
     }
 
@@ -81,6 +81,7 @@ export class EmailAPI {
     let { email, name, replyTo } = options;
 
     validateString(email, 'Email cannot be null or empty string');
+    validateString(name, 'Name cannot be null or empty string');
 
     try {
       const registerEmailModel = new RegisterEmailModel();
