@@ -5,6 +5,8 @@ import {
   CreateUserModel,
   UserResponse,
 } from '../internal/api';
+import { JunoValidationError } from './errors';
+import { validateString } from './validators';
 
 export class UserAPI {
   private internalApi: UserApi;
@@ -19,15 +21,13 @@ export class UserAPI {
     adminPassword: string;
   }): Promise<UserResponse> {
     let { email, name, password, adminEmail, adminPassword } = options;
-    if (!email || email.trim().length === 0) {
-      throw new Error('The email must be nonempty');
-    }
-    if (!name || name.trim().length === 0) {
-      throw new Error('The name for the user must be nonempty');
-    }
-    if (!password || password.trim().length === 0) {
-      throw new Error('The password for the user must be nonempty');
-    }
+
+    validateString(email, "The email must be nonempty");
+    validateString(name, "The name must be nonempty");
+    validateString(password, "The password must be nonempty");
+    validateString(adminEmail, "The admin email must be nonempty");
+    validateString(adminPassword, "The admin password must be nonempty");
+
     email = email.trim();
     name = name.trim();
     password = password.trim();
@@ -52,15 +52,16 @@ export class UserAPI {
     password: string;
   }): Promise<UserResponse> {
     let { userId, projectId, projectName, email, password } = options;
-    if (!userId || userId.trim().length === 0) {
-      throw new Error('The user ID must be a non-empty string.');
-    }
+
+    validateString(userId, "The user ID must be a non-empty string.");
+    validateString(projectName, "The project name must be a non-empty string.");
+    validateString(email, "The email must be a non-empty string.");
+    validateString(password, "The password must be a non-empty string.");
+
     if (!projectId) {
-      throw new Error('The project ID information must be valid.');
+      throw new JunoValidationError('The project ID information must be valid.');
     }
-    if (!projectName || projectName.trim().length === 0) {
-      throw new Error('The project name must be a non-empty string.');
-    }
+
     const linkProjectModel: LinkProjectModel = {
       id: projectId,
       name: projectName.trim(),
@@ -79,6 +80,7 @@ export class UserAPI {
       throw e;
     }
   }
+
   async setUserType(options: {
     email: string;
     type: number;
@@ -86,9 +88,8 @@ export class UserAPI {
     adminPassword: string;
   }): Promise<UserResponse> {
     const { email, type, adminEmail, adminPassword } = options;
-    if (!email || email.trim().length === 0) {
-      throw new Error('The email must be a non-empty string.');
-    }
+
+    validateString(email, "The email must be a non-empty string.");
 
     const setUserTypeModel: SetUserTypeModel = {
       email: email.trim(),
@@ -107,9 +108,8 @@ export class UserAPI {
     }
   }
   async getUser(id: string): Promise<UserResponse> {
-    if (!id || id.trim()) {
-      throw new Error('The id must be nonempty');
-    }
+    validateString(id, "The id must be nonempty");
+
     try {
       const res = await this.internalApi.userControllerGetUserById(id);
       return res.body;

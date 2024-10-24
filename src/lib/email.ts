@@ -12,6 +12,8 @@ import {
   RegisterDomainResponse,
 } from '../internal/api';
 import { AuthAPI } from './auth';
+import { JunoValidationError } from './errors';
+import { validateEmailContent, validateEmailRecipient, validateEmailSender, validateString } from './validators';
 
 export class EmailAPI {
   private internalApi: EmailApi;
@@ -31,13 +33,18 @@ export class EmailAPI {
   }): Promise<SendEmailResponse> {
     const { recipients, cc, bcc, sender, contents } = options;
     if (!recipients || !sender || !contents) {
-      throw new Error(
+      throw new JunoValidationError(
         'Parameter recipients or sender or content cannot be null'
       );
     }
-    if (recipients.length === 0 || contents.length === 0) {
-      throw new Error(
-        'Parameter recipients or content cannot be an empty array'
+
+    if ((!recipients || recipients.length === 0) && (!cc || cc.length === 0) && (!bcc || bcc.length === 0)) {
+      throw new JunoValidationError("Email request must have at least one recipient, cc, or bcc.")
+    }
+
+    if (contents.length === 0) {
+      throw new JunoValidationError(
+        'Parameter contents cannot be an empty array'
       );
     }
     recipients.forEach((recipient) => validateEmailRecipient(recipient));
@@ -63,7 +70,7 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new Error(e);
+      throw e;
     }
   }
   async registerSenderAddress(options: {
@@ -72,9 +79,10 @@ export class EmailAPI {
     replyTo: string | undefined;
   }): Promise<RegisterEmailResponse> {
     let { email, name, replyTo } = options;
-    if (!email || email.trim().length === 0) {
-      throw new Error('Email cannot be null or empty string');
-    }
+
+    validateString(email, 'Email cannot be null or empty string');
+    validateString(name, 'Name cannot be null or empty string');
+
     try {
       const registerEmailModel = new RegisterEmailModel();
       registerEmailModel.email = email;
@@ -92,7 +100,7 @@ export class EmailAPI {
         );
       return result.body;
     } catch (e) {
-      throw new Error(e);
+      throw e;
     }
   }
   async registerDomain(options: {
@@ -100,9 +108,8 @@ export class EmailAPI {
     subdomain: string | undefined;
   }): Promise<RegisterDomainResponse> {
     const { domain, subdomain } = options;
-    if (!domain || domain.trim().length === 0) {
-      throw new Error('Domain cannot be null or empty string');
-    }
+
+    validateString(domain, 'Domain cannot be null or empty string');
 
     try {
       const registerDomainModel = new RegisterDomainModel();
@@ -119,16 +126,15 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new Error(e);
+      throw e;
     }
   }
   async verifyDomain(options: {
     domain: string;
   }): Promise<RegisterDomainResponse> {
     const { domain } = options;
-    if (!domain || domain.trim().length === 0) {
-      throw new Error('Domain cannot be null or empty string');
-    }
+
+    validateString(domain, 'Domain cannot be null or empty string');
 
     try {
       const verifyDomainModel = new VerifyDomainModel();
@@ -144,43 +150,8 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new Error(e);
+      throw e;
     }
   }
 }
 
-const validateEmailRecipient = (recipient: EmailRecipient) => {
-  if (!recipient) {
-    throw new Error('Recipient cannot be null');
-  }
-  if (!recipient.email || recipient.email.trim().length === 0) {
-    throw new Error('Recipient email cannot be null or empty string');
-  }
-  if (!recipient.name && recipient.name.trim().length === 0) {
-    throw new Error('Recipient name cannot be empty string');
-  }
-};
-
-const validateEmailSender = (sender: EmailSender) => {
-  if (!sender) {
-    throw new Error('Sender cannot be null');
-  }
-  if (!sender.email || sender.email.trim().length === 0) {
-    throw new Error('Sender email cannot be null or empty string');
-  }
-  if (!sender.name && sender.name.trim().length === 0) {
-    throw new Error('Sender name cannot be empty string');
-  }
-};
-
-const validateEmailContent = (content: EmailContent) => {
-  if (!content) {
-    throw new Error('Content cannot be null');
-  }
-  if (!content.type || content.type.trim().length === 0) {
-    throw new Error('Content type cannot be null or empty string');
-  }
-  if (!content.value || content.value.trim().length === 0) {
-    throw new Error('Content value cannot be null or empty string');
-  }
-};

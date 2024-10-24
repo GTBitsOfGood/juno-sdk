@@ -4,6 +4,7 @@ import {
   IssueApiKeyRequest,
   IssueJWTResponse,
 } from '../internal/api';
+import { validateString } from './validators';
 
 export class AuthAPI {
   private internalApi: AuthApi;
@@ -24,19 +25,16 @@ export class AuthAPI {
     description: string | undefined;
   }): Promise<IssueApiKeyResponse> {
     let { email, password, project, environment, description } = options;
-    if (!email || email.trim().length === 0) {
-      throw new Error('The email must be nonempty');
-    }
-    if (!password || password.trim().length === 0) {
-      throw new Error('The password for the user must be nonempty');
-    }
-    if (!environment || environment.trim().length === 0) {
-      throw new Error('The environment for the user must be nonempty');
-    }
+
+    validateString(email, 'The email must be nonempty');
+
+    validateString(password, 'The password for the user must be nonempty');
+    validateString(environment, 'The environment for the user must be nonempty');
+
     email = email.trim();
     password = password.trim();
     environment = environment.trim();
-    description = description.trim();
+    description = description?.trim();
     try {
       const issueApiKeyRequest: IssueApiKeyRequest = {
         description,
@@ -57,9 +55,9 @@ export class AuthAPI {
   }
   async revokeKey(options: { apiKey: string }): Promise<any> {
     let { apiKey } = options;
-    if (!apiKey || apiKey.trim().length === 0) {
-      throw new Error('The authorization token must be nonempty');
-    }
+
+    validateString(apiKey, 'The authorization token must be nonempty');
+
     apiKey = apiKey.trim();
     try {
       const result = await this.internalApi.authControllerDeleteApiKey(apiKey);

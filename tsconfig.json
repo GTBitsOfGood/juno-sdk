@@ -35,7 +35,8 @@
       "es2017"
     ],
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "typeRoots": [
       "node_modules/@types",
@@ -43,7 +44,8 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "tests/**/*.ts"
   ],
   "exclude": [
     "node_modules/**"
