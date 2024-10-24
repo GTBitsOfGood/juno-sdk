@@ -1,1 +1,3 @@
-export default class JunoError extends Error { }
+export class JunoError extends Error { }
+
+export class JunoValidationError extends JunoError { }

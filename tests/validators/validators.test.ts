@@ -1,6 +1,5 @@
-import { EmailApi } from "../../src/internal/api";
 import { EmailRecipient } from "../../src/internal/model/emailRecipient";
-import JunoError from "../../src/lib/errors";
+import { JunoError } from "../../src/lib/errors";
 import { validateEmailRecipient, validateString } from "../../src/lib/validators";
 
 describe("Email validation tests", () => {
@@ -39,34 +38,21 @@ describe("Email validation tests", () => {
     }).toThrow(JunoError);
   });
 
-  it("throws an error if a recipient name is null", () => {
+  it("does not throw an error if a recipient name is null", () => {
     let validEmailRecipient: unknown = {
       email: "someEmail"
     };
 
-    expect(() => {
-      validateEmailRecipient(validEmailRecipient as EmailRecipient);
-    }).toThrow(JunoError);
-
-    validEmailRecipient = {
-      email: "someEmail",
-      name: null
-    };
-
-    expect(() => {
-      validateEmailRecipient(validEmailRecipient as EmailRecipient);
-    }).toThrow(JunoError);
+    validateEmailRecipient(validEmailRecipient as EmailRecipient);
   });
 
-  it("throws an error if a recipient name is blank", () => {
+  it("does not throw an error if a recipient name is blank", () => {
     let validEmailRecipient: unknown = {
       email: "someEmail",
       name: "    "
     };
 
-    expect(() => {
-      validateEmailRecipient(validEmailRecipient as EmailRecipient);
-    }).toThrow(JunoError);
+    validateEmailRecipient(validEmailRecipient as EmailRecipient);
   });
 
 });

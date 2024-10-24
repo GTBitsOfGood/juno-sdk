@@ -4,7 +4,7 @@ import {
   IssueApiKeyRequest,
   IssueJWTResponse,
 } from '../internal/api';
-import JunoError from './errors';
+import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
 export class AuthAPI {

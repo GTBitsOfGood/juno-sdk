@@ -12,7 +12,7 @@ import {
   RegisterDomainResponse,
 } from '../internal/api';
 import { AuthAPI } from './auth';
-import JunoError from './errors';
+import { JunoValidationError } from './errors';
 import { validateEmailContent, validateEmailRecipient, validateEmailSender, validateString } from './validators';
 
 export class EmailAPI {
@@ -33,13 +33,18 @@ export class EmailAPI {
   }): Promise<SendEmailResponse> {
     const { recipients, cc, bcc, sender, contents } = options;
     if (!recipients || !sender || !contents) {
-      throw new JunoError(
+      throw new JunoValidationError(
         'Parameter recipients or sender or content cannot be null'
       );
     }
-    if (recipients.length === 0 || contents.length === 0) {
-      throw new JunoError(
-        'Parameter recipients or content cannot be an empty array'
+
+    if (recipients.length === 0 && cc?.length === 0 && bcc?.length === 0) {
+      throw new JunoValidationError("Email request must have at least one recipient, cc, or bcc.")
+    }
+
+    if (contents.length === 0) {
+      throw new JunoValidationError(
+        'Parameter contents cannot be an empty array'
       );
     }
     recipients.forEach((recipient) => validateEmailRecipient(recipient));
@@ -65,7 +70,7 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
   async registerSenderAddress(options: {
@@ -94,7 +99,7 @@ export class EmailAPI {
         );
       return result.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
   async registerDomain(options: {
@@ -120,7 +125,7 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
   async verifyDomain(options: {
@@ -144,7 +149,7 @@ export class EmailAPI {
       );
       return result.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
 }

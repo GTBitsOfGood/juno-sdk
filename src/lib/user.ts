@@ -5,7 +5,7 @@ import {
   CreateUserModel,
   UserResponse,
 } from '../internal/api';
-import JunoError from './errors';
+import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
 export class UserAPI {
@@ -59,7 +59,7 @@ export class UserAPI {
     validateString(password, "The password must be a non-empty string.");
 
     if (!projectId) {
-      throw new JunoError('The project ID information must be valid.');
+      throw new JunoValidationError('The project ID information must be valid.');
     }
 
     const linkProjectModel: LinkProjectModel = {

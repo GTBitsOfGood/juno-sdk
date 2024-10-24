@@ -4,7 +4,7 @@ import {
   ProjectApi,
   ProjectResponse,
 } from '../internal/api';
-import JunoError from './errors';
+import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
 // syntax error if name and both id are provided, only either or can be provided
@@ -46,7 +46,7 @@ export class ProjectAPI {
       );
       return res.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
   // Should be by ID or Name
@@ -59,7 +59,7 @@ export class ProjectAPI {
         : await this.internalApi.projectControllerGetProjectByName(input.name);
       return res.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
   // Should be by ID or Name
@@ -77,7 +77,7 @@ export class ProjectAPI {
       !id ||
       id.toString().length === 0
     ) {
-      throw new JunoError(
+      throw new JunoValidationError(
         'Please verify the email is non empty and the id is non empty!'
       );
     }
@@ -98,14 +98,14 @@ export class ProjectAPI {
         );
       return res.body;
     } catch (e) {
-      throw new JunoError(e);
+      throw e;
     }
   }
 }
 
 const checkInput = (input: projectInputType) => {
   if (!input) {
-    throw new JunoError(
+    throw new JunoValidationError(
       'The project input provided must include either the id or name and cannot be null!'
     );
   }
@@ -113,6 +113,6 @@ const checkInput = (input: projectInputType) => {
   validateString(input.name, "The project input name cannot be empty!");
 
   if (!input.id) {
-    throw new JunoError('The project input id cannot be empty!');
+    throw new JunoValidationError('The project input id cannot be empty!');
   }
 };
