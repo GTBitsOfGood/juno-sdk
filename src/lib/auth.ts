@@ -4,7 +4,6 @@ import {
   IssueApiKeyRequest,
   IssueJWTResponse,
 } from '../internal/api';
-import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
 export class AuthAPI {
@@ -35,7 +34,7 @@ export class AuthAPI {
     email = email.trim();
     password = password.trim();
     environment = environment.trim();
-    description = description.trim();
+    description = description?.trim();
     try {
       const issueApiKeyRequest: IssueApiKeyRequest = {
         description,
