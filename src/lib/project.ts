@@ -4,17 +4,19 @@ import {
   ProjectApi,
   ProjectResponse,
 } from '../internal/api';
+import JunoError from './errors';
+import { validateString } from './validators';
 
 // syntax error if name and both id are provided, only either or can be provided
 type projectInputType =
   | {
-      name: string;
-      id?: never;
-    }
+    name: string;
+    id?: never;
+  }
   | {
-      id: number;
-      name?: never;
-    };
+    id: number;
+    name?: never;
+  };
 
 export class ProjectAPI {
   private internalApi: ProjectApi;
@@ -28,11 +30,10 @@ export class ProjectAPI {
     superadminPassword: string;
   }): Promise<ProjectResponse> {
     const { projectName, superadminEmail, superadminPassword } = options;
-    if (!projectName || projectName.trim().length === 0) {
-      throw new Error(
-        'The project name must be provided as an input and has to be nonempty!'
-      );
-    }
+
+    validateString(projectName, "The project name must be provided as an input and has to be nonempty!");
+    validateString(superadminEmail, "The superadmin email must be provided as an input and has to be nonempty!");
+    validateString(superadminPassword, "The superadmin password must be provided as an input and has to be nonempty!");
 
     try {
       const createProjectModel = new CreateProjectModel();
@@ -45,7 +46,7 @@ export class ProjectAPI {
       );
       return res.body;
     } catch (e) {
-      throw new Error(e);
+      throw new JunoError(e);
     }
   }
   // Should be by ID or Name
@@ -58,7 +59,7 @@ export class ProjectAPI {
         : await this.internalApi.projectControllerGetProjectByName(input.name);
       return res.body;
     } catch (e) {
-      throw new Error(e);
+      throw new JunoError(e);
     }
   }
   // Should be by ID or Name
@@ -68,6 +69,7 @@ export class ProjectAPI {
     id: number | undefined;
   }): Promise<ProjectResponse> {
     const { input, email, id } = options;
+
     checkInput(input);
     if (
       !email ||
@@ -75,7 +77,7 @@ export class ProjectAPI {
       !id ||
       id.toString().length === 0
     ) {
-      throw new Error(
+      throw new JunoError(
         'Please verify the email is non empty and the id is non empty!'
       );
     }
@@ -87,29 +89,30 @@ export class ProjectAPI {
 
       const res = input.id
         ? await this.internalApi.projectControllerLinkUserWithProjectId(
-            input.id,
-            linkUserModel
-          )
+          input.id,
+          linkUserModel
+        )
         : await this.internalApi.projectControllerLinkUserWithProjectName(
-            input.name,
-            linkUserModel
-          );
+          input.name,
+          linkUserModel
+        );
       return res.body;
     } catch (e) {
-      throw new Error(e);
+      throw new JunoError(e);
     }
   }
 }
 
 const checkInput = (input: projectInputType) => {
   if (!input) {
-    throw new Error(
+    throw new JunoError(
       'The project input provided must include either the id or name and cannot be null!'
     );
   }
-  if (!input.id && input.name.trim().length === 0) {
-    throw new Error('The project input name cannot be empty!');
-  } else if (!input.name && !input.id) {
-    throw new Error('The project input id cannot be empty!');
+
+  validateString(input.name, "The project input name cannot be empty!");
+
+  if (!input.id) {
+    throw new JunoError('The project input id cannot be empty!');
   }
 };
