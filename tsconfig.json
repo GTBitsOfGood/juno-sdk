@@ -44,11 +44,11 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules/**"
+    "node_modules/**",
+    "tests/**/*"
   ],
   "compileOnSave": false
 }

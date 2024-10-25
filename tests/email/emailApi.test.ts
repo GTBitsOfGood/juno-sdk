@@ -1,6 +1,6 @@
 import { EmailRecipient } from "../../src/internal/api";
 import { EmailAPI } from "../../src/lib/email";
-import { JunoError, JunoValidationError } from "../../src/lib/errors";
+import { JunoValidationError } from "../../src/lib/errors";
 
 describe("sendEmail validation tests", () => {
   it("throws a validation error with a recipient", async () => {
