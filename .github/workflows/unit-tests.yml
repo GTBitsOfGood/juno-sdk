@@ -7,7 +7,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - uses: pnpm/action-setup@v4
-      - name: Test
-        run: pnpm test:unit
         with:
           version: 8
+      - name: Test
+        run: pnpm test:unit
+
