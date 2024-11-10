@@ -74,7 +74,6 @@ describe("sendEmail validation tests", () => {
 
     await expect(async () => {
       await emailApi.sendEmail({
-        recipients: recipients as Array<EmailRecipient>,
         sender: {
           "email": "someemail",
         },
@@ -89,7 +88,6 @@ describe("sendEmail validation tests", () => {
     // also with empty array
     await expect(async () => {
       await emailApi.sendEmail({
-        recipients: [],
         sender: {
           "email": "someemail",
         },
@@ -122,7 +120,6 @@ describe("sendEmail validation tests", () => {
 
     await expect(async () => {
       await emailApi.sendEmail({
-        recipients: [],
         cc: [{
           "email": "somerecipientemail"
         }],
@@ -143,7 +140,6 @@ describe("sendEmail validation tests", () => {
 
     await expect(async () => {
       await emailApi.sendEmail({
-        recipients: [],
         bcc: [{
           "email": "somerecipientemail"
         }],

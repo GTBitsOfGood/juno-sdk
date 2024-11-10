@@ -24,15 +24,16 @@ export class EmailAPI {
     this.internalApi.accessToken = this.auth?.junoApiKey;
   }
   async sendEmail(options: {
-    recipients: Array<EmailRecipient>;
+    recipients?: Array<EmailRecipient>;
     cc?: Array<EmailRecipient>;
     bcc?: Array<EmailRecipient>;
+    replyToList?: Array<EmailRecipient>;
     sender: EmailSender;
     subject: string;
     contents: Array<EmailContent>;
   }): Promise<SendEmailResponse> {
-    const { recipients, cc, bcc, sender, contents } = options;
-    if (!recipients || !sender || !contents) {
+    const { recipients, cc, bcc, sender, contents, replyToList } = options;
+    if (!sender || !contents) {
       throw new JunoValidationError(
         'Parameter recipients or sender or content cannot be null'
       );
@@ -53,9 +54,10 @@ export class EmailAPI {
 
     try {
       const sendEmailModel = new SendEmailModel();
-      sendEmailModel.recipients = recipients;
       sendEmailModel.sender = sender;
       sendEmailModel.content = contents;
+      sendEmailModel.recipients = recipients ?? [];
+      sendEmailModel.replyToList = replyToList ?? [];
       sendEmailModel.cc = cc ?? [];
       sendEmailModel.bcc = bcc ?? [];
       sendEmailModel.subject = options.subject;
