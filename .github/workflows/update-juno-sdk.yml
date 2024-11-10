@@ -22,7 +22,10 @@ jobs:
           tar -xvzf "juno-client-sdk.tar.gz"
           
           # move relevant api files over 
-          cp -r juno-client-sdk/api/ src/internal/
+          cp -r juno-client-sdk/api ../src/internal/
+          cp -r juno-client-sdk/api.ts ../src/internal/
+          cp -r juno-client-sdk/model ../src/internal/
+
           
           # cleanup files
           rm "juno-client-sdk.tar.gz"
