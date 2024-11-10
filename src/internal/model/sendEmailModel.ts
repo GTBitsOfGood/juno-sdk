@@ -29,6 +29,10 @@ export class SendEmailModel {
     */
     'bcc': Array<EmailRecipient>;
     /**
+    * List of emails to add to the Reply To list of the email
+    */
+    'replyToList': Array<EmailRecipient>;
+    /**
     * The sender of the email
     */
     'sender': EmailSender;
@@ -57,6 +61,11 @@ export class SendEmailModel {
         {
             "name": "bcc",
             "baseName": "bcc",
+            "type": "Array<EmailRecipient>"
+        },
+        {
+            "name": "replyToList",
+            "baseName": "replyToList",
             "type": "Array<EmailRecipient>"
         },
         {
