@@ -1,6 +1,24 @@
+<div align="center">
+  
+  <a href="">![E2E Tests](https://img.shields.io/github/actions/workflow/status/GTBitsOfGood/juno-sdk/unit-tests.yml?style=for-the-badge)</a> 
+  <a href="">![GitHub Releases](https://img.shields.io/github/v/release/GTBitsOfGood/juno?include_prereleases&style=for-the-badge)</a>
+  <a href="">![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)</a>
+  
+</div>
+  
+<h3 align="center">
+  Juno SDK
+</h3>
+
+<div align="center">
+  
+[Bits of Good](https://bitsofgood.org/)'s central infrastructure API, integrating several in-house services to simplify and streamline project development.
+
+</div>
+
 # Juno SDK
 
-**Juno SDK** is a development toolkit for interacting with Juno's central infrastructure. It provides convenient models and API methods for handling common tasks like authentication, email management, user management, and project-related operations. This document outlines the core structure of the SDK.
+**Juno SDK** is a development toolkit for interacting with [Juno](https://github.com/GTBitsOfGood/juno)'s central infrastructure. This SDK provides comprehensive API bindings to simplify common tasks such as authentication, email management, user management, and project-related operations. The following guide outlines the core structure of the SDK and provides basic usage examples to help new developers get started.
 
 ## SDK Structure
 
