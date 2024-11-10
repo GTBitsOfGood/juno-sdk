@@ -1,0 +1,39 @@
+name: Juno SDK Sync OpenAPI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  updateJunoSdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update files
+        run: |
+          # fetch latest prerelease
+          latest_prerelease=$(jq -r 'map(select(.prerelease)) | first | .tag_name' <<< "$(curl --silent https://api.github.com/repos/GTBitsOfGood/juno/releases)")
+          
+          # retrieve auto-generated sdk files
+          wget "https://github.com/GTBitsOfGood/juno/releases/download/${latest_prerelease}/juno-client-sdk.tar.gz"
+          
+          # unzip 
+          tar -xvzf "juno-client-sdk.tar.gz"
+          
+          # move relevant api files over 
+          cp -r juno-client-sdk/api/ src/internal/
+          
+          # cleanup files
+          rm "juno-client-sdk.tar.gz"
+          rm -r "juno-client-sdk"
+
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Update Juno SDK files
+          title: Update Juno SDK files
+          body: Update Juno SDK files
+          branch: update-juno-sdk-files
+          base: main
