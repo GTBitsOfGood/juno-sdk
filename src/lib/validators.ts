@@ -2,7 +2,7 @@ import { EmailContent, EmailRecipient, EmailSender } from "../internal/api";
 import { JunoValidationError } from "./errors";
 
 export const validateString = (str?: String, errorMessage = "Invalid string argument") => {
-  if (!str || str.trim().length === 0) {
+  if (typeof str !== 'string' || !str || str.trim().length === 0) {
     throw new JunoValidationError(errorMessage);
   }
 }
