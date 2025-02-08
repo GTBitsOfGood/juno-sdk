@@ -31,9 +31,9 @@ export class ProjectAPI {
   }): Promise<ProjectResponse> {
     const { projectName, superadminEmail, superadminPassword } = options;
 
-    validateString(projectName, "The project name must be provided as an input and has to be nonempty!");
-    validateString(superadminEmail, "The superadmin email must be provided as an input and has to be nonempty!");
-    validateString(superadminPassword, "The superadmin password must be provided as an input and has to be nonempty!");
+    validateString(projectName, "The project name must be provided as an input and has to be nonempty.");
+    validateString(superadminEmail, "The superadmin email must be provided as an input and has to be nonempty.");
+    validateString(superadminPassword, "The superadmin password must be provided as an input and has to be nonempty.");
 
     try {
       const createProjectModel = new CreateProjectModel();
@@ -54,9 +54,9 @@ export class ProjectAPI {
     checkInput(input);
 
     try {
-      const res = input.id
-        ? await this.internalApi.projectControllerGetProjectById(`${input.id}`)
-        : await this.internalApi.projectControllerGetProjectByName(input.name);
+      const res = input.name
+        ? await this.internalApi.projectControllerGetProjectByName(input.name)
+        : await this.internalApi.projectControllerGetProjectById(`${input.id}`);
       return res.body;
     } catch (e) {
       throw e;
@@ -106,13 +106,11 @@ export class ProjectAPI {
 const checkInput = (input: projectInputType) => {
   if (!input) {
     throw new JunoValidationError(
-      'The project input provided must include either the id or name and cannot be null!'
+      'The project input provided must include either the id or name and cannot be null.'
     );
   }
 
-  validateString(input.name, "The project input name cannot be empty!");
-
-  if (!input.id) {
-    throw new JunoValidationError('The project input id cannot be empty!');
+  if (input.name) {
+    validateString(input.name, "The given project string is invalid.");
   }
 };
