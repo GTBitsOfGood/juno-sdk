@@ -74,6 +74,14 @@ describe("String validation tests", () => {
     }).toThrow(JunoError);
   })
 
+  it("throws an error if the string is not actually a string", () => {
+    let fakeStr: any = 3;
+
+    expect(() => {
+      validateString(fakeStr)
+    }).toThrow(JunoError);
+  })
+
   it("throws an error if the string is blank", () => {
     let str = "      ";
 
