@@ -12,15 +12,11 @@
 
 import { RequestFile } from './models';
 
-export class ProjectResponse {
+export class SetupEmailResponse {
   /**
-   * The ID of the project
+   * Whether an email was successfully setup
    */
-  'id': number;
-  /**
-   * The name of the project
-   */
-  'name': string;
+  'success': boolean;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +26,13 @@ export class ProjectResponse {
     type: string;
   }> = [
     {
-      name: 'id',
-      baseName: 'id',
-      type: 'number',
-    },
-    {
-      name: 'name',
-      baseName: 'name',
-      type: 'string',
+      name: 'success',
+      baseName: 'success',
+      type: 'boolean',
     },
   ];
 
   static getAttributeTypeMap() {
-    return ProjectResponse.attributeTypeMap;
+    return SetupEmailResponse.attributeTypeMap;
   }
 }

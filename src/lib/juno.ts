@@ -13,21 +13,27 @@ class JunoAPI {
 
   get user(): UserAPI {
     if (!this.userAPI) {
-      throw new JunoValidationError('juno.init() must be called before using the Juno SDK');
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
     }
     return this.userAPI;
   }
 
   get email(): EmailAPI {
     if (!this.emailAPI) {
-      throw new JunoValidationError('juno.init() must be called before using the Juno SDK');
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
     }
     return this.emailAPI;
   }
 
   get project(): ProjectAPI {
     if (!this.projectAPI) {
-      throw new JunoValidationError('juno.init() must be called before using the Juno SDK');
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
     }
     return this.projectAPI;
   }
