@@ -10,10 +10,17 @@ import {
   VerifyDomainModel,
   EmailApi,
   RegisterDomainResponse,
+  SetupEmailServiceModel,
+  SetupEmailResponse,
 } from '../internal/api';
 import { AuthAPI } from './auth';
 import { JunoValidationError } from './errors';
-import { validateEmailContent, validateEmailRecipient, validateEmailSender, validateString } from './validators';
+import {
+  validateEmailContent,
+  validateEmailRecipient,
+  validateEmailSender,
+  validateString,
+} from './validators';
 
 export class EmailAPI {
   private internalApi: EmailApi;
@@ -23,6 +30,31 @@ export class EmailAPI {
     this.auth = auth;
     this.internalApi.accessToken = this.auth?.junoApiKey;
   }
+
+  async setupEmail(
+    options: SetupEmailServiceModel
+  ): Promise<SetupEmailResponse> {
+    const { sendgridKey } = options;
+
+    validateString(sendgridKey, 'Invalid SendGrid key provided');
+
+    // SendGrid keys always start with "SG.<>", this will help a few people
+    // who accidentally plug in their API key (this has already happened)
+    if (!sendgridKey.startsWith('SG')) {
+      throw new JunoValidationError(
+        'Invalid SendGrid key format. The key should start with SG'
+      );
+    }
+
+    const result = await this.internalApi.emailControllerSetup(options, {
+      headers: {
+        Authorization: `Bearer ${this.auth.junoApiKey}`,
+      },
+    });
+
+    return result.body;
+  }
+
   async sendEmail(options: {
     recipients?: Array<EmailRecipient>;
     cc?: Array<EmailRecipient>;
@@ -39,8 +71,14 @@ export class EmailAPI {
       );
     }
 
-    if ((!recipients || recipients.length === 0) && (!cc || cc.length === 0) && (!bcc || bcc.length === 0)) {
-      throw new JunoValidationError("Email request must have at least one recipient, cc, or bcc.")
+    if (
+      (!recipients || recipients.length === 0) &&
+      (!cc || cc.length === 0) &&
+      (!bcc || bcc.length === 0)
+    ) {
+      throw new JunoValidationError(
+        'Email request must have at least one recipient, cc, or bcc.'
+      );
     }
 
     if (contents.length === 0) {
@@ -156,4 +194,3 @@ export class EmailAPI {
     }
   }
 }
-

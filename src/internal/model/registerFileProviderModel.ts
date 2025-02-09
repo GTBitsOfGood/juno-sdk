@@ -11,16 +11,21 @@
  */
 
 import { RequestFile } from './models';
+import { AccessKey } from './accessKey';
 
-export class EmailRecipient {
+export class RegisterFileProviderModel {
   /**
-   * Recipient email address
+   * The access key to register with
    */
-  'email': string;
+  'accessKey': Array<AccessKey>;
   /**
-   * Recipient name
+   * The base url associated with file provider.
    */
-  'name'?: string;
+  'baseUrl': string;
+  /**
+   * The file provider name being registered.
+   */
+  'providerName': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +35,23 @@ export class EmailRecipient {
     type: string;
   }> = [
     {
-      name: 'email',
-      baseName: 'email',
+      name: 'accessKey',
+      baseName: 'accessKey',
+      type: 'Array<AccessKey>',
+    },
+    {
+      name: 'baseUrl',
+      baseName: 'baseUrl',
       type: 'string',
     },
     {
-      name: 'name',
-      baseName: 'name',
+      name: 'providerName',
+      baseName: 'providerName',
       type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
-    return EmailRecipient.attributeTypeMap;
+    return RegisterFileProviderModel.attributeTypeMap;
   }
 }

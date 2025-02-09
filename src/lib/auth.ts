@@ -29,7 +29,10 @@ export class AuthAPI {
     validateString(email, 'The email must be nonempty');
 
     validateString(password, 'The password for the user must be nonempty');
-    validateString(environment, 'The environment for the user must be nonempty');
+    validateString(
+      environment,
+      'The environment for the user must be nonempty'
+    );
 
     email = email.trim();
     password = password.trim();

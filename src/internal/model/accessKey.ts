@@ -12,15 +12,15 @@
 
 import { RequestFile } from './models';
 
-export class ProjectResponse {
+export class AccessKey {
   /**
-   * The ID of the project
+   * Client public access key
    */
-  'id': number;
+  'publicAccessKey': string;
   /**
-   * The name of the project
+   * Client private access key
    */
-  'name': string;
+  'privateAccessKey': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +30,18 @@ export class ProjectResponse {
     type: string;
   }> = [
     {
-      name: 'id',
-      baseName: 'id',
-      type: 'number',
+      name: 'publicAccessKey',
+      baseName: 'publicAccessKey',
+      type: 'string',
     },
     {
-      name: 'name',
-      baseName: 'name',
+      name: 'privateAccessKey',
+      baseName: 'privateAccessKey',
       type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
-    return ProjectResponse.attributeTypeMap;
+    return AccessKey.attributeTypeMap;
   }
 }

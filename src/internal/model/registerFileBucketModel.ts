@@ -12,19 +12,23 @@
 
 import { RequestFile } from './models';
 
-export class CreateUserModel {
+export class RegisterFileBucketModel {
   /**
-   * User email
-   */
-  'email': string;
-  /**
-   * User name
+   * The unique name of the bucket
    */
   'name': string;
   /**
-   * User password
+   * Configuration ID for the bucket
    */
-  'password': string;
+  'configId': number;
+  /**
+   * The file provider name associated with the bucket
+   */
+  'fileProviderName': string;
+  /**
+   * The file identifiers linked to this bucket
+   */
+  'fileServiceFile': Array<object>;
 
   static discriminator: string | undefined = undefined;
 
@@ -34,23 +38,28 @@ export class CreateUserModel {
     type: string;
   }> = [
     {
-      name: 'email',
-      baseName: 'email',
-      type: 'string',
-    },
-    {
       name: 'name',
       baseName: 'name',
       type: 'string',
     },
     {
-      name: 'password',
-      baseName: 'password',
+      name: 'configId',
+      baseName: 'configId',
+      type: 'number',
+    },
+    {
+      name: 'fileProviderName',
+      baseName: 'fileProviderName',
       type: 'string',
+    },
+    {
+      name: 'fileServiceFile',
+      baseName: 'FileServiceFile',
+      type: 'Array<object>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return CreateUserModel.attributeTypeMap;
+    return RegisterFileBucketModel.attributeTypeMap;
   }
 }

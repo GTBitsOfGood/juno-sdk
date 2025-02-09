@@ -12,15 +12,15 @@
 
 import { RequestFile } from './models';
 
-export class ProjectResponse {
+export class FileProviderResponse {
   /**
-   * The ID of the project
+   * The unique provider name of the file provider
    */
-  'id': number;
+  'providerName': string;
   /**
-   * The name of the project
+   * The metadata of the file provider
    */
-  'name': string;
+  'metadata': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +30,18 @@ export class ProjectResponse {
     type: string;
   }> = [
     {
-      name: 'id',
-      baseName: 'id',
-      type: 'number',
+      name: 'providerName',
+      baseName: 'providerName',
+      type: 'string',
     },
     {
-      name: 'name',
-      baseName: 'name',
+      name: 'metadata',
+      baseName: 'metadata',
       type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
-    return ProjectResponse.attributeTypeMap;
+    return FileProviderResponse.attributeTypeMap;
   }
 }
