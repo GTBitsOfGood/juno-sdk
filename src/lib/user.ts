@@ -5,7 +5,6 @@ import {
   CreateUserModel,
   UserResponse,
 } from '../internal/api';
-import { EmailAPI } from './email';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 export class UserAPI {
