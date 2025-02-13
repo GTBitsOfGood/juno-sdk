@@ -5,9 +5,9 @@ import {
   CreateUserModel,
   UserResponse,
 } from '../internal/api';
+import { EmailAPI } from './email';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
-
 export class UserAPI {
   private internalApi: UserApi;
   constructor(baseURL?: string) {
@@ -46,36 +46,30 @@ export class UserAPI {
   }
   async linkToProject(options: {
     userId: string;
-    projectId: number;
-    projectName: string;
-    email: string;
-    password: string;
+    project: LinkProjectModel;
+    adminEmail: string;
+    adminPassword: string;
   }): Promise<UserResponse> {
-    let { userId, projectId, projectName, email, password } = options;
+    let { userId, project, adminEmail, adminPassword } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
-    validateString(projectName, 'The project name must be a non-empty string.');
-    validateString(email, 'The email must be a non-empty string.');
-    validateString(password, 'The password must be a non-empty string.');
-
-    if (!projectId) {
-      throw new JunoValidationError(
-        'The project ID information must be valid.'
+    if (project.name) {
+      project.name = project.name.trim();
+      validateString(
+        project.name,
+        'The project name must be a non-empty string.'
       );
     }
-
-    const linkProjectModel: LinkProjectModel = {
-      id: projectId,
-      name: projectName.trim(),
-    };
+    validateString(adminEmail, 'The admin email must be nonempty');
+    validateString(adminPassword, 'The admin password must be nonempty');
 
     try {
       const response =
         await this.internalApi.userControllerLinkUserWithProjectId(
           userId,
-          password,
-          email,
-          linkProjectModel
+          adminPassword,
+          adminEmail,
+          project
         );
       return response.body;
     } catch (e) {
@@ -84,25 +78,21 @@ export class UserAPI {
   }
 
   async setUserType(options: {
-    email: string;
-    type: number;
+    input: SetUserTypeModel;
     adminEmail: string;
     adminPassword: string;
   }): Promise<UserResponse> {
-    const { email, type, adminEmail, adminPassword } = options;
-
-    validateString(email, 'The email must be a non-empty string.');
-
-    const setUserTypeModel: SetUserTypeModel = {
-      email: email.trim(),
-      type,
-    };
+    const { adminEmail, adminPassword, input } = options;
+    if (input.email) {
+      input.email = input.email.trim();
+      validateString(input.email, 'The email must be a non-empty string.');
+    }
 
     try {
       const response = await this.internalApi.userControllerSetUserType(
         adminPassword,
         adminEmail,
-        setUserTypeModel
+        input
       );
       return response.body;
     } catch (e) {
