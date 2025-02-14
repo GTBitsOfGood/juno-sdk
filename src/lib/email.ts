@@ -117,8 +117,15 @@ export class EmailAPI {
     email: string;
     name: string;
     replyTo: string | undefined;
+    nickname: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
   }): Promise<RegisterEmailResponse> {
-    let { email, name, replyTo } = options;
+    let { email, name, replyTo, nickname, address, city, state, zip, country } =
+      options;
 
     validateString(email, 'Email cannot be null or empty string');
     validateString(name, 'Name cannot be null or empty string');
@@ -128,6 +135,12 @@ export class EmailAPI {
       registerEmailModel.email = email;
       registerEmailModel.name = name;
       registerEmailModel.replyTo = replyTo;
+      registerEmailModel.address = address;
+      registerEmailModel.nickname = nickname;
+      registerEmailModel.zip = zip;
+      registerEmailModel.city = city;
+      registerEmailModel.state = state;
+      registerEmailModel.country = country;
 
       const result =
         await this.internalApi.emailControllerRegisterSenderAddress(

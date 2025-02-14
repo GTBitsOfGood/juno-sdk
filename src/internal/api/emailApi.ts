@@ -121,7 +121,7 @@ export class EmailApi {
     registerDomainModel: RegisterDomainModel,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: RegisterDomainResponse }> {
-    const localVarPath = this.basePath + '/email/register-domain';
+    const localVarPath = this.basePath + 'email/register-domain';
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -220,7 +220,7 @@ export class EmailApi {
     registerEmailModel: RegisterEmailModel,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: RegisterEmailResponse }> {
-    const localVarPath = this.basePath + '/email/register-sender';
+    const localVarPath = this.basePath + 'email/register-sender';
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -412,7 +412,7 @@ export class EmailApi {
     setupEmailServiceModel: SetupEmailServiceModel,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: SetupEmailResponse }> {
-    const localVarPath = this.basePath + '/email/setup';
+    const localVarPath = this.basePath + 'email/setup';
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
