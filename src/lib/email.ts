@@ -127,8 +127,23 @@ export class EmailAPI {
     let { email, name, replyTo, nickname, address, city, state, zip, country } =
       options;
 
-    validateString(email, 'Email cannot be null or empty string');
-    validateString(name, 'Name cannot be null or empty string');
+    [
+      'email',
+      'name',
+      'nickname',
+      'address',
+      'city',
+      'state',
+      'zip',
+      'country',
+    ].forEach(([key, value]) =>
+      validateString(value, `${key} cannot be null or empty string`)
+    );
+
+    replyTo =
+      typeof replyTo === 'string' && replyTo.trim().length > 0
+        ? replyTo
+        : email;
 
     try {
       const registerEmailModel = new RegisterEmailModel();
