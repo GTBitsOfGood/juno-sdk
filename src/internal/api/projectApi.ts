@@ -461,7 +461,7 @@ export class ProjectApi {
 
     let authenticationPromise = Promise.resolve();
     authenticationPromise = authenticationPromise.then(() =>
-      this.authentications.default.applyToRequest(localVarRequestOptions)
+      this.authentications.API_Key.applyToRequest(localVarRequestOptions)
     );
 
     let interceptorPromise = authenticationPromise;
@@ -554,7 +554,7 @@ export class ProjectApi {
 
     let authenticationPromise = Promise.resolve();
     authenticationPromise = authenticationPromise.then(() =>
-      this.authentications.default.applyToRequest(localVarRequestOptions)
+      this.authentications.API_Key.applyToRequest(localVarRequestOptions)
     );
 
     let interceptorPromise = authenticationPromise;
