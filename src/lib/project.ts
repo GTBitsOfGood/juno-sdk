@@ -101,13 +101,13 @@ export class ProjectAPI {
 
       const res = project.name
         ? await this.internalApi.projectControllerLinkUserWithProjectName(
-          project.name,
-          linkUserModel
+            project.name,
+            linkUserModel
           )
         : await this.internalApi.projectControllerLinkUserWithProjectId(
             project.id,
             linkUserModel
-          )
+          );
       return res.body;
     } catch (e) {
       throw e;
