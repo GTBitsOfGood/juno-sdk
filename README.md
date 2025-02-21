@@ -48,7 +48,7 @@ The SDK includes API methods for interacting with Juno services. These methods a
 
 ## Usage
 
-The Juno SDK provides a set of APIs for managing various services. Each API is built to simplify interaction with specific Juno infrastructure components. Below is an overview of how to use the main APIs.
+The Juno SDK provides a set of APIs for managing various services. Each API is built to simplify interactions with specific Juno infrastructure components. Below is an overview of how to use the main APIs.
 
 ### Authentication
 The **AuthApi** is used to handle authentication-related tasks, including issuing API keys and generating JWT tokens for secure access to Juno services.

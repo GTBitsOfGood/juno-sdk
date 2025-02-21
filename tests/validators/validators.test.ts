@@ -1,6 +1,6 @@
 import { EmailRecipient } from "../../src/internal/model/emailRecipient";
 import { JunoError } from "../../src/lib/errors";
-import { validateEmailRecipient, validateString } from "../../src/lib/validators";
+import { validateEmailRecipient, validateProjectIdentifier, validateString, validateUserIdentifier } from "../../src/lib/validators";
 
 describe("Email validation tests", () => {
   it("throws an error if a recipient is null", () => {
@@ -90,3 +90,75 @@ describe("String validation tests", () => {
     }).toThrow(JunoError);
   })
 });
+
+describe("Validate user identifier tests", () => {
+  it("validates against null input", () => {
+    expect(() => validateUserIdentifier(null as any)).toThrow(JunoError);
+  });
+
+  it("validates against having both inputs", () => {
+    expect(() => validateUserIdentifier({ email: "a", id: 4 } as any)).toThrow(JunoError);
+  });
+
+  it("validates against negative id", () => {
+    expect(() => validateUserIdentifier({ email: "a", id: -4 } as any)).toThrow(JunoError);
+  });
+
+  it("validates against empty email", () => {
+    expect(() => validateUserIdentifier({ email: "" } as any)).toThrow(JunoError);
+  });
+
+  it("validates against null email", () => {
+    expect(() => validateUserIdentifier({ email: null } as any)).toThrow(JunoError);
+  });
+
+  it("validates against null id", () => {
+    expect(() => validateUserIdentifier({ id: null } as any)).toThrow(JunoError);
+  });
+
+  it("validates against valid id", () => {
+    expect(() => validateUserIdentifier({ id: 3 } as any)).not.toThrow(JunoError);
+  });
+
+  it("validates against valid email", () => {
+    expect(() => validateUserIdentifier({ email: "email" })).not.toThrow(JunoError);
+    expect(() => validateUserIdentifier({ id: 3 })).not.toThrow(JunoError);
+  });
+});
+
+describe("Validate project identifier tests", () => {
+  it("validates against null input", () => {
+    expect(() => validateProjectIdentifier(null as any)).toThrow(JunoError);
+  });
+
+  it("validates against having both inputs", () => {
+    expect(() => validateProjectIdentifier({ name: "a", id: 4 } as any)).toThrow(JunoError);
+  });
+
+  it("validates against negative id", () => {
+    expect(() => validateProjectIdentifier({ name: "a", id: -4 } as any)).toThrow(JunoError);
+  });
+
+  it("validates against empty name", () => {
+    expect(() => validateProjectIdentifier({ name: "" } as any)).toThrow(JunoError);
+  });
+
+  it("validates against null name", () => {
+    expect(() => validateProjectIdentifier({ name: null } as any)).toThrow(JunoError);
+  });
+
+  it("validates against null id", () => {
+    expect(() => validateProjectIdentifier({ id: null } as any)).toThrow(JunoError);
+  });
+
+  it("validates against valid id", () => {
+    expect(() => validateProjectIdentifier({ id: 3 } as any)).not.toThrow(JunoError);
+  });
+
+  it("validates against valid name", () => {
+    expect(() => validateProjectIdentifier({ name: "name" })).not.toThrow(JunoError);
+    expect(() => validateProjectIdentifier({ id: 3 })).not.toThrow(JunoError);
+  });
+});
+
+
