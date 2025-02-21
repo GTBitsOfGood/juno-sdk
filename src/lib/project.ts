@@ -5,8 +5,11 @@ import {
   ProjectResponse,
 } from '../internal/api';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
-import { validateProjectIdentifier, validateUserIdentifier, validateString } from './validators';
-
+import {
+  validateProjectIdentifier,
+  validateUserIdentifier,
+  validateString,
+} from './validators';
 
 export class ProjectAPI {
   private internalApi: ProjectApi;
@@ -81,17 +84,16 @@ export class ProjectAPI {
 
       const res = project.name
         ? await this.internalApi.projectControllerLinkUserWithProjectName(
-          project.name,
-          linkUserModel
-        )
+            project.name,
+            linkUserModel
+          )
         : await this.internalApi.projectControllerLinkUserWithProjectId(
-          project.id,
-          linkUserModel
-        );
+            project.id,
+            linkUserModel
+          );
       return res.body;
     } catch (e) {
       throw e;
     }
   }
 }
-
