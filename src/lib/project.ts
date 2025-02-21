@@ -4,29 +4,9 @@ import {
   ProjectApi,
   ProjectResponse,
 } from '../internal/api';
-import { JunoValidationError } from './errors';
-import { validateString } from './validators';
+import { ProjectIdentifier, UserIdentifier } from './identifiers';
+import { validateProjectIdentifier, validateUserIdentifier, validateString } from './validators';
 
-// syntax error if name and both id are provided, only either or can be provided
-type projectInputType =
-  | {
-      name: string;
-      id?: never;
-    }
-  | {
-      id: number;
-      name?: never;
-    };
-
-type userInputType =
-  | {
-      email: string;
-      id?: never;
-    }
-  | {
-      id: number;
-      email?: never;
-    };
 
 export class ProjectAPI {
   private internalApi: ProjectApi;
@@ -69,8 +49,8 @@ export class ProjectAPI {
     }
   }
   // Should be by ID or Name
-  async getProject(input: projectInputType): Promise<ProjectResponse> {
-    checkProjectInput(input);
+  async getProject(input: ProjectIdentifier): Promise<ProjectResponse> {
+    validateProjectIdentifier(input);
 
     try {
       const res = input.name
@@ -83,13 +63,13 @@ export class ProjectAPI {
   }
   // Should be by ID or Name
   async linkProjectToUser(options: {
-    project: projectInputType;
-    user: userInputType;
+    project: ProjectIdentifier;
+    user: UserIdentifier;
   }): Promise<ProjectResponse> {
     const { project, user } = options;
 
-    checkProjectInput(project);
-    checkUserInput(user);
+    validateProjectIdentifier(project);
+    validateUserIdentifier(user);
 
     try {
       const linkUserModel = new LinkUserModel();
@@ -101,13 +81,13 @@ export class ProjectAPI {
 
       const res = project.name
         ? await this.internalApi.projectControllerLinkUserWithProjectName(
-            project.name,
-            linkUserModel
-          )
+          project.name,
+          linkUserModel
+        )
         : await this.internalApi.projectControllerLinkUserWithProjectId(
-            project.id,
-            linkUserModel
-          );
+          project.id,
+          linkUserModel
+        );
       return res.body;
     } catch (e) {
       throw e;
@@ -115,26 +95,3 @@ export class ProjectAPI {
   }
 }
 
-const checkProjectInput = (input: projectInputType) => {
-  if (!input) {
-    throw new JunoValidationError(
-      'The project input provided must include either the id or name and cannot be null.'
-    );
-  }
-
-  if (input.name) {
-    validateString(input.name, 'The given project string is invalid.');
-  }
-};
-
-const checkUserInput = (input: userInputType) => {
-  if (!input) {
-    throw new JunoValidationError(
-      'The user input provided must include either the id or email and cannot be null.'
-    );
-  }
-
-  if (input.email) {
-    validateString(input.email, 'The given user email string is invalid.');
-  }
-};
