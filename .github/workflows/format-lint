@@ -1,7 +1,7 @@
 name: Format & Lint
 on: [pull_request]
 jobs:
-  jest:
+  format:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,4 +31,3 @@ jobs:
 
       - name: Run prettier
         run: pnpm test:prettier
-
