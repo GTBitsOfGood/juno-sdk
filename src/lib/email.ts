@@ -127,18 +127,14 @@ export class EmailAPI {
     let { email, name, replyTo, nickname, address, city, state, zip, country } =
       options;
 
-    [
-      'email',
-      'name',
-      'nickname',
-      'address',
-      'city',
-      'state',
-      'zip',
-      'country',
-    ].forEach(([key, value]) =>
-      validateString(value, `${key} cannot be null or empty string`)
-    );
+    validateString(email); 
+    validateString(name); 
+    validateString(nickname); 
+    validateString(address); 
+    validateString(city); 
+    validateString(state); 
+    validateString(zip); 
+    validateString(country); 
 
     replyTo =
       typeof replyTo === 'string' && replyTo.trim().length > 0
