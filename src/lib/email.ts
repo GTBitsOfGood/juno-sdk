@@ -127,14 +127,14 @@ export class EmailAPI {
     let { email, name, replyTo, nickname, address, city, state, zip, country } =
       options;
 
-    validateString(email); 
-    validateString(name); 
-    validateString(nickname); 
-    validateString(address); 
-    validateString(city); 
-    validateString(state); 
-    validateString(zip); 
-    validateString(country); 
+    validateString(email);
+    validateString(name);
+    validateString(nickname);
+    validateString(address);
+    validateString(city);
+    validateString(state);
+    validateString(zip);
+    validateString(country);
 
     replyTo =
       typeof replyTo === 'string' && replyTo.trim().length > 0
