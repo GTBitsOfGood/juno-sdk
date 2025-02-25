@@ -11,16 +11,13 @@
  */
 
 import { RequestFile } from './models';
+import { UserResponse } from './userResponse';
 
-export class RegisterDomainModel {
+export class UserResponses {
   /**
-   * Domain to be registered
+   * List of Users
    */
-  'domain': string;
-  /**
-   * Subdomain to be registered
-   */
-  'subdomain'?: string;
+  'users': Array<UserResponse>;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +27,13 @@ export class RegisterDomainModel {
     type: string;
   }> = [
     {
-      name: 'domain',
-      baseName: 'domain',
-      type: 'string',
-    },
-    {
-      name: 'subdomain',
-      baseName: 'subdomain',
-      type: 'string',
+      name: 'users',
+      baseName: 'users',
+      type: 'Array<UserResponse>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return RegisterDomainModel.attributeTypeMap;
+    return UserResponses.attributeTypeMap;
   }
 }

@@ -3,6 +3,8 @@ import {
   LinkUserModel,
   ProjectApi,
   ProjectResponse,
+  ProjectResponses,
+  UserResponses,
 } from '../internal/api';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
@@ -91,6 +93,44 @@ export class ProjectAPI {
             project.id,
             linkUserModel
           );
+      return res.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getProjectUsersById(
+    projectId: string,
+    adminEmail: string,
+    adminPassword: string
+  ): Promise<UserResponses> {
+    validateString(adminEmail, 'The admin email must be nonempty');
+    validateString(adminPassword, 'The admin password must be nonempty');
+
+    try {
+      const res = await this.internalApi.projectControllerGetUsersByProject(
+        projectId,
+        adminPassword,
+        adminEmail
+      );
+      return res.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getProjects(
+    adminEmail: string,
+    adminPassword: string
+  ): Promise<ProjectResponses> {
+    validateString(adminEmail, 'The admin email must be nonempty');
+    validateString(adminPassword, 'The admin password must be nonempty');
+
+    try {
+      const res = await this.internalApi.projectControllerGetAllProjects(
+        adminPassword,
+        adminEmail
+      );
       return res.body;
     } catch (e) {
       throw e;

@@ -11,16 +11,13 @@
  */
 
 import { RequestFile } from './models';
+import { ProjectResponse } from './projectResponse';
 
-export class RegisterDomainModel {
+export class ProjectResponses {
   /**
-   * Domain to be registered
+   * List of projects
    */
-  'domain': string;
-  /**
-   * Subdomain to be registered
-   */
-  'subdomain'?: string;
+  'projects': Array<ProjectResponse>;
 
   static discriminator: string | undefined = undefined;
 
@@ -30,18 +27,13 @@ export class RegisterDomainModel {
     type: string;
   }> = [
     {
-      name: 'domain',
-      baseName: 'domain',
-      type: 'string',
-    },
-    {
-      name: 'subdomain',
-      baseName: 'subdomain',
-      type: 'string',
+      name: 'projects',
+      baseName: 'projects',
+      type: 'Array<ProjectResponse>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return RegisterDomainModel.attributeTypeMap;
+    return ProjectResponses.attributeTypeMap;
   }
 }

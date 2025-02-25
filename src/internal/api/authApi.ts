@@ -315,11 +315,11 @@ export class AuthApi {
    * @summary Generates a temporary JWT for the project tied to a specified API key.
    * @param authorization A valid API key
    */
-  public async authControllerGetJWT(
+  public async authControllerGetApiKeyJWT(
     authorization: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: IssueJWTResponse }> {
-    const localVarPath = this.basePath + '/auth/jwt';
+    const localVarPath = this.basePath + '/auth/api_key/jwt';
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
       {},
@@ -337,12 +337,121 @@ export class AuthApi {
     // verify required parameter 'authorization' is not null or undefined
     if (authorization === null || authorization === undefined) {
       throw new Error(
-        'Required parameter authorization was null or undefined when calling authControllerGetJWT.'
+        'Required parameter authorization was null or undefined when calling authControllerGetApiKeyJWT.'
       );
     }
 
     localVarHeaderParams['Authorization'] = ObjectSerializer.serialize(
       authorization,
+      'string'
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'POST',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: IssueJWTResponse;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'IssueJWTResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given valid user credentials.
+   * @summary Generates a temporary JWT tied to a specified user.
+   * @param xUserPassword Password of the user
+   * @param xUserEmail Email of a user
+   */
+  public async authControllerGetUserJWT(
+    xUserPassword: string,
+    xUserEmail: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: IssueJWTResponse }> {
+    const localVarPath = this.basePath + '/auth/user/jwt';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'xUserPassword' is not null or undefined
+    if (xUserPassword === null || xUserPassword === undefined) {
+      throw new Error(
+        'Required parameter xUserPassword was null or undefined when calling authControllerGetUserJWT.'
+      );
+    }
+
+    // verify required parameter 'xUserEmail' is not null or undefined
+    if (xUserEmail === null || xUserEmail === undefined) {
+      throw new Error(
+        'Required parameter xUserEmail was null or undefined when calling authControllerGetUserJWT.'
+      );
+    }
+
+    localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
+      xUserPassword,
+      'string'
+    );
+    localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(
+      xUserEmail,
       'string'
     );
     (<any>Object).assign(localVarHeaderParams, options.headers);

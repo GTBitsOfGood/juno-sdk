@@ -18,6 +18,7 @@ import { CreateUserModel } from '../model/createUserModel';
 import { LinkProjectModel } from '../model/linkProjectModel';
 import { SetUserTypeModel } from '../model/setUserTypeModel';
 import { UserResponse } from '../model/userResponse';
+import { UserResponses } from '../model/userResponses';
 
 import {
   ObjectSerializer,
@@ -212,6 +213,110 @@ export class UserApi {
               response.statusCode <= 299
             ) {
               body = ObjectSerializer.deserialize(body, 'UserResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
+   * @summary Retrieves all users.
+   * @param xUserPassword Password of the admin or superadmin user
+   * @param xUserEmail Email of an admin or superadmin user
+   */
+  public async userControllerGetAllUsers(
+    xUserPassword: string,
+    xUserEmail: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: UserResponses }> {
+    const localVarPath = this.basePath + '/user';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'xUserPassword' is not null or undefined
+    if (xUserPassword === null || xUserPassword === undefined) {
+      throw new Error(
+        'Required parameter xUserPassword was null or undefined when calling userControllerGetAllUsers.'
+      );
+    }
+
+    // verify required parameter 'xUserEmail' is not null or undefined
+    if (xUserEmail === null || xUserEmail === undefined) {
+      throw new Error(
+        'Required parameter xUserEmail was null or undefined when calling userControllerGetAllUsers.'
+      );
+    }
+
+    localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
+      xUserPassword,
+      'string'
+    );
+    localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(
+      xUserEmail,
+      'string'
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: UserResponses;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'UserResponses');
               resolve({ response: response, body: body });
             } else {
               reject(new HttpError(response, body, response.statusCode));

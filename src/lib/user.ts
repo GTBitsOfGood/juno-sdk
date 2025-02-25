@@ -4,6 +4,7 @@ import {
   SetUserTypeModel,
   CreateUserModel,
   UserResponse,
+  UserResponses,
 } from '../internal/api';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
@@ -103,6 +104,24 @@ export class UserAPI {
 
     try {
       const res = await this.internalApi.userControllerGetUserById(id);
+      return res.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getUsers(
+    adminEmail: string,
+    adminPassword: string
+  ): Promise<UserResponses> {
+    validateString(adminEmail, 'The admin email must be nonempty');
+    validateString(adminPassword, 'The admin password must be nonempty');
+
+    try {
+      const res = await this.internalApi.userControllerGetAllUsers(
+        adminPassword,
+        adminEmail
+      );
       return res.body;
     } catch (e) {
       throw e;

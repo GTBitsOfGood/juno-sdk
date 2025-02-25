@@ -17,6 +17,8 @@ import http from 'http';
 import { CreateProjectModel } from '../model/createProjectModel';
 import { LinkUserModel } from '../model/linkUserModel';
 import { ProjectResponse } from '../model/projectResponse';
+import { ProjectResponses } from '../model/projectResponses';
+import { UserResponses } from '../model/userResponses';
 
 import {
   ObjectSerializer,
@@ -181,6 +183,11 @@ export class ProjectApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -214,6 +221,115 @@ export class ProjectApi {
               response.statusCode <= 299
             ) {
               body = ObjectSerializer.deserialize(body, 'ProjectResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
+   * @summary Retrieves all projects.
+   * @param xUserPassword Password of the admin or superadmin user
+   * @param xUserEmail Email of an admin or superadmin user
+   */
+  public async projectControllerGetAllProjects(
+    xUserPassword: string,
+    xUserEmail: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: ProjectResponses }> {
+    const localVarPath = this.basePath + '/project';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'xUserPassword' is not null or undefined
+    if (xUserPassword === null || xUserPassword === undefined) {
+      throw new Error(
+        'Required parameter xUserPassword was null or undefined when calling projectControllerGetAllProjects.'
+      );
+    }
+
+    // verify required parameter 'xUserEmail' is not null or undefined
+    if (xUserEmail === null || xUserEmail === undefined) {
+      throw new Error(
+        'Required parameter xUserEmail was null or undefined when calling projectControllerGetAllProjects.'
+      );
+    }
+
+    localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
+      xUserPassword,
+      'string'
+    );
+    localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(
+      xUserEmail,
+      'string'
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: ProjectResponses;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'ProjectResponses');
               resolve({ response: response, body: body });
             } else {
               reject(new HttpError(response, body, response.statusCode));
@@ -273,6 +389,11 @@ export class ProjectApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -365,6 +486,11 @@ export class ProjectApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -398,6 +524,129 @@ export class ProjectApi {
               response.statusCode <= 299
             ) {
               body = ObjectSerializer.deserialize(body, 'ProjectResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
+   * @summary Retrieve all users assosciated with a project.
+   * @param id
+   * @param xUserPassword Password of the admin or superadmin user
+   * @param xUserEmail Email of an admin or superadmin user
+   */
+  public async projectControllerGetUsersByProject(
+    id: string,
+    xUserPassword: string,
+    xUserEmail: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: UserResponses }> {
+    const localVarPath =
+      this.basePath +
+      '/project/{id}/users'.replace(
+        '{' + 'id' + '}',
+        encodeURIComponent(String(id))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'id' is not null or undefined
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling projectControllerGetUsersByProject.'
+      );
+    }
+
+    // verify required parameter 'xUserPassword' is not null or undefined
+    if (xUserPassword === null || xUserPassword === undefined) {
+      throw new Error(
+        'Required parameter xUserPassword was null or undefined when calling projectControllerGetUsersByProject.'
+      );
+    }
+
+    // verify required parameter 'xUserEmail' is not null or undefined
+    if (xUserEmail === null || xUserEmail === undefined) {
+      throw new Error(
+        'Required parameter xUserEmail was null or undefined when calling projectControllerGetUsersByProject.'
+      );
+    }
+
+    localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
+      xUserPassword,
+      'string'
+    );
+    localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(
+      xUserEmail,
+      'string'
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: UserResponses;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'UserResponses');
               resolve({ response: response, body: body });
             } else {
               reject(new HttpError(response, body, response.statusCode));
@@ -460,8 +709,13 @@ export class ProjectApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
-      this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      this.authentications.default.applyToRequest(localVarRequestOptions)
     );
 
     let interceptorPromise = authenticationPromise;
@@ -553,8 +807,13 @@ export class ProjectApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
-      this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      this.authentications.default.applyToRequest(localVarRequestOptions)
     );
 
     let interceptorPromise = authenticationPromise;

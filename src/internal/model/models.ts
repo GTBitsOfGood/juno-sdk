@@ -16,6 +16,7 @@ export * from './issueJWTResponse';
 export * from './linkProjectModel';
 export * from './linkUserModel';
 export * from './projectResponse';
+export * from './projectResponses';
 export * from './registerDomainModel';
 export * from './registerDomainResponse';
 export * from './registerEmailModel';
@@ -32,6 +33,7 @@ export * from './setupEmailServiceModel';
 export * from './uploadFileModel';
 export * from './uploadFileResponse';
 export * from './userResponse';
+export * from './userResponses';
 export * from './verifyDomainModel';
 
 import * as fs from 'fs';
@@ -62,6 +64,7 @@ import { IssueJWTResponse } from './issueJWTResponse';
 import { LinkProjectModel } from './linkProjectModel';
 import { LinkUserModel } from './linkUserModel';
 import { ProjectResponse } from './projectResponse';
+import { ProjectResponses } from './projectResponses';
 import { RegisterDomainModel } from './registerDomainModel';
 import { RegisterDomainResponse } from './registerDomainResponse';
 import { RegisterEmailModel } from './registerEmailModel';
@@ -78,6 +81,7 @@ import { SetupEmailServiceModel } from './setupEmailServiceModel';
 import { UploadFileModel } from './uploadFileModel';
 import { UploadFileResponse } from './uploadFileResponse';
 import { UserResponse } from './userResponse';
+import { UserResponses } from './userResponses';
 import { VerifyDomainModel } from './verifyDomainModel';
 
 /* tslint:disable:no-unused-variable */
@@ -93,6 +97,7 @@ let primitives = [
 ];
 
 let enumsMap: { [index: string]: any } = {
+  'RegisterFileProviderModel.TypeEnum': RegisterFileProviderModel.TypeEnum,
   'SetUserTypeModel.TypeEnum': SetUserTypeModel.TypeEnum,
   'UserResponse.TypeEnum': UserResponse.TypeEnum,
 };
@@ -114,6 +119,7 @@ let typeMap: { [index: string]: any } = {
   LinkProjectModel: LinkProjectModel,
   LinkUserModel: LinkUserModel,
   ProjectResponse: ProjectResponse,
+  ProjectResponses: ProjectResponses,
   RegisterDomainModel: RegisterDomainModel,
   RegisterDomainResponse: RegisterDomainResponse,
   RegisterEmailModel: RegisterEmailModel,
@@ -130,6 +136,7 @@ let typeMap: { [index: string]: any } = {
   UploadFileModel: UploadFileModel,
   UploadFileResponse: UploadFileResponse,
   UserResponse: UserResponse,
+  UserResponses: UserResponses,
   VerifyDomainModel: VerifyDomainModel,
 };
 

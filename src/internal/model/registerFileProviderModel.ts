@@ -17,7 +17,7 @@ export class RegisterFileProviderModel {
   /**
    * The access key to register with
    */
-  'accessKey': Array<AccessKey>;
+  'accessKey': AccessKey;
   /**
    * The base url associated with file provider.
    */
@@ -26,6 +26,10 @@ export class RegisterFileProviderModel {
    * The file provider name being registered.
    */
   'providerName': string;
+  /**
+   * File provider type (one of S3 or AZURE)
+   */
+  'type': RegisterFileProviderModel.TypeEnum;
 
   static discriminator: string | undefined = undefined;
 
@@ -37,7 +41,7 @@ export class RegisterFileProviderModel {
     {
       name: 'accessKey',
       baseName: 'accessKey',
-      type: 'Array<AccessKey>',
+      type: 'AccessKey',
     },
     {
       name: 'baseUrl',
@@ -49,9 +53,22 @@ export class RegisterFileProviderModel {
       baseName: 'providerName',
       type: 'string',
     },
+    {
+      name: 'type',
+      baseName: 'type',
+      type: 'RegisterFileProviderModel.TypeEnum',
+    },
   ];
 
   static getAttributeTypeMap() {
     return RegisterFileProviderModel.attributeTypeMap;
+  }
+}
+
+export namespace RegisterFileProviderModel {
+  export enum TypeEnum {
+    _0 = <any>'0',
+    _1 = <any>'1',
+    _12 = <any>'-1',
   }
 }
