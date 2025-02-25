@@ -69,11 +69,29 @@ export class AuthAPI {
       throw e;
     }
   }
-  async createJWT(): Promise<IssueJWTResponse> {
+
+  async getUserJWT(options: {
+    email: string;
+    password: string;
+  }): Promise<IssueJWTResponse> {
+    const { email, password } = options;
     try {
-      const result = await this.internalApi.authControllerGetJWT(
-        'Bearer ' + this.apiKey
+      const result = await this.internalApi.authControllerGetUserJWT(
+        email,
+        password
       );
+
+      return result.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getApiKeyJWT(options: { apiKey: string }): Promise<IssueJWTResponse> {
+    const { apiKey } = options;
+    try {
+      const result = await this.internalApi.authControllerGetApiKeyJWT(apiKey);
+
       return result.body;
     } catch (e) {
       throw e;
