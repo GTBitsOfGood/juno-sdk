@@ -3,9 +3,9 @@ import {
   LinkUserModel,
   ProjectApi,
   ProjectResponse,
-  ProjectResponses,
   UserResponses,
 } from '../internal/api';
+import { ProjectResponses } from '../internal/model/projectResponses';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
   validateProjectIdentifier,
