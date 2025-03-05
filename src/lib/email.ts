@@ -19,6 +19,7 @@ import {
   validateEmailContent,
   validateEmailRecipient,
   validateEmailSender,
+  validateSendGridKey,
   validateString,
 } from './validators';
 
@@ -36,15 +37,7 @@ export class EmailAPI {
   ): Promise<SetupEmailResponse> {
     const { sendgridKey } = options;
 
-    validateString(sendgridKey, 'Invalid SendGrid key provided');
-
-    // SendGrid keys always start with "SG.<>", this will help a few people
-    // who accidentally plug in their API key (this has already happened)
-    if (!sendgridKey.startsWith('SG')) {
-      throw new JunoValidationError(
-        'Invalid SendGrid key format. The key should start with SG'
-      );
-    }
+    validateSendGridKey(sendgridKey);
 
     const result = await this.internalApi.emailControllerSetup(options, {
       headers: {

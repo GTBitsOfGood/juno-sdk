@@ -1,6 +1,6 @@
 import { EmailRecipient } from "../../src/internal/model/emailRecipient";
-import { JunoError } from "../../src/lib/errors";
-import { validateEmailRecipient, validateProjectIdentifier, validateString, validateUserIdentifier } from "../../src/lib/validators";
+import { JunoError, JunoValidationError } from "../../src/lib/errors";
+import { validateEmailRecipient, validateProjectIdentifier, validateSendGridKey, validateString, validateUserIdentifier } from "../../src/lib/validators";
 
 describe("Email validation tests", () => {
   it("throws an error if a recipient is null", () => {
@@ -162,3 +162,27 @@ describe("Validate project identifier tests", () => {
 });
 
 
+
+describe("Validate sendgrid key tests", () => {
+  it("fails validation against null (missing) sendgrid key", () => {
+    expect(() => validateSendGridKey(null as any)).toThrow(JunoValidationError);
+  });
+
+  it("fails validation against empty sendgrid key", () => {
+    expect(() => validateSendGridKey("")).toThrow(JunoValidationError);
+  });
+
+  it("fails validation against providing a sendgrid key without prefix of SG", () => {
+    expect(() => validateSendGridKey("awdiojawiodj")).toThrow(JunoValidationError);
+  });
+
+  it("fails validation a sendgrid key that is non-string", () => {
+    expect(() => validateSendGridKey(3 as any)).toThrow(JunoValidationError);
+  });
+
+
+  it("validates a sendgrid key that is valid", () => {
+    expect(() => validateSendGridKey("SG.aiwjdiowa")).not.toThrow(JunoError);
+  });
+
+})

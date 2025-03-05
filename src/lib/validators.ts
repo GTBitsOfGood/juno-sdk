@@ -115,3 +115,15 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
     }
   }
 };
+
+export const validateSendGridKey = (sendgridKey: string) => {
+  validateString(sendgridKey, 'Invalid SendGrid key provided');
+
+  // SendGrid keys always start with "SG.<>", this will help a few people
+  // who accidentally plug in their API key (this has already happened)
+  if (!sendgridKey.startsWith('SG')) {
+    throw new JunoValidationError(
+      'Invalid SendGrid key format. The key should start with SG'
+    );
+  }
+};
