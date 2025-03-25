@@ -19,14 +19,22 @@ export class UserAPI {
     password: string;
     adminEmail: string;
     adminPassword: string;
+    jwtToken: string;
   }): Promise<UserResponse> {
-    let { email, name, password, adminEmail, adminPassword } = options;
+    let { email, name, password, adminEmail, adminPassword, jwtToken } =
+      options;
 
     validateString(email, 'The email must be nonempty');
     validateString(name, 'The name must be nonempty');
     validateString(password, 'The password must be nonempty');
-    validateString(adminEmail, 'The admin email must be nonempty');
-    validateString(adminPassword, 'The admin password must be nonempty');
+    let useJwt = false;
+    if (adminEmail == null && adminPassword == null) {
+      validateString(jwtToken, 'The jwtToken must be non-empty');
+      useJwt = true;
+    } else {
+      validateString(adminEmail, 'The admin email must be nonempty');
+      validateString(adminPassword, 'The admin password must be nonempty');
+    }
 
     email = email.trim();
     name = name.trim();

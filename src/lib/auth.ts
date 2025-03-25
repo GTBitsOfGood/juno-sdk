@@ -77,8 +77,8 @@ export class AuthAPI {
     const { email, password } = options;
     try {
       const result = await this.internalApi.authControllerGetUserJWT(
-        email,
-        password
+        password,
+        email
       );
 
       return result.body;

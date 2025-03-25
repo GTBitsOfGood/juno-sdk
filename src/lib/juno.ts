@@ -37,6 +37,14 @@ class JunoAPI {
     }
     return this.projectAPI;
   }
+  get auth(): AuthAPI {
+    if (!this.authAPI) {
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
+    }
+    return this.authAPI;
+  }
 
   init(options: { apiKey: string; baseURL?: string }) {
     this.apiKey = options.apiKey;
