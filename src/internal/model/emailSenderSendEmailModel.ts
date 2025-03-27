@@ -12,11 +12,15 @@
 
 import { RequestFile } from './models';
 
-export class EmailSender {
-  'username': string;
-  'description'?: string;
-  'domain': string;
-  'projects': Array<object>;
+export class EmailSenderSendEmailModel {
+  /**
+   * Sender email address
+   */
+  'email': string;
+  /**
+   * Sender name
+   */
+  'name'?: string;
 
   static discriminator: string | undefined = undefined;
 
@@ -26,28 +30,18 @@ export class EmailSender {
     type: string;
   }> = [
     {
-      name: 'username',
-      baseName: 'username',
+      name: 'email',
+      baseName: 'email',
       type: 'string',
     },
     {
-      name: 'description',
-      baseName: 'description',
+      name: 'name',
+      baseName: 'name',
       type: 'string',
-    },
-    {
-      name: 'domain',
-      baseName: 'domain',
-      type: 'string',
-    },
-    {
-      name: 'projects',
-      baseName: 'projects',
-      type: 'Array<object>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return EmailSender.attributeTypeMap;
+    return EmailSenderSendEmailModel.attributeTypeMap;
   }
 }

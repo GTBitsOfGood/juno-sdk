@@ -12,11 +12,9 @@
 
 import { RequestFile } from './models';
 
-export class EmailSender {
-  'username': string;
-  'description'?: string;
-  'domain': string;
-  'projects': Array<object>;
+export class ModelFile {
+  'fileId': object;
+  'metadata': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -26,28 +24,18 @@ export class EmailSender {
     type: string;
   }> = [
     {
-      name: 'username',
-      baseName: 'username',
-      type: 'string',
+      name: 'fileId',
+      baseName: 'fileId',
+      type: 'object',
     },
     {
-      name: 'description',
-      baseName: 'description',
+      name: 'metadata',
+      baseName: 'metadata',
       type: 'string',
-    },
-    {
-      name: 'domain',
-      baseName: 'domain',
-      type: 'string',
-    },
-    {
-      name: 'projects',
-      baseName: 'projects',
-      type: 'Array<object>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return EmailSender.attributeTypeMap;
+    return ModelFile.attributeTypeMap;
   }
 }

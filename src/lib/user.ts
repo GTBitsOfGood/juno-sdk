@@ -6,7 +6,6 @@ import {
   UserResponse,
   UserResponses,
 } from '../internal/api';
-import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 export class UserAPI {
   private internalApi: UserApi;
@@ -43,9 +42,9 @@ export class UserAPI {
     try {
       const createUserModel: CreateUserModel = { email, name, password };
       const res = await this.internalApi.userControllerCreateUser(
+        createUserModel,
         adminPassword,
-        adminEmail,
-        createUserModel
+        adminEmail
       );
       return res.body;
     } catch (e) {
@@ -75,9 +74,9 @@ export class UserAPI {
       const response =
         await this.internalApi.userControllerLinkUserWithProjectId(
           userId,
+          project,
           adminPassword,
-          adminEmail,
-          project
+          adminEmail
         );
       return response.body;
     } catch (e) {
@@ -98,9 +97,9 @@ export class UserAPI {
 
     try {
       const response = await this.internalApi.userControllerSetUserType(
+        input,
         adminPassword,
-        adminEmail,
-        input
+        adminEmail
       );
       return response.body;
     } catch (e) {

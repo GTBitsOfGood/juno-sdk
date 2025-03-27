@@ -44,9 +44,9 @@ export class ProjectAPI {
       createProjectModel.name = projectName;
 
       const res = await this.internalApi.projectControllerCreateProject(
+        createProjectModel,
         superadminPassword,
-        superadminEmail,
-        createProjectModel
+        superadminEmail
       );
       return res.body;
     } catch (e) {
