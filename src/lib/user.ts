@@ -16,23 +16,18 @@ export class UserAPI {
     email: string;
     name: string;
     password: string;
-    adminEmail: string;
-    adminPassword: string;
-    jwtToken: string;
+    auth: string | { adminPassword: string; adminEmail: string };
   }): Promise<UserResponse> {
-    let { email, name, password, adminEmail, adminPassword, jwtToken } =
-      options;
+    let { email, name, password, auth } = options;
 
     validateString(email, 'The email must be nonempty');
     validateString(name, 'The name must be nonempty');
     validateString(password, 'The password must be nonempty');
-    let useJwt = false;
-    if (adminEmail == null && adminPassword == null) {
-      validateString(jwtToken, 'The jwtToken must be non-empty');
-      useJwt = true;
+    if (typeof auth == 'string') {
+      validateString(auth, 'The jwtToken must be non-empty');
     } else {
-      validateString(adminEmail, 'The admin email must be nonempty');
-      validateString(adminPassword, 'The admin password must be nonempty');
+      validateString(auth.adminEmail, 'The admin email must be nonempty');
+      validateString(auth.adminPassword, 'The admin password must be nonempty');
     }
 
     email = email.trim();
@@ -41,11 +36,23 @@ export class UserAPI {
 
     try {
       const createUserModel: CreateUserModel = { email, name, password };
-      const res = await this.internalApi.userControllerCreateUser(
-        createUserModel,
-        adminPassword,
-        adminEmail
-      );
+      let res;
+      if (typeof auth == 'string') {
+        res = await this.internalApi.userControllerCreateUser(
+          createUserModel,
+          undefined,
+          undefined,
+          {
+            headers: { Authorization: `Bearer ${auth}` },
+          }
+        );
+      } else {
+        res = await this.internalApi.userControllerCreateUser(
+          createUserModel,
+          auth.adminPassword,
+          auth.adminEmail
+        );
+      }
       return res.body;
     } catch (e) {
       throw e;
@@ -54,10 +61,9 @@ export class UserAPI {
   async linkToProject(options: {
     userId: string;
     project: LinkProjectModel;
-    adminEmail: string;
-    adminPassword: string;
+    auth: string | { adminPassword: string; adminEmail: string };
   }): Promise<UserResponse> {
-    let { userId, project, adminEmail, adminPassword } = options;
+    let { userId, project, auth } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
@@ -67,17 +73,33 @@ export class UserAPI {
         'The project name must be a non-empty string.'
       );
     }
-    validateString(adminEmail, 'The admin email must be nonempty');
-    validateString(adminPassword, 'The admin password must be nonempty');
-
+    if (typeof auth == 'string') {
+      validateString(auth, 'The jwtToken must be non-empty');
+    } else {
+      validateString(auth.adminEmail, 'The admin email must be nonempty');
+      validateString(auth.adminPassword, 'The admin password must be nonempty');
+    }
     try {
-      const response =
-        await this.internalApi.userControllerLinkUserWithProjectId(
+      let response;
+      if (typeof auth == 'string') {
+        response = await this.internalApi.userControllerLinkUserWithProjectId(
           userId,
           project,
-          adminPassword,
-          adminEmail
+          undefined,
+          undefined,
+          {
+            headers: { Authorization: `Bearer ${auth}` },
+          }
         );
+      } else {
+        response = await this.internalApi.userControllerLinkUserWithProjectId(
+          userId,
+          project,
+          auth.adminPassword,
+          auth.adminEmail
+        );
+      }
+
       return response.body;
     } catch (e) {
       throw e;
@@ -86,21 +108,38 @@ export class UserAPI {
 
   async setUserType(options: {
     input: SetUserTypeModel;
-    adminEmail: string;
-    adminPassword: string;
+    auth: string | { adminPassword: string; adminEmail: string };
   }): Promise<UserResponse> {
-    const { adminEmail, adminPassword, input } = options;
+    const { auth, input } = options;
     if (input.email) {
       input.email = input.email.trim();
       validateString(input.email, 'The email must be a non-empty string.');
     }
+    if (typeof auth == 'string') {
+      validateString(auth, 'The jwtToken must be non-empty');
+    } else {
+      validateString(auth.adminEmail, 'The admin email must be nonempty');
+      validateString(auth.adminPassword, 'The admin password must be nonempty');
+    }
 
     try {
-      const response = await this.internalApi.userControllerSetUserType(
-        input,
-        adminPassword,
-        adminEmail
-      );
+      let response;
+      if (typeof auth == 'string') {
+        response = await this.internalApi.userControllerSetUserType(
+          input,
+          undefined,
+          undefined,
+          {
+            headers: { Authorization: `Bearer ${auth}` },
+          }
+        );
+      } else {
+        response = await this.internalApi.userControllerSetUserType(
+          input,
+          auth.adminPassword,
+          auth.adminEmail
+        );
+      }
       return response.body;
     } catch (e) {
       throw e;

@@ -21,33 +21,45 @@ export class ProjectAPI {
   }
   async createProject(options: {
     projectName: string;
-    superadminEmail: string;
-    superadminPassword: string;
+    auth: string | { superadminPassword: string; superadminEmail: string };
   }): Promise<ProjectResponse> {
-    const { projectName, superadminEmail, superadminPassword } = options;
+    const { projectName, auth } = options;
 
     validateString(
       projectName,
       'The project name must be provided as an input and has to be nonempty.'
     );
-    validateString(
-      superadminEmail,
-      'The superadmin email must be provided as an input and has to be nonempty.'
-    );
-    validateString(
-      superadminPassword,
-      'The superadmin password must be provided as an input and has to be nonempty.'
-    );
+    if (typeof auth == 'string') {
+      validateString(auth, 'The jwtToken must be non-empty');
+    } else {
+      validateString(auth.superadminEmail, 'The admin email must be nonempty');
+      validateString(
+        auth.superadminPassword,
+        'The admin password must be nonempty'
+      );
+    }
 
     try {
       const createProjectModel = new CreateProjectModel();
       createProjectModel.name = projectName;
 
-      const res = await this.internalApi.projectControllerCreateProject(
-        createProjectModel,
-        superadminPassword,
-        superadminEmail
-      );
+      let res;
+      if (typeof auth == 'string') {
+        res = await this.internalApi.projectControllerCreateProject(
+          createProjectModel,
+          undefined,
+          undefined,
+          {
+            headers: { Authorization: `Bearer ${auth}` },
+          }
+        );
+      } else {
+        res = await this.internalApi.projectControllerCreateProject(
+          createProjectModel,
+          auth.superadminPassword,
+          auth.superadminEmail
+        );
+      }
       return res.body;
     } catch (e) {
       throw e;
