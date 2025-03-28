@@ -45,13 +45,11 @@ export class ProjectAPI {
 
       let res;
       if (typeof auth == 'string') {
+        this.internalApi.accessToken = auth;
         res = await this.internalApi.projectControllerCreateProject(
           createProjectModel,
           undefined,
-          undefined,
-          {
-            headers: { Authorization: `Bearer ${auth}` },
-          }
+          undefined
         );
       } else {
         res = await this.internalApi.projectControllerCreateProject(

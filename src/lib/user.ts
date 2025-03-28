@@ -38,14 +38,8 @@ export class UserAPI {
       const createUserModel: CreateUserModel = { email, name, password };
       let res;
       if (typeof auth == 'string') {
-        res = await this.internalApi.userControllerCreateUser(
-          createUserModel,
-          undefined,
-          undefined,
-          {
-            headers: { Authorization: `Bearer ${auth}` },
-          }
-        );
+        this.internalApi.accessToken = auth;
+        res = await this.internalApi.userControllerCreateUser(createUserModel);
       } else {
         res = await this.internalApi.userControllerCreateUser(
           createUserModel,
@@ -82,14 +76,10 @@ export class UserAPI {
     try {
       let response;
       if (typeof auth == 'string') {
+        this.internalApi.accessToken = auth;
         response = await this.internalApi.userControllerLinkUserWithProjectId(
           userId,
-          project,
-          undefined,
-          undefined,
-          {
-            headers: { Authorization: `Bearer ${auth}` },
-          }
+          project
         );
       } else {
         response = await this.internalApi.userControllerLinkUserWithProjectId(
@@ -125,14 +115,8 @@ export class UserAPI {
     try {
       let response;
       if (typeof auth == 'string') {
-        response = await this.internalApi.userControllerSetUserType(
-          input,
-          undefined,
-          undefined,
-          {
-            headers: { Authorization: `Bearer ${auth}` },
-          }
-        );
+        this.internalApi.accessToken = auth;
+        response = await this.internalApi.userControllerSetUserType(input);
       } else {
         response = await this.internalApi.userControllerSetUserType(
           input,
