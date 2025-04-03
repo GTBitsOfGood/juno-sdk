@@ -6,6 +6,8 @@ import {
 } from '../internal/api';
 import { validateString } from './validators';
 
+export type UserCredentials = string | { email: string; password: string; }
+
 export class AuthAPI {
   private internalApi: AuthApi;
   private apiKey?: string;

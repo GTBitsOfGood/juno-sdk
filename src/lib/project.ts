@@ -1,3 +1,4 @@
+import { IncomingMessage } from 'http';
 import {
   CreateProjectModel,
   LinkUserModel,
@@ -6,11 +7,13 @@ import {
   UserResponses,
 } from '../internal/api';
 import { ProjectResponses } from '../internal/model/projectResponses';
+import { UserCredentials } from './auth';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
   validateProjectIdentifier,
   validateUserIdentifier,
   validateString,
+  validateUserCredentials,
 } from './validators';
 
 export class ProjectAPI {
@@ -19,62 +22,47 @@ export class ProjectAPI {
     this.internalApi = new ProjectApi(baseURL);
     this.internalApi.accessToken = apiKey;
   }
+
   async createProject(options: {
-    projectName: string;
-    auth: string | { superadminPassword: string; superadminEmail: string };
+    projectName: string,
+    credentials: UserCredentials
   }): Promise<ProjectResponse> {
-    const { projectName, auth } = options;
+    const { projectName, credentials } = options;
 
     validateString(
       projectName,
       'The project name must be provided as an input and has to be nonempty.'
     );
-    if (typeof auth == 'string') {
-      validateString(auth, 'The jwtToken must be non-empty');
+    validateUserCredentials(credentials);
+
+    const createProjectModel = new CreateProjectModel();
+    createProjectModel.name = projectName;
+
+    let res: { body: any; response?: IncomingMessage; };
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.projectControllerCreateProject(
+        createProjectModel,
+        undefined,
+        undefined
+      );
     } else {
-      validateString(auth.superadminEmail, 'The admin email must be nonempty');
-      validateString(
-        auth.superadminPassword,
-        'The admin password must be nonempty'
+      res = await this.internalApi.projectControllerCreateProject(
+        createProjectModel,
+        credentials.password,
+        credentials.email
       );
     }
-
-    try {
-      const createProjectModel = new CreateProjectModel();
-      createProjectModel.name = projectName;
-
-      let res;
-      if (typeof auth == 'string') {
-        this.internalApi.accessToken = auth;
-        res = await this.internalApi.projectControllerCreateProject(
-          createProjectModel,
-          undefined,
-          undefined
-        );
-      } else {
-        res = await this.internalApi.projectControllerCreateProject(
-          createProjectModel,
-          auth.superadminPassword,
-          auth.superadminEmail
-        );
-      }
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
+    return res.body;
   }
   // Should be by ID or Name
   async getProject(input: ProjectIdentifier): Promise<ProjectResponse> {
     validateProjectIdentifier(input);
 
-    try {
-      const res = input.name
-        ? await this.internalApi.projectControllerGetProjectByName(input.name)
-        : await this.internalApi.projectControllerGetProjectById(`${input.id}`);
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
+    const res = input.name
+      ? await this.internalApi.projectControllerGetProjectByName(input.name)
+      : await this.internalApi.projectControllerGetProjectById(`${input.id}`);
+    return res.body;
   }
   // Should be by ID or Name
   async linkProjectToUser(options: {
@@ -86,64 +74,73 @@ export class ProjectAPI {
     validateProjectIdentifier(project);
     validateUserIdentifier(user);
 
-    try {
-      const linkUserModel = new LinkUserModel();
-      if (user.email) {
-        linkUserModel.email = user.email;
-      } else {
-        linkUserModel.id = user.id;
-      }
-
-      const res = project.name
-        ? await this.internalApi.projectControllerLinkUserWithProjectName(
-            project.name,
-            linkUserModel
-          )
-        : await this.internalApi.projectControllerLinkUserWithProjectId(
-            project.id,
-            linkUserModel
-          );
-      return res.body;
-    } catch (e) {
-      throw e;
+    const linkUserModel = new LinkUserModel();
+    if (user.email) {
+      linkUserModel.email = user.email;
+    } else {
+      linkUserModel.id = user.id;
     }
+
+    const res = project.name
+      ? await this.internalApi.projectControllerLinkUserWithProjectName(
+        project.name,
+        linkUserModel
+      )
+      : await this.internalApi.projectControllerLinkUserWithProjectId(
+        project.id,
+        linkUserModel
+      );
+    return res.body;
   }
 
   async getProjectUsersById(
     projectId: string,
-    adminEmail: string,
-    adminPassword: string
+    credentials: UserCredentials,
   ): Promise<UserResponses> {
-    validateString(adminEmail, 'The admin email must be nonempty');
-    validateString(adminPassword, 'The admin password must be nonempty');
+    validateUserCredentials(credentials);
 
-    try {
-      const res = await this.internalApi.projectControllerGetUsersByProject(
+    let res: { body: any; response?: IncomingMessage; };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.projectControllerGetUsersByProject(
         projectId,
-        adminPassword,
-        adminEmail
+        undefined,
+        undefined
+
       );
-      return res.body;
-    } catch (e) {
-      throw e;
+    } else {
+      res = await this.internalApi.projectControllerGetUsersByProject(
+        projectId,
+        credentials.password,
+        credentials.email
+      );
     }
+
+    return res.body;
   }
 
   async getProjects(
-    adminEmail: string,
-    adminPassword: string
+    credentials: UserCredentials
   ): Promise<ProjectResponses> {
-    validateString(adminEmail, 'The admin email must be nonempty');
-    validateString(adminPassword, 'The admin password must be nonempty');
+    validateUserCredentials(credentials);
 
-    try {
-      const res = await this.internalApi.projectControllerGetAllProjects(
-        adminPassword,
-        adminEmail
+    let res: { body?: any; response?: IncomingMessage; };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.projectControllerGetAllProjects(
+        undefined,
+        undefined
+
       );
-      return res.body;
-    } catch (e) {
-      throw e;
+    } else {
+      res = await this.internalApi.projectControllerGetAllProjects(
+        credentials.password,
+        credentials.email
+      );
     }
+
+    return res.body;
   }
 }
