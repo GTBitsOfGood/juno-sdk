@@ -1,3 +1,4 @@
+import { IncomingMessage } from 'http';
 import {
   UserApi,
   LinkProjectModel,
@@ -6,7 +7,9 @@ import {
   UserResponse,
   UserResponses,
 } from '../internal/api';
-import { validateString } from './validators';
+import { UserCredentials } from './auth';
+import { validateString, validateUserCredentials } from './validators';
+
 export class UserAPI {
   private internalApi: UserApi;
   constructor(baseURL?: string) {
@@ -16,48 +19,40 @@ export class UserAPI {
     email: string;
     name: string;
     password: string;
-    auth: string | { adminPassword: string; adminEmail: string };
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
-    let { email, name, password, auth } = options;
+    let { email, name, password, credentials } = options;
 
     validateString(email, 'The email must be nonempty');
     validateString(name, 'The name must be nonempty');
     validateString(password, 'The password must be nonempty');
-    if (typeof auth == 'string') {
-      validateString(auth, 'The jwtToken must be non-empty');
-    } else {
-      validateString(auth.adminEmail, 'The admin email must be nonempty');
-      validateString(auth.adminPassword, 'The admin password must be nonempty');
-    }
+    validateUserCredentials(credentials);
 
     email = email.trim();
     name = name.trim();
     password = password.trim();
 
-    try {
-      const createUserModel: CreateUserModel = { email, name, password };
-      let res;
-      if (typeof auth == 'string') {
-        this.internalApi.accessToken = auth;
-        res = await this.internalApi.userControllerCreateUser(createUserModel);
-      } else {
-        res = await this.internalApi.userControllerCreateUser(
-          createUserModel,
-          auth.adminPassword,
-          auth.adminEmail
-        );
-      }
-      return res.body;
-    } catch (e) {
-      throw e;
+    const createUserModel: CreateUserModel = { email, name, password };
+    let res: { body: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.userControllerCreateUser(createUserModel);
+    } else {
+      res = await this.internalApi.userControllerCreateUser(
+        createUserModel,
+        credentials.password,
+        credentials.email
+      );
     }
+    return res.body;
   }
   async linkToProject(options: {
     userId: string;
     project: LinkProjectModel;
-    auth: string | { adminPassword: string; adminEmail: string };
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
-    let { userId, project, auth } = options;
+    let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
@@ -67,94 +62,80 @@ export class UserAPI {
         'The project name must be a non-empty string.'
       );
     }
-    if (typeof auth == 'string') {
-      validateString(auth, 'The jwtToken must be non-empty');
-    } else {
-      validateString(auth.adminEmail, 'The admin email must be nonempty');
-      validateString(auth.adminPassword, 'The admin password must be nonempty');
-    }
-    try {
-      let response;
-      if (typeof auth == 'string') {
-        this.internalApi.accessToken = auth;
-        response = await this.internalApi.userControllerLinkUserWithProjectId(
-          userId,
-          project
-        );
-      } else {
-        response = await this.internalApi.userControllerLinkUserWithProjectId(
-          userId,
-          project,
-          auth.adminPassword,
-          auth.adminEmail
-        );
-      }
 
-      return response.body;
-    } catch (e) {
-      throw e;
+    validateUserCredentials(credentials);
+
+    let response: { body?: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      response = await this.internalApi.userControllerLinkUserWithProjectId(
+        userId,
+        project
+      );
+    } else {
+      response = await this.internalApi.userControllerLinkUserWithProjectId(
+        userId,
+        project,
+        credentials.password,
+        credentials.email
+      );
     }
+
+    return response.body;
   }
 
   async setUserType(options: {
     input: SetUserTypeModel;
-    auth: string | { adminPassword: string; adminEmail: string };
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
-    const { auth, input } = options;
+    const { input, credentials } = options;
     if (input.email) {
       input.email = input.email.trim();
       validateString(input.email, 'The email must be a non-empty string.');
     }
-    if (typeof auth == 'string') {
-      validateString(auth, 'The jwtToken must be non-empty');
-    } else {
-      validateString(auth.adminEmail, 'The admin email must be nonempty');
-      validateString(auth.adminPassword, 'The admin password must be nonempty');
-    }
 
-    try {
-      let response;
-      if (typeof auth == 'string') {
-        this.internalApi.accessToken = auth;
-        response = await this.internalApi.userControllerSetUserType(input);
-      } else {
-        response = await this.internalApi.userControllerSetUserType(
-          input,
-          auth.adminPassword,
-          auth.adminEmail
-        );
-      }
-      return response.body;
-    } catch (e) {
-      throw e;
+    validateUserCredentials(credentials);
+
+    let res: { response: IncomingMessage; body: UserResponse };
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.userControllerSetUserType(input);
+    } else {
+      res = await this.internalApi.userControllerSetUserType(
+        input,
+        credentials.password,
+        credentials.email
+      );
     }
+    return res.body;
   }
+
   async getUser(id: string): Promise<UserResponse> {
     validateString(id, 'The id must be nonempty');
 
-    try {
-      const res = await this.internalApi.userControllerGetUserById(id);
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
+    const res = await this.internalApi.userControllerGetUserById(id);
+    return res.body;
   }
 
-  async getUsers(
-    adminEmail: string,
-    adminPassword: string
-  ): Promise<UserResponses> {
-    validateString(adminEmail, 'The admin email must be nonempty');
-    validateString(adminPassword, 'The admin password must be nonempty');
+  async getUsers(credentials: UserCredentials): Promise<UserResponses> {
+    validateUserCredentials(credentials);
 
-    try {
-      const res = await this.internalApi.userControllerGetAllUsers(
-        adminPassword,
-        adminEmail
+    let res: { body: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.userControllerGetAllUsers(
+        undefined,
+        undefined
       );
-      return res.body;
-    } catch (e) {
-      throw e;
+    } else {
+      res = await this.internalApi.userControllerGetAllUsers(
+        credentials.password,
+        credentials.email
+      );
     }
+
+    return res.body;
   }
 }

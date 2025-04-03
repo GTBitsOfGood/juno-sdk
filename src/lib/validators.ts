@@ -3,6 +3,7 @@ import {
   EmailRecipient,
   EmailSenderSendEmailModel,
 } from '../internal/api';
+import { UserCredentials } from './auth';
 import { JunoValidationError } from './errors';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 
@@ -117,6 +118,15 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
     } else {
       throw new JunoValidationError('The user input ID must be of type number');
     }
+  }
+};
+
+export const validateUserCredentials = (credentials: UserCredentials) => {
+  if (typeof credentials === 'string') {
+    validateString('the JWT token must be non-empty');
+  } else {
+    validateString(credentials.email, 'Email must be non-empty');
+    validateString(credentials.password, 'Password must be nonempty');
   }
 };
 
