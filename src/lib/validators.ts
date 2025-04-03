@@ -1,4 +1,8 @@
-import { EmailContent, EmailRecipient, EmailSender } from '../internal/api';
+import {
+  EmailContent,
+  EmailRecipient,
+  EmailSenderSendEmailModel,
+} from '../internal/api';
 import { JunoValidationError } from './errors';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 
@@ -19,7 +23,7 @@ export const validateEmailRecipient = (recipient: EmailRecipient) => {
   validateString(recipient.email, 'Recipient email cannot be null or empty');
 };
 
-export const validateEmailSender = (sender: EmailSender) => {
+export const validateEmailSender = (sender: EmailSenderSendEmailModel) => {
   if (!sender) {
     throw new JunoValidationError('Sender cannot be null');
   }

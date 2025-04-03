@@ -111,14 +111,14 @@ export class UserApi {
   /**
    *
    * @summary Create a new user.
+   * @param createUserModel The user details
    * @param xUserPassword Password of the admin or superadmin user
    * @param xUserEmail Email of an admin or superadmin user
-   * @param createUserModel The user details
    */
   public async userControllerCreateUser(
-    xUserPassword: string,
-    xUserEmail: string,
     createUserModel: CreateUserModel,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: UserResponse }> {
     const localVarPath = this.basePath + '/user';
@@ -135,20 +135,6 @@ export class UserApi {
       localVarHeaderParams.Accept = produces.join(',');
     }
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling userControllerCreateUser.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling userControllerCreateUser.'
-      );
-    }
 
     // verify required parameter 'createUserModel' is not null or undefined
     if (createUserModel === null || createUserModel === undefined) {
@@ -180,6 +166,11 @@ export class UserApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -229,8 +220,8 @@ export class UserApi {
    * @param xUserEmail Email of an admin or superadmin user
    */
   public async userControllerGetAllUsers(
-    xUserPassword: string,
-    xUserEmail: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: UserResponses }> {
     const localVarPath = this.basePath + '/user';
@@ -247,20 +238,6 @@ export class UserApi {
       localVarHeaderParams.Accept = produces.join(',');
     }
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling userControllerGetAllUsers.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling userControllerGetAllUsers.'
-      );
-    }
 
     localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
       xUserPassword,
@@ -284,6 +261,11 @@ export class UserApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -373,6 +355,11 @@ export class UserApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -419,15 +406,15 @@ export class UserApi {
    * Associates a user with a project ID.
    * @summary Link user to project.
    * @param id User ID being linked to a project
+   * @param linkProjectModel Project details to link with the user
    * @param xUserPassword Password of the admin or superadmin user
    * @param xUserEmail Email of an admin or superadmin user
-   * @param linkProjectModel Project details to link with the user
    */
   public async userControllerLinkUserWithProjectId(
     id: string,
-    xUserPassword: string,
-    xUserEmail: string,
     linkProjectModel: LinkProjectModel,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body?: any }> {
     const localVarPath =
@@ -447,20 +434,6 @@ export class UserApi {
     if (id === null || id === undefined) {
       throw new Error(
         'Required parameter id was null or undefined when calling userControllerLinkUserWithProjectId.'
-      );
-    }
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling userControllerLinkUserWithProjectId.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling userControllerLinkUserWithProjectId.'
       );
     }
 
@@ -494,6 +467,11 @@ export class UserApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
@@ -537,14 +515,14 @@ export class UserApi {
   /**
    * Updates the user type for an existing user. User type can be thought of as a role with role-based permissions, e.g. SUPERADMIN could have permissions an ADMIN would not. Only SUPERADMIN users can set types
    * @summary Update user type.
+   * @param setUserTypeModel User ID, email, and the new type to be set
    * @param xUserPassword Password of the admin or superadmin user
    * @param xUserEmail Email of an admin or superadmin user
-   * @param setUserTypeModel User ID, email, and the new type to be set
    */
   public async userControllerSetUserType(
-    xUserPassword: string,
-    xUserEmail: string,
     setUserTypeModel: SetUserTypeModel,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: UserResponse }> {
     const localVarPath = this.basePath + '/user/type';
@@ -561,20 +539,6 @@ export class UserApi {
       localVarHeaderParams.Accept = produces.join(',');
     }
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling userControllerSetUserType.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling userControllerSetUserType.'
-      );
-    }
 
     // verify required parameter 'setUserTypeModel' is not null or undefined
     if (setUserTypeModel === null || setUserTypeModel === undefined) {
@@ -606,6 +570,11 @@ export class UserApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );

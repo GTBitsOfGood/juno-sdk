@@ -13,7 +13,7 @@
 import { RequestFile } from './models';
 import { EmailContent } from './emailContent';
 import { EmailRecipient } from './emailRecipient';
-import { EmailSender } from './emailSender';
+import { EmailSenderSendEmailModel } from './emailSenderSendEmailModel';
 
 export class SendEmailModel {
   /**
@@ -35,7 +35,7 @@ export class SendEmailModel {
   /**
    * The sender of the email
    */
-  'sender': EmailSender;
+  'sender': EmailSenderSendEmailModel;
   /**
    * The subject of the email
    */
@@ -75,7 +75,7 @@ export class SendEmailModel {
     {
       name: 'sender',
       baseName: 'sender',
-      type: 'EmailSender',
+      type: 'EmailSenderSendEmailModel',
     },
     {
       name: 'subject',

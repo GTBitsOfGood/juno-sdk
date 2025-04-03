@@ -12,10 +12,10 @@
 
 import { RequestFile } from './models';
 
-export class EmailSender {
-  'username': string;
-  'description'?: string;
+export class EmailDomain {
   'domain': string;
+  'subdomain'?: string;
+  'sendgridId': number;
   'projects': Array<object>;
 
   static discriminator: string | undefined = undefined;
@@ -26,19 +26,19 @@ export class EmailSender {
     type: string;
   }> = [
     {
-      name: 'username',
-      baseName: 'username',
-      type: 'string',
-    },
-    {
-      name: 'description',
-      baseName: 'description',
-      type: 'string',
-    },
-    {
       name: 'domain',
       baseName: 'domain',
       type: 'string',
+    },
+    {
+      name: 'subdomain',
+      baseName: 'subdomain',
+      type: 'string',
+    },
+    {
+      name: 'sendgridId',
+      baseName: 'sendgridId',
+      type: 'number',
     },
     {
       name: 'projects',
@@ -48,6 +48,6 @@ export class EmailSender {
   ];
 
   static getAttributeTypeMap() {
-    return EmailSender.attributeTypeMap;
+    return EmailDomain.attributeTypeMap;
   }
 }

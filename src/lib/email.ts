@@ -12,6 +12,7 @@ import {
   RegisterDomainResponse,
   SetupEmailServiceModel,
   SetupEmailResponse,
+  EmailSenderSendEmailModel,
 } from '../internal/api';
 import { AuthAPI } from './auth';
 import { JunoValidationError } from './errors';
@@ -53,7 +54,7 @@ export class EmailAPI {
     cc?: Array<EmailRecipient>;
     bcc?: Array<EmailRecipient>;
     replyToList?: Array<EmailRecipient>;
-    sender: EmailSender;
+    sender: EmailSenderSendEmailModel;
     subject: string;
     contents: Array<EmailContent>;
   }): Promise<SendEmailResponse> {

@@ -5,16 +5,21 @@ export * from './createProjectModel';
 export * from './createUserModel';
 export * from './downloadFileModel';
 export * from './downloadFileResponse';
+export * from './emailConfigResponse';
 export * from './emailContent';
+export * from './emailDomain';
 export * from './emailRecipient';
 export * from './emailSender';
-export * from './fileBucketResponse';
+export * from './emailSenderSendEmailModel';
+export * from './fileBucket';
+export * from './fileConfigResponse';
 export * from './fileProviderResponse';
 export * from './issueApiKeyRequest';
 export * from './issueApiKeyResponse';
 export * from './issueJWTResponse';
 export * from './linkProjectModel';
 export * from './linkUserModel';
+export * from './modelFile';
 export * from './projectResponse';
 export * from './registerDomainModel';
 export * from './registerDomainResponse';
@@ -52,16 +57,21 @@ import { CreateProjectModel } from './createProjectModel';
 import { CreateUserModel } from './createUserModel';
 import { DownloadFileModel } from './downloadFileModel';
 import { DownloadFileResponse } from './downloadFileResponse';
+import { EmailConfigResponse } from './emailConfigResponse';
 import { EmailContent } from './emailContent';
+import { EmailDomain } from './emailDomain';
 import { EmailRecipient } from './emailRecipient';
 import { EmailSender } from './emailSender';
-import { FileBucketResponse } from './fileBucketResponse';
+import { EmailSenderSendEmailModel } from './emailSenderSendEmailModel';
+import { FileBucket } from './fileBucket';
+import { FileConfigResponse } from './fileConfigResponse';
 import { FileProviderResponse } from './fileProviderResponse';
 import { IssueApiKeyRequest } from './issueApiKeyRequest';
 import { IssueApiKeyResponse } from './issueApiKeyResponse';
 import { IssueJWTResponse } from './issueJWTResponse';
 import { LinkProjectModel } from './linkProjectModel';
 import { LinkUserModel } from './linkUserModel';
+import { ModelFile } from './modelFile';
 import { ProjectResponse } from './projectResponse';
 import { RegisterDomainModel } from './registerDomainModel';
 import { RegisterDomainResponse } from './registerDomainResponse';
@@ -106,16 +116,21 @@ let typeMap: { [index: string]: any } = {
   CreateUserModel: CreateUserModel,
   DownloadFileModel: DownloadFileModel,
   DownloadFileResponse: DownloadFileResponse,
+  EmailConfigResponse: EmailConfigResponse,
   EmailContent: EmailContent,
+  EmailDomain: EmailDomain,
   EmailRecipient: EmailRecipient,
   EmailSender: EmailSender,
-  FileBucketResponse: FileBucketResponse,
+  EmailSenderSendEmailModel: EmailSenderSendEmailModel,
+  FileBucket: FileBucket,
+  FileConfigResponse: FileConfigResponse,
   FileProviderResponse: FileProviderResponse,
   IssueApiKeyRequest: IssueApiKeyRequest,
   IssueApiKeyResponse: IssueApiKeyResponse,
   IssueJWTResponse: IssueJWTResponse,
   LinkProjectModel: LinkProjectModel,
   LinkUserModel: LinkUserModel,
+  ModelFile: ModelFile,
   ProjectResponse: ProjectResponse,
   RegisterDomainModel: RegisterDomainModel,
   RegisterDomainResponse: RegisterDomainResponse,

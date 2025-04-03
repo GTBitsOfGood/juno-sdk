@@ -110,14 +110,14 @@ export class ProjectApi {
   /**
    *
    * @summary Creates a new project with the specified parameters.
+   * @param createProjectModel
    * @param xUserPassword Password of the admin or superadmin user
    * @param xUserEmail Email of an admin or superadmin user
-   * @param createProjectModel
    */
   public async projectControllerCreateProject(
-    xUserPassword: string,
-    xUserEmail: string,
     createProjectModel: CreateProjectModel,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: ProjectResponse }> {
     const localVarPath = this.basePath + '/project';
@@ -134,20 +134,6 @@ export class ProjectApi {
       localVarHeaderParams.Accept = produces.join(',');
     }
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling projectControllerCreateProject.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling projectControllerCreateProject.'
-      );
-    }
 
     // verify required parameter 'createProjectModel' is not null or undefined
     if (createProjectModel === null || createProjectModel === undefined) {
@@ -236,8 +222,8 @@ export class ProjectApi {
    * @param xUserEmail Email of an admin or superadmin user
    */
   public async projectControllerGetAllProjects(
-    xUserPassword: string,
-    xUserEmail: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body?: any }> {
     const localVarPath = this.basePath + '/project';
@@ -247,20 +233,6 @@ export class ProjectApi {
       this._defaultHeaders
     );
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling projectControllerGetAllProjects.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling projectControllerGetAllProjects.'
-      );
-    }
 
     localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
       xUserPassword,
@@ -525,15 +497,15 @@ export class ProjectApi {
   }
   /**
    *
-   * @summary Retrieve all users assosciated with a project.
+   * @summary Retrieve all users associated with a project.
    * @param id
    * @param xUserPassword Password of the admin or superadmin user
    * @param xUserEmail Email of an admin or superadmin user
    */
   public async projectControllerGetUsersByProject(
     id: string,
-    xUserPassword: string,
-    xUserEmail: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{ response: http.IncomingMessage; body: UserResponses }> {
     const localVarPath =
@@ -560,20 +532,6 @@ export class ProjectApi {
     if (id === null || id === undefined) {
       throw new Error(
         'Required parameter id was null or undefined when calling projectControllerGetUsersByProject.'
-      );
-    }
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling projectControllerGetUsersByProject.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling projectControllerGetUsersByProject.'
       );
     }
 

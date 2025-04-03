@@ -4,6 +4,8 @@ export * from './emailApi';
 import { EmailApi } from './emailApi';
 export * from './fileBucketApi';
 import { FileBucketApi } from './fileBucketApi';
+export * from './fileConfigApi';
+import { FileConfigApi } from './fileConfigApi';
 export * from './fileDownloadApi';
 import { FileDownloadApi } from './fileDownloadApi';
 export * from './fileProviderApi';
@@ -33,6 +35,7 @@ export const APIS = [
   AuthApi,
   EmailApi,
   FileBucketApi,
+  FileConfigApi,
   FileDownloadApi,
   FileProviderApi,
   FileUploadApi,
