@@ -122,16 +122,13 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
 };
 
 export const validateUserCredentials = (credentials: UserCredentials) => {
-  if (typeof credentials === "string") {
-    validateString("the JWT token must be non-empty");
+  if (typeof credentials === 'string') {
+    validateString('the JWT token must be non-empty');
   } else {
     validateString(credentials.email, 'Email must be non-empty');
-    validateString(
-      credentials.password,
-      'Password must be nonempty'
-    );
+    validateString(credentials.password, 'Password must be nonempty');
   }
-}
+};
 
 export const validateSendGridKey = (sendgridKey: string) => {
   validateString(sendgridKey, 'Invalid SendGrid key provided');

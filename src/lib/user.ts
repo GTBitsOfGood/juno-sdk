@@ -19,7 +19,7 @@ export class UserAPI {
     email: string;
     name: string;
     password: string;
-    credentials: UserCredentials
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
     let { email, name, password, credentials } = options;
 
@@ -33,7 +33,7 @@ export class UserAPI {
     password = password.trim();
 
     const createUserModel: CreateUserModel = { email, name, password };
-    let res: { body: any; response?: IncomingMessage; };
+    let res: { body: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
@@ -50,7 +50,7 @@ export class UserAPI {
   async linkToProject(options: {
     userId: string;
     project: LinkProjectModel;
-    credentials: UserCredentials
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
     let { userId, project, credentials } = options;
 
@@ -65,7 +65,7 @@ export class UserAPI {
 
     validateUserCredentials(credentials);
 
-    let response: { body?: any; response?: IncomingMessage; };
+    let response: { body?: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
@@ -87,7 +87,7 @@ export class UserAPI {
 
   async setUserType(options: {
     input: SetUserTypeModel;
-    credentials: UserCredentials
+    credentials: UserCredentials;
   }): Promise<UserResponse> {
     const { input, credentials } = options;
     if (input.email) {
@@ -97,7 +97,7 @@ export class UserAPI {
 
     validateUserCredentials(credentials);
 
-    let res: { response: IncomingMessage; body: UserResponse; };
+    let res: { response: IncomingMessage; body: UserResponse };
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
       res = await this.internalApi.userControllerSetUserType(input);
@@ -118,16 +118,17 @@ export class UserAPI {
     return res.body;
   }
 
-  async getUsers(
-    credentials: UserCredentials
-  ): Promise<UserResponses> {
+  async getUsers(credentials: UserCredentials): Promise<UserResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body: any; response?: IncomingMessage; };
+    let res: { body: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
-      res = await this.internalApi.userControllerGetAllUsers(undefined, undefined);
+      res = await this.internalApi.userControllerGetAllUsers(
+        undefined,
+        undefined
+      );
     } else {
       res = await this.internalApi.userControllerGetAllUsers(
         credentials.password,

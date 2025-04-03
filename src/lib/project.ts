@@ -24,8 +24,8 @@ export class ProjectAPI {
   }
 
   async createProject(options: {
-    projectName: string,
-    credentials: UserCredentials
+    projectName: string;
+    credentials: UserCredentials;
   }): Promise<ProjectResponse> {
     const { projectName, credentials } = options;
 
@@ -38,7 +38,7 @@ export class ProjectAPI {
     const createProjectModel = new CreateProjectModel();
     createProjectModel.name = projectName;
 
-    let res: { body: any; response?: IncomingMessage; };
+    let res: { body: any; response?: IncomingMessage };
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
       res = await this.internalApi.projectControllerCreateProject(
@@ -83,23 +83,23 @@ export class ProjectAPI {
 
     const res = project.name
       ? await this.internalApi.projectControllerLinkUserWithProjectName(
-        project.name,
-        linkUserModel
-      )
+          project.name,
+          linkUserModel
+        )
       : await this.internalApi.projectControllerLinkUserWithProjectId(
-        project.id,
-        linkUserModel
-      );
+          project.id,
+          linkUserModel
+        );
     return res.body;
   }
 
   async getProjectUsersById(
     projectId: string,
-    credentials: UserCredentials,
+    credentials: UserCredentials
   ): Promise<UserResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body: any; response?: IncomingMessage; };
+    let res: { body: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
@@ -107,7 +107,6 @@ export class ProjectAPI {
         projectId,
         undefined,
         undefined
-
       );
     } else {
       res = await this.internalApi.projectControllerGetUsersByProject(
@@ -120,19 +119,16 @@ export class ProjectAPI {
     return res.body;
   }
 
-  async getProjects(
-    credentials: UserCredentials
-  ): Promise<ProjectResponses> {
+  async getProjects(credentials: UserCredentials): Promise<ProjectResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body?: any; response?: IncomingMessage; };
+    let res: { body?: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
       this.internalApi.accessToken = credentials;
       res = await this.internalApi.projectControllerGetAllProjects(
         undefined,
         undefined
-
       );
     } else {
       res = await this.internalApi.projectControllerGetAllProjects(
