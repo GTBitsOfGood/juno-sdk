@@ -123,7 +123,7 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
 
 export const validateUserCredentials = (credentials: UserCredentials) => {
   if (typeof credentials === 'string') {
-    validateString('the JWT token must be non-empty');
+    validateString(credentials, 'the JWT token must be non-empty');
   } else {
     validateString(credentials.email, 'Email must be non-empty');
     validateString(credentials.password, 'Password must be nonempty');
