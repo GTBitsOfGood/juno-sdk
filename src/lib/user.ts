@@ -57,11 +57,11 @@ export class UserAPI {
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
-      project.name = project.name.trim();
       validateString(
         project.name,
         'The project name must be a non-empty string.'
       );
+      project.name = project.name.trim();
     }
 
     validateUserCredentials(credentials);
@@ -148,12 +148,13 @@ export class UserAPI {
     let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
+
     if (project.name) {
-      project.name = project.name.trim();
       validateString(
         project.name,
         'The project name must be a non-empty string.'
       );
+      project.name = project.name.trim();
     }
 
     validateUserCredentials(credentials);
