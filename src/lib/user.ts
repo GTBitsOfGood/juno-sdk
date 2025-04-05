@@ -6,6 +6,7 @@ import {
   CreateUserModel,
   UserResponse,
   UserResponses,
+  UnlinkProjectModel,
 } from '../internal/api';
 import { UserCredentials } from './auth';
 import { validateString, validateUserCredentials } from './validators';
@@ -56,11 +57,11 @@ export class UserAPI {
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
-      project.name = project.name.trim();
       validateString(
         project.name,
         'The project name must be a non-empty string.'
       );
+      project.name = project.name.trim();
     }
 
     validateUserCredentials(credentials);
@@ -137,5 +138,44 @@ export class UserAPI {
     }
 
     return res.body;
+  }
+
+  async unlinkFromProject(options: {
+    userId: string;
+    project: UnlinkProjectModel;
+    credentials: UserCredentials;
+  }): Promise<UserResponse> {
+    let { userId, project, credentials } = options;
+
+    validateString(userId, 'The user ID must be a non-empty string.');
+
+    if (project.name) {
+      validateString(
+        project.name,
+        'The project name must be a non-empty string.'
+      );
+      project.name = project.name.trim();
+    }
+
+    validateUserCredentials(credentials);
+
+    let response: { body?: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      response = await this.internalApi.userControllerUnlinkUserFromProject(
+        userId,
+        project
+      );
+    } else {
+      response = await this.internalApi.userControllerUnlinkUserFromProject(
+        userId,
+        project,
+        credentials.password,
+        credentials.email
+      );
+    }
+
+    return response.body;
   }
 }
