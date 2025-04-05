@@ -178,4 +178,29 @@ export class UserAPI {
 
     return response.body;
   }
+
+  async deleteUser(options: {
+    userId: string;
+    credentials: UserCredentials;
+  }): Promise<UserResponse> {
+    let { userId, credentials } = options;
+
+    validateString(userId, 'The user ID must be a non-empty string.');
+    validateUserCredentials(credentials);
+
+    let response: { body?: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      response = await this.internalApi.userControllerDeleteUserById(userId);
+    } else {
+      response = await this.internalApi.userControllerDeleteUserById(
+        userId,
+        credentials.password,
+        credentials.email
+      );
+    }
+
+    return response.body;
+  }
 }

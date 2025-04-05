@@ -139,4 +139,37 @@ export class ProjectAPI {
 
     return res.body;
   }
+
+  async deleteProject(options: {
+    project: ProjectIdentifier;
+    credentials: UserCredentials;
+  }): Promise<ProjectResponse> {
+    const { project, credentials } = options;
+
+    validateProjectIdentifier(project);
+    validateUserCredentials(credentials);
+
+    if (!project.id) {
+      throw new Error('Project deletion is only supported by ID, not by name');
+    }
+
+    let res: { body: any; response?: IncomingMessage };
+
+    if (typeof credentials == 'string') {
+      this.internalApi.accessToken = credentials;
+      res = await this.internalApi.projectControllerDeleteProjectById(
+        project.id.toString(),
+        undefined,
+        undefined
+      );
+    } else {
+      res = await this.internalApi.projectControllerDeleteProjectById(
+        project.id.toString(),
+        credentials.password,
+        credentials.email
+      );
+    }
+
+    return res.body;
+  }
 }
