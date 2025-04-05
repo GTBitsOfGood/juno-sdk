@@ -34,6 +34,7 @@ export * from './sendGridDNSResponse';
 export * from './setUserTypeModel';
 export * from './setupEmailResponse';
 export * from './setupEmailServiceModel';
+export * from './unlinkProjectModel';
 export * from './uploadFileModel';
 export * from './uploadFileResponse';
 export * from './userResponse';
@@ -86,6 +87,7 @@ import { SendGridDNSResponse } from './sendGridDNSResponse';
 import { SetUserTypeModel } from './setUserTypeModel';
 import { SetupEmailResponse } from './setupEmailResponse';
 import { SetupEmailServiceModel } from './setupEmailServiceModel';
+import { UnlinkProjectModel } from './unlinkProjectModel';
 import { UploadFileModel } from './uploadFileModel';
 import { UploadFileResponse } from './uploadFileResponse';
 import { UserResponse } from './userResponse';
@@ -145,6 +147,7 @@ let typeMap: { [index: string]: any } = {
   SetUserTypeModel: SetUserTypeModel,
   SetupEmailResponse: SetupEmailResponse,
   SetupEmailServiceModel: SetupEmailServiceModel,
+  UnlinkProjectModel: UnlinkProjectModel,
   UploadFileModel: UploadFileModel,
   UploadFileResponse: UploadFileResponse,
   UserResponse: UserResponse,
