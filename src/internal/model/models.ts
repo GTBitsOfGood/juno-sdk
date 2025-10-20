@@ -1,6 +1,7 @@
 import localVarRequest from 'request';
 
 export * from './accessKey';
+export * from './aggregateInterval';
 export * from './createProjectModel';
 export * from './createUserModel';
 export * from './downloadFileModel';
@@ -29,11 +30,14 @@ export * from './registerFileBucketModel';
 export * from './registerFileProviderModel';
 export * from './sendEmailModel';
 export * from './sendEmailResponse';
+export * from './sendEmailStatisticsResponse';
+export * from './sendEmailStatisticsResponses';
 export * from './sendGridDNSRecord';
 export * from './sendGridDNSResponse';
 export * from './setUserTypeModel';
 export * from './setupEmailResponse';
 export * from './setupEmailServiceModel';
+export * from './setupFileServiceResponse';
 export * from './unlinkProjectModel';
 export * from './uploadFileModel';
 export * from './uploadFileResponse';
@@ -54,6 +58,7 @@ export interface RequestDetailedFile {
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
 import { AccessKey } from './accessKey';
+import { AggregateInterval } from './aggregateInterval';
 import { CreateProjectModel } from './createProjectModel';
 import { CreateUserModel } from './createUserModel';
 import { DownloadFileModel } from './downloadFileModel';
@@ -82,11 +87,14 @@ import { RegisterFileBucketModel } from './registerFileBucketModel';
 import { RegisterFileProviderModel } from './registerFileProviderModel';
 import { SendEmailModel } from './sendEmailModel';
 import { SendEmailResponse } from './sendEmailResponse';
+import { SendEmailStatisticsResponse } from './sendEmailStatisticsResponse';
+import { SendEmailStatisticsResponses } from './sendEmailStatisticsResponses';
 import { SendGridDNSRecord } from './sendGridDNSRecord';
 import { SendGridDNSResponse } from './sendGridDNSResponse';
 import { SetUserTypeModel } from './setUserTypeModel';
 import { SetupEmailResponse } from './setupEmailResponse';
 import { SetupEmailServiceModel } from './setupEmailServiceModel';
+import { SetupFileServiceResponse } from './setupFileServiceResponse';
 import { UnlinkProjectModel } from './unlinkProjectModel';
 import { UploadFileModel } from './uploadFileModel';
 import { UploadFileResponse } from './uploadFileResponse';
@@ -107,6 +115,7 @@ let primitives = [
 ];
 
 let enumsMap: { [index: string]: any } = {
+  AggregateInterval: AggregateInterval,
   'RegisterFileProviderModel.TypeEnum': RegisterFileProviderModel.TypeEnum,
   'SetUserTypeModel.TypeEnum': SetUserTypeModel.TypeEnum,
   'UserResponse.TypeEnum': UserResponse.TypeEnum,
@@ -142,11 +151,14 @@ let typeMap: { [index: string]: any } = {
   RegisterFileProviderModel: RegisterFileProviderModel,
   SendEmailModel: SendEmailModel,
   SendEmailResponse: SendEmailResponse,
+  SendEmailStatisticsResponse: SendEmailStatisticsResponse,
+  SendEmailStatisticsResponses: SendEmailStatisticsResponses,
   SendGridDNSRecord: SendGridDNSRecord,
   SendGridDNSResponse: SendGridDNSResponse,
   SetUserTypeModel: SetUserTypeModel,
   SetupEmailResponse: SetupEmailResponse,
   SetupEmailServiceModel: SetupEmailServiceModel,
+  SetupFileServiceResponse: SetupFileServiceResponse,
   UnlinkProjectModel: UnlinkProjectModel,
   UploadFileModel: UploadFileModel,
   UploadFileResponse: UploadFileResponse,
