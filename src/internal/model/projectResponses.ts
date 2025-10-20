@@ -9,31 +9,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { RequestFile } from './models';
 import { ProjectResponse } from './projectResponse';
-
-export class ProjectResponses {
+export declare class ProjectResponses {
   /**
    * List of projects
    */
   'projects': Array<ProjectResponse>;
-
-  static discriminator: string | undefined = undefined;
-
+  static discriminator: string | undefined;
   static attributeTypeMap: Array<{
     name: string;
     baseName: string;
     type: string;
-  }> = [
-    {
-      name: 'projects',
-      baseName: 'projects',
-      type: 'Array<ProjectResponse>',
-    },
-  ];
-
-  static getAttributeTypeMap() {
-    return ProjectResponses.attributeTypeMap;
-  }
+  }>;
+  static getAttributeTypeMap(): {
+    name: string;
+    baseName: string;
+    type: string;
+  }[];
 }

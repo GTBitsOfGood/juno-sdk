@@ -6,8 +6,8 @@ import {
   ProjectResponse,
   UserResponses,
 } from '../internal/api';
-import { ProjectResponses } from '../internal/model/projectResponses';
 import { UserCredentials } from './auth';
+import { ProjectResponses } from '../internal/model/projectResponses';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
   validateProjectIdentifier,

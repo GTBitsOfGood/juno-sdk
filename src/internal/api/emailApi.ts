@@ -14,6 +14,7 @@ import localVarRequest from 'request';
 import http from 'http';
 
 /* tslint:disable:no-unused-locals */
+import { AggregateInterval } from '../model/aggregateInterval';
 import { EmailConfigResponse } from '../model/emailConfigResponse';
 import { RegisterDomainModel } from '../model/registerDomainModel';
 import { RegisterDomainResponse } from '../model/registerDomainResponse';
@@ -21,6 +22,7 @@ import { RegisterEmailModel } from '../model/registerEmailModel';
 import { RegisterEmailResponse } from '../model/registerEmailResponse';
 import { SendEmailModel } from '../model/sendEmailModel';
 import { SendEmailResponse } from '../model/sendEmailResponse';
+import { SendEmailStatisticsResponses } from '../model/sendEmailStatisticsResponses';
 import { SetupEmailResponse } from '../model/setupEmailResponse';
 import { SetupEmailServiceModel } from '../model/setupEmailServiceModel';
 import { VerifyDomainModel } from '../model/verifyDomainModel';
@@ -201,6 +203,147 @@ export class EmailApi {
               response.statusCode <= 299
             ) {
               body = ObjectSerializer.deserialize(body, 'EmailConfigResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
+   * @summary Gets overall email analytics
+   * @param startDate The starting date of the statistics to retrieve. Must follow format YYYY-MM-DD
+   * @param limit The number of results to return
+   * @param offset The point in the list to begin retrieving results
+   * @param aggregatedBy How to group the statistics. Must be either \&#39;day\&#39;, \&#39;week\&#39;, or \&#39;month\&#39;
+   * @param endDate The end date of the statistics to retrieve. Defaults to today. Must follow format YYYY-MM-DD
+   */
+  public async emailControllerGetStatistics(
+    startDate: string,
+    limit?: number,
+    offset?: number,
+    aggregatedBy?: AggregateInterval,
+    endDate?: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{
+    response: http.IncomingMessage;
+    body: SendEmailStatisticsResponses;
+  }> {
+    const localVarPath = this.basePath + '/email/analytics';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'startDate' is not null or undefined
+    if (startDate === null || startDate === undefined) {
+      throw new Error(
+        'Required parameter startDate was null or undefined when calling emailControllerGetStatistics.'
+      );
+    }
+
+    if (startDate !== undefined) {
+      localVarQueryParameters['startDate'] = ObjectSerializer.serialize(
+        startDate,
+        'string'
+      );
+    }
+
+    if (limit !== undefined) {
+      localVarQueryParameters['limit'] = ObjectSerializer.serialize(
+        limit,
+        'number'
+      );
+    }
+
+    if (offset !== undefined) {
+      localVarQueryParameters['offset'] = ObjectSerializer.serialize(
+        offset,
+        'number'
+      );
+    }
+
+    if (aggregatedBy !== undefined) {
+      localVarQueryParameters['aggregatedBy'] = ObjectSerializer.serialize(
+        aggregatedBy,
+        'AggregateInterval'
+      );
+    }
+
+    if (endDate !== undefined) {
+      localVarQueryParameters['endDate'] = ObjectSerializer.serialize(
+        endDate,
+        'string'
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: SendEmailStatisticsResponses;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(
+                body,
+                'SendEmailStatisticsResponses'
+              );
               resolve({ response: response, body: body });
             } else {
               reject(new HttpError(response, body, response.statusCode));
