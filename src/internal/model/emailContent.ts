@@ -10,8 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-
 export class EmailContent {
   /**
    * MIME type for the content

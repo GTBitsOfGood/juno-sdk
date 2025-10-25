@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-import localVarRequest from 'request';
 import http from 'http';
+import localVarRequest from 'request';
 
 /* tslint:disable:no-unused-locals */
 import { CreateUserModel } from '../model/createUserModel';
@@ -22,19 +22,14 @@ import { UserResponse } from '../model/userResponse';
 import { UserResponses } from '../model/userResponses';
 
 import {
-  ObjectSerializer,
   Authentication,
-  VoidAuth,
-  Interceptor,
-} from '../model/models';
-import {
-  HttpBasicAuth,
   HttpBearerAuth,
-  ApiKeyAuth,
-  OAuth,
+  Interceptor,
+  ObjectSerializer,
+  VoidAuth,
 } from '../model/models';
 
-import { HttpError, RequestFile } from './apis';
+import { HttpError } from './apis';
 
 let defaultBasePath = 'http://localhost';
 

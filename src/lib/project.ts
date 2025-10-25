@@ -7,13 +7,12 @@ import {
   UserResponses,
 } from '../internal/api';
 import { UserCredentials } from './auth';
-import { ProjectResponses } from '../internal/model/projectResponses';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
   validateProjectIdentifier,
-  validateUserIdentifier,
   validateString,
   validateUserCredentials,
+  validateUserIdentifier,
 } from './validators';
 
 export class ProjectAPI {
@@ -119,7 +118,9 @@ export class ProjectAPI {
     return res.body;
   }
 
-  async getProjects(credentials: UserCredentials): Promise<ProjectResponses> {
+  async getProjects(
+    credentials: UserCredentials
+  ): Promise<Array<ProjectResponse>> {
     validateUserCredentials(credentials);
 
     let res: { body?: any; response?: IncomingMessage };

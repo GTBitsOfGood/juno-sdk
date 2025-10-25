@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
 import { SendGridDNSResponse } from './sendGridDNSResponse';
 
 export class RegisterDomainResponse {
