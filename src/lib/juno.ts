@@ -15,7 +15,7 @@ class JunoAPI {
   private authAPI?: AuthAPI;
   private settingsAPI?: SettingsAPI;
   private analyticsAPI?: AnalyticsAPI;
-  private analyticsConfigAPI: AnalyticsConfigAPI;
+  private analyticsConfigAPI?: AnalyticsConfigAPI;
 
   get analyticsConfig(): AnalyticsConfigAPI {
     if (!this.analyticsConfigAPI) {
