@@ -2,8 +2,16 @@ import localVarRequest from 'request';
 
 export * from './accessKey';
 export * from './aggregateInterval';
+export * from './analyticsConfigResponse';
+export * from './clickEventProperties';
+export * from './clickEventResponse';
+export * from './createAnalyticsConfigModel';
 export * from './createProjectModel';
 export * from './createUserModel';
+export * from './customEventResponse';
+export * from './customEventTypeResponse';
+export * from './customGraphType';
+export * from './customGraphTypeResponse';
 export * from './downloadFileModel';
 export * from './downloadFileResponse';
 export * from './emailConfigResponse';
@@ -15,11 +23,25 @@ export * from './emailSenderSendEmailModel';
 export * from './fileBucket';
 export * from './fileConfigResponse';
 export * from './fileProviderResponse';
+export * from './getAllClickEventsResponse';
+export * from './getAllCustomEventsResponse';
+export * from './getAllInputEventsResponse';
+export * from './getAllVisitEventsResponse';
+export * from './getClickEventsResponse';
+export * from './getCustomEventsResponse';
+export * from './getInputEventsResponse';
+export * from './getVisitEventsResponse';
+export * from './inputEventProperties';
+export * from './inputEventResponse';
 export * from './issueApiKeyRequest';
 export * from './issueApiKeyResponse';
 export * from './issueJWTResponse';
 export * from './linkProjectModel';
 export * from './linkUserModel';
+export * from './logClickEventRequest';
+export * from './logCustomEventRequest';
+export * from './logInputEventRequest';
+export * from './logVisitEventRequest';
 export * from './modelFile';
 export * from './projectResponse';
 export * from './registerDomainModel';
@@ -39,11 +61,14 @@ export * from './setupEmailResponse';
 export * from './setupEmailServiceModel';
 export * from './setupFileServiceResponse';
 export * from './unlinkProjectModel';
+export * from './updateAnalyticsConfigModel';
 export * from './uploadFileModel';
 export * from './uploadFileResponse';
 export * from './userResponse';
 export * from './userResponses';
 export * from './verifyDomainModel';
+export * from './visitEventProperties';
+export * from './visitEventResponse';
 
 import * as fs from 'fs';
 
@@ -59,8 +84,16 @@ export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
 import { AccessKey } from './accessKey';
 import { AggregateInterval } from './aggregateInterval';
+import { AnalyticsConfigResponse } from './analyticsConfigResponse';
+import { ClickEventProperties } from './clickEventProperties';
+import { ClickEventResponse } from './clickEventResponse';
+import { CreateAnalyticsConfigModel } from './createAnalyticsConfigModel';
 import { CreateProjectModel } from './createProjectModel';
 import { CreateUserModel } from './createUserModel';
+import { CustomEventResponse } from './customEventResponse';
+import { CustomEventTypeResponse } from './customEventTypeResponse';
+import { CustomGraphType } from './customGraphType';
+import { CustomGraphTypeResponse } from './customGraphTypeResponse';
 import { DownloadFileModel } from './downloadFileModel';
 import { DownloadFileResponse } from './downloadFileResponse';
 import { EmailConfigResponse } from './emailConfigResponse';
@@ -72,11 +105,25 @@ import { EmailSenderSendEmailModel } from './emailSenderSendEmailModel';
 import { FileBucket } from './fileBucket';
 import { FileConfigResponse } from './fileConfigResponse';
 import { FileProviderResponse } from './fileProviderResponse';
+import { GetAllClickEventsResponse } from './getAllClickEventsResponse';
+import { GetAllCustomEventsResponse } from './getAllCustomEventsResponse';
+import { GetAllInputEventsResponse } from './getAllInputEventsResponse';
+import { GetAllVisitEventsResponse } from './getAllVisitEventsResponse';
+import { GetClickEventsResponse } from './getClickEventsResponse';
+import { GetCustomEventsResponse } from './getCustomEventsResponse';
+import { GetInputEventsResponse } from './getInputEventsResponse';
+import { GetVisitEventsResponse } from './getVisitEventsResponse';
+import { InputEventProperties } from './inputEventProperties';
+import { InputEventResponse } from './inputEventResponse';
 import { IssueApiKeyRequest } from './issueApiKeyRequest';
 import { IssueApiKeyResponse } from './issueApiKeyResponse';
 import { IssueJWTResponse } from './issueJWTResponse';
 import { LinkProjectModel } from './linkProjectModel';
 import { LinkUserModel } from './linkUserModel';
+import { LogClickEventRequest } from './logClickEventRequest';
+import { LogCustomEventRequest } from './logCustomEventRequest';
+import { LogInputEventRequest } from './logInputEventRequest';
+import { LogVisitEventRequest } from './logVisitEventRequest';
 import { ModelFile } from './modelFile';
 import { ProjectResponse } from './projectResponse';
 import { RegisterDomainModel } from './registerDomainModel';
@@ -96,11 +143,14 @@ import { SetupEmailResponse } from './setupEmailResponse';
 import { SetupEmailServiceModel } from './setupEmailServiceModel';
 import { SetupFileServiceResponse } from './setupFileServiceResponse';
 import { UnlinkProjectModel } from './unlinkProjectModel';
+import { UpdateAnalyticsConfigModel } from './updateAnalyticsConfigModel';
 import { UploadFileModel } from './uploadFileModel';
 import { UploadFileResponse } from './uploadFileResponse';
 import { UserResponse } from './userResponse';
 import { UserResponses } from './userResponses';
 import { VerifyDomainModel } from './verifyDomainModel';
+import { VisitEventProperties } from './visitEventProperties';
+import { VisitEventResponse } from './visitEventResponse';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -123,8 +173,16 @@ let enumsMap: { [index: string]: any } = {
 
 let typeMap: { [index: string]: any } = {
   AccessKey: AccessKey,
+  AnalyticsConfigResponse: AnalyticsConfigResponse,
+  ClickEventProperties: ClickEventProperties,
+  ClickEventResponse: ClickEventResponse,
+  CreateAnalyticsConfigModel: CreateAnalyticsConfigModel,
   CreateProjectModel: CreateProjectModel,
   CreateUserModel: CreateUserModel,
+  CustomEventResponse: CustomEventResponse,
+  CustomEventTypeResponse: CustomEventTypeResponse,
+  CustomGraphType: CustomGraphType,
+  CustomGraphTypeResponse: CustomGraphTypeResponse,
   DownloadFileModel: DownloadFileModel,
   DownloadFileResponse: DownloadFileResponse,
   EmailConfigResponse: EmailConfigResponse,
@@ -136,11 +194,25 @@ let typeMap: { [index: string]: any } = {
   FileBucket: FileBucket,
   FileConfigResponse: FileConfigResponse,
   FileProviderResponse: FileProviderResponse,
+  GetAllClickEventsResponse: GetAllClickEventsResponse,
+  GetAllCustomEventsResponse: GetAllCustomEventsResponse,
+  GetAllInputEventsResponse: GetAllInputEventsResponse,
+  GetAllVisitEventsResponse: GetAllVisitEventsResponse,
+  GetClickEventsResponse: GetClickEventsResponse,
+  GetCustomEventsResponse: GetCustomEventsResponse,
+  GetInputEventsResponse: GetInputEventsResponse,
+  GetVisitEventsResponse: GetVisitEventsResponse,
+  InputEventProperties: InputEventProperties,
+  InputEventResponse: InputEventResponse,
   IssueApiKeyRequest: IssueApiKeyRequest,
   IssueApiKeyResponse: IssueApiKeyResponse,
   IssueJWTResponse: IssueJWTResponse,
   LinkProjectModel: LinkProjectModel,
   LinkUserModel: LinkUserModel,
+  LogClickEventRequest: LogClickEventRequest,
+  LogCustomEventRequest: LogCustomEventRequest,
+  LogInputEventRequest: LogInputEventRequest,
+  LogVisitEventRequest: LogVisitEventRequest,
   ModelFile: ModelFile,
   ProjectResponse: ProjectResponse,
   RegisterDomainModel: RegisterDomainModel,
@@ -160,11 +232,14 @@ let typeMap: { [index: string]: any } = {
   SetupEmailServiceModel: SetupEmailServiceModel,
   SetupFileServiceResponse: SetupFileServiceResponse,
   UnlinkProjectModel: UnlinkProjectModel,
+  UpdateAnalyticsConfigModel: UpdateAnalyticsConfigModel,
   UploadFileModel: UploadFileModel,
   UploadFileResponse: UploadFileResponse,
   UserResponse: UserResponse,
   UserResponses: UserResponses,
   VerifyDomainModel: VerifyDomainModel,
+  VisitEventProperties: VisitEventProperties,
+  VisitEventResponse: VisitEventResponse,
 };
 
 export class ObjectSerializer {

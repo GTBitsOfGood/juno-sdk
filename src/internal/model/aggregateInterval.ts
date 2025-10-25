@@ -10,8 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
-
 export enum AggregateInterval {
   Day = <any>'day',
   Week = <any>'week',
