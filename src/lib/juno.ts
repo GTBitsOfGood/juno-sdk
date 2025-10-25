@@ -1,4 +1,5 @@
 import { AnalyticsAPI } from './analytics';
+import { AnalyticsConfigAPI } from './analyticsConfig';
 import { AuthAPI } from './auth';
 import { EmailAPI } from './email';
 import { JunoValidationError } from './errors';
@@ -14,6 +15,16 @@ class JunoAPI {
   private authAPI?: AuthAPI;
   private settingsAPI?: SettingsAPI;
   private analyticsAPI?: AnalyticsAPI;
+  private analyticsConfigAPI: AnalyticsConfigAPI;
+
+  get analyticsConfig(): AnalyticsConfigAPI {
+    if (!this.analyticsConfigAPI) {
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
+    }
+    return this.analyticsConfigAPI;
+  }
 
   get analytics(): AnalyticsAPI {
     if (!this.analyticsAPI) {
@@ -76,6 +87,10 @@ class JunoAPI {
     this.projectAPI = new ProjectAPI(options.baseURL, this.apiKey);
     this.settingsAPI = new SettingsAPI(options.baseURL, this.apiKey);
     this.analyticsAPI = new AnalyticsAPI(options.baseURL, this.apiKey);
+    this.analyticsConfigAPI = new AnalyticsConfigAPI(
+      options.baseURL,
+      this.apiKey
+    );
   }
 }
 
