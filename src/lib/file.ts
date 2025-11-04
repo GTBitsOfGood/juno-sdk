@@ -15,6 +15,7 @@ import {
   UploadFileModel,
   UploadFileResponse,
 } from '../internal/api';
+import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
 export class FileAPI {
@@ -89,7 +90,7 @@ export class FileAPI {
 
     validateString(name, 'Bucket name must be non-empty');
     if (typeof configId !== 'number') {
-      throw new Error('configId must be a number');
+      throw new JunoValidationError('configId must be a number');
     }
     validateString(fileProviderName, 'fileProviderName must be non-empty');
 
@@ -118,7 +119,7 @@ export class FileAPI {
     validateString(bucketName, 'bucketName must be non-empty');
     validateString(providerName, 'providerName must be non-empty');
     if (typeof configId !== 'number') {
-      throw new Error('configId must be a number');
+      throw new JunoValidationError('configId must be a number');
     }
     if (region) validateString(region, 'region must be non-empty');
 
@@ -144,7 +145,7 @@ export class FileAPI {
 
     validateString(bucketName, 'bucketName must be non-empty');
     if (typeof configId !== 'number') {
-      throw new Error('configId must be a number');
+      throw new JunoValidationError('configId must be a number');
     }
     validateString(fileName, 'fileName must be non-empty');
     validateString(providerName, 'providerName must be non-empty');
