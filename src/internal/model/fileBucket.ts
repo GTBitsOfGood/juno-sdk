@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
+
 export class FileBucket {
   /**
    * The unique name of the registered bucket

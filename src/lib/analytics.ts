@@ -2,7 +2,7 @@ import {
   AnalyticsApi,
   ClickEventResponse,
   CustomEventResponse,
-  CustomEventTypeResponse,
+  GetAllCustomEventTypeResponse,
   CustomGraphTypeResponse,
   GetAllClickEventsResponse,
   GetAllCustomEventsResponse,
@@ -19,6 +19,7 @@ import {
   LogVisitEventRequest,
   VisitEventResponse,
 } from '../internal/api';
+
 import { validateString } from './validators';
 
 export class AnalyticsAPI {
@@ -217,7 +218,7 @@ export class AnalyticsAPI {
 
   async getCustomEventTypesByProject(
     projectName: string
-  ): Promise<CustomEventTypeResponse> {
+  ): Promise<GetAllCustomEventTypeResponse> {
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'

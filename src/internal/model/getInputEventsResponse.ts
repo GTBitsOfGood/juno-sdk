@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
 import { InputEventResponse } from './inputEventResponse';
 
 export class GetInputEventsResponse {

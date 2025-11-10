@@ -10,22 +10,27 @@
  * Do not edit the class manually.
  */
 
-import http from 'http';
 import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { DownloadFileModel } from '../model/downloadFileModel';
 import { DownloadFileResponse } from '../model/downloadFileResponse';
 
 import {
-  Authentication,
-  HttpBearerAuth,
-  Interceptor,
   ObjectSerializer,
+  Authentication,
   VoidAuth,
+  Interceptor,
+} from '../model/models';
+import {
+  HttpBasicAuth,
+  HttpBearerAuth,
+  ApiKeyAuth,
+  OAuth,
 } from '../model/models';
 
-import { HttpError } from './apis';
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = 'http://localhost';
 

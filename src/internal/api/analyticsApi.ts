@@ -10,15 +10,15 @@
  * Do not edit the class manually.
  */
 
-import http from 'http';
 import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { ClickEventResponse } from '../model/clickEventResponse';
 import { CustomEventResponse } from '../model/customEventResponse';
-import { CustomEventTypeResponse } from '../model/customEventTypeResponse';
 import { CustomGraphTypeResponse } from '../model/customGraphTypeResponse';
 import { GetAllClickEventsResponse } from '../model/getAllClickEventsResponse';
+import { GetAllCustomEventTypeResponse } from '../model/getAllCustomEventTypeResponse';
 import { GetAllCustomEventsResponse } from '../model/getAllCustomEventsResponse';
 import { GetAllInputEventsResponse } from '../model/getAllInputEventsResponse';
 import { GetAllVisitEventsResponse } from '../model/getAllVisitEventsResponse';
@@ -34,14 +34,19 @@ import { LogVisitEventRequest } from '../model/logVisitEventRequest';
 import { VisitEventResponse } from '../model/visitEventResponse';
 
 import {
-  Authentication,
-  HttpBearerAuth,
-  Interceptor,
   ObjectSerializer,
+  Authentication,
   VoidAuth,
+  Interceptor,
+} from '../model/models';
+import {
+  HttpBasicAuth,
+  HttpBearerAuth,
+  ApiKeyAuth,
+  OAuth,
 } from '../model/models';
 
-import { HttpError } from './apis';
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = 'http://localhost';
 
@@ -788,7 +793,7 @@ export class AnalyticsApi {
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
-    body: CustomEventTypeResponse;
+    body: GetAllCustomEventTypeResponse;
   }> {
     const localVarPath = this.basePath + '/analytics/custom-event-types';
     let localVarQueryParameters: any = {};
@@ -859,7 +864,7 @@ export class AnalyticsApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: CustomEventTypeResponse;
+        body: GetAllCustomEventTypeResponse;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -872,7 +877,7 @@ export class AnalyticsApi {
             ) {
               body = ObjectSerializer.deserialize(
                 body,
-                'CustomEventTypeResponse'
+                'GetAllCustomEventTypeResponse'
               );
               resolve({ response: response, body: body });
             } else {

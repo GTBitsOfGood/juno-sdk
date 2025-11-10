@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
+
 export class SetupFileServiceResponse {
   /**
    * Whether file services were successfully setup
