@@ -11,12 +11,13 @@
  */
 
 import { RequestFile } from './models';
+import { CustomEventTypeResponse } from './customEventTypeResponse';
 
-export class EmailDomain {
-  'domain': string;
-  'subdomain'?: string;
-  'sendgridId': number;
-  'projects': Array<object>;
+export class GetAllCustomEventTypeResponse {
+  /**
+   * All custom event types
+   */
+  'eventTypes': Array<CustomEventTypeResponse>;
 
   static discriminator: string | undefined = undefined;
 
@@ -26,28 +27,13 @@ export class EmailDomain {
     type: string;
   }> = [
     {
-      name: 'domain',
-      baseName: 'domain',
-      type: 'string',
-    },
-    {
-      name: 'subdomain',
-      baseName: 'subdomain',
-      type: 'string',
-    },
-    {
-      name: 'sendgridId',
-      baseName: 'sendgridId',
-      type: 'number',
-    },
-    {
-      name: 'projects',
-      baseName: 'projects',
-      type: 'Array<object>',
+      name: 'eventTypes',
+      baseName: 'eventTypes',
+      type: 'Array<CustomEventTypeResponse>',
     },
   ];
 
   static getAttributeTypeMap() {
-    return EmailDomain.attributeTypeMap;
+    return GetAllCustomEventTypeResponse.attributeTypeMap;
   }
 }

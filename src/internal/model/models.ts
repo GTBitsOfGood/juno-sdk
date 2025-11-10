@@ -24,6 +24,7 @@ export * from './fileBucket';
 export * from './fileConfigResponse';
 export * from './fileProviderResponse';
 export * from './getAllClickEventsResponse';
+export * from './getAllCustomEventTypeResponse';
 export * from './getAllCustomEventsResponse';
 export * from './getAllInputEventsResponse';
 export * from './getAllVisitEventsResponse';
@@ -106,6 +107,7 @@ import { FileBucket } from './fileBucket';
 import { FileConfigResponse } from './fileConfigResponse';
 import { FileProviderResponse } from './fileProviderResponse';
 import { GetAllClickEventsResponse } from './getAllClickEventsResponse';
+import { GetAllCustomEventTypeResponse } from './getAllCustomEventTypeResponse';
 import { GetAllCustomEventsResponse } from './getAllCustomEventsResponse';
 import { GetAllInputEventsResponse } from './getAllInputEventsResponse';
 import { GetAllVisitEventsResponse } from './getAllVisitEventsResponse';
@@ -195,6 +197,7 @@ let typeMap: { [index: string]: any } = {
   FileConfigResponse: FileConfigResponse,
   FileProviderResponse: FileProviderResponse,
   GetAllClickEventsResponse: GetAllClickEventsResponse,
+  GetAllCustomEventTypeResponse: GetAllCustomEventTypeResponse,
   GetAllCustomEventsResponse: GetAllCustomEventsResponse,
   GetAllInputEventsResponse: GetAllInputEventsResponse,
   GetAllVisitEventsResponse: GetAllVisitEventsResponse,

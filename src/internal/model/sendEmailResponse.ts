@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
+
 export class SendEmailResponse {
   /**
    * Whether an email was successfully sent

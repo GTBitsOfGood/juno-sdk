@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
 import { ClickEventResponse } from './clickEventResponse';
 
 export class GetAllClickEventsResponse {

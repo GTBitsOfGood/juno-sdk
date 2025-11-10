@@ -10,6 +10,8 @@
  * Do not edit the class manually.
  */
 
+import { RequestFile } from './models';
+
 export class DownloadFileModel {
   /**
    * The name of the bucket to use for downloading
