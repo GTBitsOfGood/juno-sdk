@@ -24,6 +24,14 @@ export class SettingsAPI {
     return res.body;
   }
 
+  async deleteFileConfig(projectId: string): Promise<FileConfigResponse> {
+    const res =
+      await this.internalFileConfigApi.fileConfigControllerDeleteFileConfigByProjectId(
+        projectId
+      );
+    return res.body;
+  }
+
   async getEmailConfig(projectId: string): Promise<EmailConfigResponse> {
     const res = await this.internalEmailApi.emailControllerGetEmailConfigById(
       projectId
