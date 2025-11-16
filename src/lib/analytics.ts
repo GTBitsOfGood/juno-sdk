@@ -19,7 +19,7 @@ import {
   LogVisitEventRequest,
   VisitEventResponse,
 } from '../internal/api';
-
+import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
 export class AnalyticsAPI {
@@ -217,15 +217,28 @@ export class AnalyticsAPI {
   }
 
   async getCustomEventTypesByProject(
-    projectName: string
+    projectName: string,
+    credentials?: ApiCredentials
   ): Promise<GetAllCustomEventTypeResponse> {
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res = await this.internalApi.analyticsControllerGetCustomEventTypes(
-      projectName
+      projectName,
+      { headers }
     );
 
     return res.body;
@@ -255,51 +268,84 @@ export class AnalyticsAPI {
     return res.body;
   }
 
-  async getAllClickEvents(event: {
-    projectName: string;
-    afterTime?: string;
-    limit?: number;
-  }): Promise<GetAllClickEventsResponse> {
+  async getAllClickEvents(
+    event: {
+      projectName: string;
+      afterTime?: string;
+      limit?: number;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetAllClickEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
+
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
 
     const res = await this.internalApi.analyticsControllerGetAllClickEvents(
       projectName,
       afterTime,
-      limit
+      limit,
+      { headers }
     );
     return res.body;
   }
 
-  async getAllVisitEvents(event: {
-    projectName: string;
-    afterTime?: string;
-    limit?: number;
-  }): Promise<GetAllVisitEventsResponse> {
+  async getAllVisitEvents(
+    event: {
+      projectName: string;
+      afterTime?: string;
+      limit?: number;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetAllVisitEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
+
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
 
     const res = await this.internalApi.analyticsControllerGetAllVisitEvents(
       projectName,
       afterTime,
-      limit
+      limit,
+      { headers }
     );
     return res.body;
   }
 
-  async getAllInputEvents(event: {
-    projectName: string;
-    afterTime?: string;
-    limit?: number;
-  }): Promise<GetAllInputEventsResponse> {
+  async getAllInputEvents(
+    event: {
+      projectName: string;
+      afterTime?: string;
+      limit?: number;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetAllInputEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
@@ -307,21 +353,36 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res = await this.internalApi.analyticsControllerGetAllInputEvents(
       projectName,
       afterTime,
-      limit
+      limit,
+      { headers }
     );
     return res.body;
   }
 
-  async getAllCustomEvents(event: {
-    projectName: string;
-    category: string;
-    subcategory: string;
-    afterTime?: string;
-    limit?: number;
-  }): Promise<GetAllCustomEventsResponse> {
+  async getAllCustomEvents(
+    event: {
+      projectName: string;
+      category: string;
+      subcategory: string;
+      afterTime?: string;
+      limit?: number;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetAllCustomEventsResponse> {
     const { projectName, category, subcategory, afterTime, limit } = event;
 
     validateString(
@@ -339,12 +400,24 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res = await this.internalApi.analyticsControllerGetAllCustomEvents(
       projectName,
       category,
       subcategory,
       afterTime,
-      limit
+      limit,
+      { headers }
     );
     return res.body;
   }
