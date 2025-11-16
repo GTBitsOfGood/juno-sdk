@@ -4,6 +4,7 @@ import {
   CreateAnalyticsConfigModel,
   UpdateAnalyticsConfigModel,
 } from '../internal/api';
+import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
 export class AnalyticsConfigAPI {
@@ -14,7 +15,8 @@ export class AnalyticsConfigAPI {
   }
 
   async createAnalyticsConfig(
-    config: CreateAnalyticsConfigModel
+    config: CreateAnalyticsConfigModel,
+    credentials?: ApiCredentials
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       config.clientAnalyticsKey,
@@ -26,24 +28,46 @@ export class AnalyticsConfigAPI {
       'The serverAnalyticsKey must be provided as an input and has to be nonempty.'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res =
       await this.internalApi.analyticsConfigControllerCreateAnalyticsConfig(
-        config
+        config,
+        { headers }
       );
     return res.body;
   }
 
   async getAnalyticsConfig(
-    projectId: string
+    projectId: string,
+    credentials?: ApiCredentials
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       projectId,
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res =
       await this.internalApi.analyticsConfigControllerGetAnalyticsConfig(
-        projectId
+        projectId,
+        { headers }
       );
     return res.body;
   }
