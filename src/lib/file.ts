@@ -8,13 +8,14 @@ import {
   FileDownloadApi,
   FileProviderApi,
   FileProviderResponse,
+  FileUploadApi,
   RegisterFileBucketModel,
   RegisterFileProviderModel,
   SetupFileServiceResponse,
-  FileUploadApi,
   UploadFileModel,
   UploadFileResponse,
 } from '../internal/api';
+import { ApiCredentials } from './apiCredentials';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
@@ -39,16 +40,54 @@ export class FileAPI {
     this.providerApi.accessToken = apiKey;
   }
 
-  async setup(): Promise<SetupFileServiceResponse> {
-    const res = await this.configApi.fileConfigControllerSetup();
+  async setup(credentials?: ApiCredentials): Promise<SetupFileServiceResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+    const res = await this.configApi.fileConfigControllerSetup({ headers });
     return res.body;
   }
 
-  async getConfigByProjectId(projectId: string): Promise<FileConfigResponse> {
-    validateString(projectId, 'Project ID must be non-empty');
+  async getConfig(
+    projectId: string,
+    credentials?: ApiCredentials
+  ): Promise<FileConfigResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res =
       await this.configApi.fileConfigControllerGetFileConfigByProjectId(
-        projectId
+        projectId,
+        { headers }
+      );
+    return res.body;
+  }
+
+  async deleteConfig(
+    projectId: string,
+    credentials?: ApiCredentials
+  ): Promise<FileConfigResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const res =
+      await this.configApi.fileConfigControllerDeleteFileConfigByProjectId(
+        projectId,
+        { headers }
       );
     return res.body;
   }
