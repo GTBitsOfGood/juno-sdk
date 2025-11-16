@@ -511,9 +511,9 @@ export class AuthApi {
     });
   }
   /**
-   * This endpoint is used to test if authentication is working correctly.
-   * @summary Test endpoint for validating middleware authentication
-   * @param authorization Bearer token (API Key or JWT)
+   * This endpoint validates a user JWT token and returns the associated user information if valid
+   * @summary Validates user JWT and returns user data
+   * @param authorization Bearer token (User JWT)
    */
   public async authControllerTestAuth(
     authorization: string,
@@ -552,6 +552,11 @@ export class AuthApi {
     };
 
     let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
     authenticationPromise = authenticationPromise.then(() =>
       this.authentications.default.applyToRequest(localVarRequestOptions)
     );
