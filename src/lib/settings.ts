@@ -4,6 +4,7 @@ import {
   FileConfigApi,
   FileConfigResponse,
 } from '../internal/api';
+import { ApiCredentials } from './apiCredentials';
 
 export class SettingsAPI {
   private internalFileConfigApi: FileConfigApi;
@@ -16,10 +17,22 @@ export class SettingsAPI {
     this.internalEmailApi.accessToken = apiKey;
   }
 
-  async getFileConfig(projectId: string): Promise<FileConfigResponse> {
+  async getFileConfig(
+    projectId: string,
+    credentials?: ApiCredentials
+  ): Promise<FileConfigResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res =
       await this.internalFileConfigApi.fileConfigControllerGetFileConfigByProjectId(
-        projectId
+        projectId,
+        { headers }
       );
     return res.body;
   }
@@ -32,9 +45,21 @@ export class SettingsAPI {
     return res.body;
   }
 
-  async getEmailConfig(projectId: string): Promise<EmailConfigResponse> {
+  async getEmailConfig(
+    projectId: string,
+    credentials?: ApiCredentials
+  ): Promise<EmailConfigResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const res = await this.internalEmailApi.emailControllerGetEmailConfigById(
-      projectId
+      projectId,
+      { headers }
     );
     return res.body;
   }
