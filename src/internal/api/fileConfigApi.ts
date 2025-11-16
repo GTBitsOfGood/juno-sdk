@@ -146,7 +146,7 @@ export class FileConfigApi {
     let localVarUseFormData = false;
 
     let localVarRequestOptions: localVarRequest.Options = {
-      method: 'POST',
+      method: 'DELETE',
       qs: localVarQueryParameters,
       headers: localVarHeaderParams,
       uri: localVarPath,
