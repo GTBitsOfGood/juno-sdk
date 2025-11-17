@@ -12,6 +12,7 @@ export * from './customEventResponse';
 export * from './customEventTypeResponse';
 export * from './customGraphType';
 export * from './customGraphTypeResponse';
+export * from './deleteFileBucketModel';
 export * from './downloadFileModel';
 export * from './downloadFileResponse';
 export * from './emailConfigResponse';
@@ -22,7 +23,8 @@ export * from './emailSender';
 export * from './emailSenderSendEmailModel';
 export * from './fileBucket';
 export * from './fileConfigResponse';
-export * from './fileProviderResponse';
+export * from './fileProvider';
+export * from './fileProviderPartial';
 export * from './getAllClickEventsResponse';
 export * from './getAllCustomEventTypeResponse';
 export * from './getAllCustomEventsResponse';
@@ -95,6 +97,7 @@ import { CustomEventResponse } from './customEventResponse';
 import { CustomEventTypeResponse } from './customEventTypeResponse';
 import { CustomGraphType } from './customGraphType';
 import { CustomGraphTypeResponse } from './customGraphTypeResponse';
+import { DeleteFileBucketModel } from './deleteFileBucketModel';
 import { DownloadFileModel } from './downloadFileModel';
 import { DownloadFileResponse } from './downloadFileResponse';
 import { EmailConfigResponse } from './emailConfigResponse';
@@ -105,7 +108,8 @@ import { EmailSender } from './emailSender';
 import { EmailSenderSendEmailModel } from './emailSenderSendEmailModel';
 import { FileBucket } from './fileBucket';
 import { FileConfigResponse } from './fileConfigResponse';
-import { FileProviderResponse } from './fileProviderResponse';
+import { FileProvider } from './fileProvider';
+import { FileProviderPartial } from './fileProviderPartial';
 import { GetAllClickEventsResponse } from './getAllClickEventsResponse';
 import { GetAllCustomEventTypeResponse } from './getAllCustomEventTypeResponse';
 import { GetAllCustomEventsResponse } from './getAllCustomEventsResponse';
@@ -168,6 +172,7 @@ let primitives = [
 
 let enumsMap: { [index: string]: any } = {
   AggregateInterval: AggregateInterval,
+  'FileProvider.TypeEnum': FileProvider.TypeEnum,
   'RegisterFileProviderModel.TypeEnum': RegisterFileProviderModel.TypeEnum,
   'SetUserTypeModel.TypeEnum': SetUserTypeModel.TypeEnum,
   'UserResponse.TypeEnum': UserResponse.TypeEnum,
@@ -185,6 +190,7 @@ let typeMap: { [index: string]: any } = {
   CustomEventTypeResponse: CustomEventTypeResponse,
   CustomGraphType: CustomGraphType,
   CustomGraphTypeResponse: CustomGraphTypeResponse,
+  DeleteFileBucketModel: DeleteFileBucketModel,
   DownloadFileModel: DownloadFileModel,
   DownloadFileResponse: DownloadFileResponse,
   EmailConfigResponse: EmailConfigResponse,
@@ -195,7 +201,8 @@ let typeMap: { [index: string]: any } = {
   EmailSenderSendEmailModel: EmailSenderSendEmailModel,
   FileBucket: FileBucket,
   FileConfigResponse: FileConfigResponse,
-  FileProviderResponse: FileProviderResponse,
+  FileProvider: FileProvider,
+  FileProviderPartial: FileProviderPartial,
   GetAllClickEventsResponse: GetAllClickEventsResponse,
   GetAllCustomEventTypeResponse: GetAllCustomEventTypeResponse,
   GetAllCustomEventsResponse: GetAllCustomEventsResponse,
