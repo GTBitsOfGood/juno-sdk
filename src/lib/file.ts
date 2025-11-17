@@ -6,6 +6,7 @@ import {
   FileConfigApi,
   FileConfigResponse,
   FileDownloadApi,
+  FileProvider,
   FileProviderApi,
   FileProviderPartial,
   FileUploadApi,
@@ -92,12 +93,15 @@ export class FileAPI {
     return res.body;
   }
 
-  async registerProvider(options: {
-    baseUrl: string;
-    providerName: string;
-    type: RegisterFileProviderModel.TypeEnum;
-    accessKey: { accessKeyId: string; secretAccessKey: string };
-  }): Promise<FileProviderPartial> {
+  async registerProvider(
+    options: {
+      baseUrl: string;
+      providerName: string;
+      type: RegisterFileProviderModel.TypeEnum;
+      accessKey: { accessKeyId: string; secretAccessKey: string };
+    },
+    credentials?: ApiCredentials
+  ): Promise<FileProviderPartial> {
     const { baseUrl, providerName, type, accessKey } = options;
 
     validateString(baseUrl, 'baseUrl must be non-empty');
@@ -108,6 +112,14 @@ export class FileAPI {
       'secretAccessKey must be non-empty'
     );
 
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
     const model = new RegisterFileProviderModel();
     (model as any).accessKey = accessKey as any;
     model.baseUrl = baseUrl;
@@ -115,7 +127,47 @@ export class FileAPI {
     model.type = type;
 
     const res =
-      await this.providerApi.fileProviderControllerRegisterFileProvider(model);
+      await this.providerApi.fileProviderControllerRegisterFileProvider(model, {
+        headers,
+      });
+    return res.body;
+  }
+
+  async deleteProvider(
+    name: string,
+    credentials?: ApiCredentials
+  ): Promise<FileProviderPartial> {
+    validateString(name, 'Provider name must be non-empty');
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const res = await this.providerApi.fileProviderControllerDeleteFileProvider(
+      name,
+      { headers }
+    );
+    return res.body;
+  }
+
+  async getAllFileProviders(
+    credentials?: ApiCredentials
+  ): Promise<Array<FileProvider>> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const res =
+      await this.providerApi.fileProviderControllerGetAllFileProviders({
+        headers,
+      });
     return res.body;
   }
 
