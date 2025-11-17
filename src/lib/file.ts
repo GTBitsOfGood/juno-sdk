@@ -7,7 +7,7 @@ import {
   FileConfigResponse,
   FileDownloadApi,
   FileProviderApi,
-  FileProviderResponse,
+  FileProviderPartial,
   FileUploadApi,
   RegisterFileBucketModel,
   RegisterFileProviderModel,
@@ -97,7 +97,7 @@ export class FileAPI {
     providerName: string;
     type: RegisterFileProviderModel.TypeEnum;
     accessKey: { accessKeyId: string; secretAccessKey: string };
-  }): Promise<FileProviderResponse> {
+  }): Promise<FileProviderPartial> {
     const { baseUrl, providerName, type, accessKey } = options;
 
     validateString(baseUrl, 'baseUrl must be non-empty');
