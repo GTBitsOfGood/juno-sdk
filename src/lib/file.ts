@@ -98,7 +98,7 @@ export class FileAPI {
     options: {
       baseUrl: string;
       providerName: string;
-      type: RegisterFileProviderModel.TypeEnum;
+      type: string;
       accessKey: { accessKeyId: string; secretAccessKey: string };
     },
     credentials?: ApiCredentials
