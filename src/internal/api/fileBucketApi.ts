@@ -14,6 +14,7 @@ import localVarRequest from 'request';
 import http from 'http';
 
 /* tslint:disable:no-unused-locals */
+import { DeleteFileBucketModel } from '../model/deleteFileBucketModel';
 import { FileBucket } from '../model/fileBucket';
 import { RegisterFileBucketModel } from '../model/registerFileBucketModel';
 
@@ -105,6 +106,198 @@ export class FileBucketApi {
     this.interceptors.push(interceptor);
   }
 
+  /**
+   *
+   * @summary Delete a File Bucket.
+   * @param deleteFileBucketModel
+   */
+  public async fileBucketControllerDeleteFileBucket(
+    deleteFileBucketModel: DeleteFileBucketModel,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: FileBucket }> {
+    const localVarPath = this.basePath + '/file/bucket';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'deleteFileBucketModel' is not null or undefined
+    if (deleteFileBucketModel === null || deleteFileBucketModel === undefined) {
+      throw new Error(
+        'Required parameter deleteFileBucketModel was null or undefined when calling fileBucketControllerDeleteFileBucket.'
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'DELETE',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+      body: ObjectSerializer.serialize(
+        deleteFileBucketModel,
+        'DeleteFileBucketModel'
+      ),
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{ response: http.IncomingMessage; body: FileBucket }>(
+        (resolve, reject) => {
+          localVarRequest(localVarRequestOptions, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              if (
+                response.statusCode &&
+                response.statusCode >= 200 &&
+                response.statusCode <= 299
+              ) {
+                body = ObjectSerializer.deserialize(body, 'FileBucket');
+                resolve({ response: response, body: body });
+              } else {
+                reject(new HttpError(response, body, response.statusCode));
+              }
+            }
+          });
+        }
+      );
+    });
+  }
+  /**
+   *
+   * @summary Get File Buckets by Config Id and Config Env.
+   * @param configId
+   */
+  public async fileBucketControllerGetBucketsByConfigIdAndEnv(
+    configId: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: Array<FileBucket> }> {
+    const localVarPath =
+      this.basePath +
+      '/file/bucket/{configId}'.replace(
+        '{' + 'configId' + '}',
+        encodeURIComponent(String(configId))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'configId' is not null or undefined
+    if (configId === null || configId === undefined) {
+      throw new Error(
+        'Required parameter configId was null or undefined when calling fileBucketControllerGetBucketsByConfigIdAndEnv.'
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: Array<FileBucket>;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'Array<FileBucket>');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
   /**
    *
    * @summary Registers a File Bucket.

@@ -1,26 +1,26 @@
 export * from './analyticsApi';
-import { AnalyticsApi } from './analyticsApi';
 export * from './analyticsConfigApi';
-import { AnalyticsConfigApi } from './analyticsConfigApi';
 export * from './authApi';
-import { AuthApi } from './authApi';
 export * from './emailApi';
-import { EmailApi } from './emailApi';
 export * from './fileBucketApi';
-import { FileBucketApi } from './fileBucketApi';
 export * from './fileConfigApi';
-import { FileConfigApi } from './fileConfigApi';
 export * from './fileDownloadApi';
-import { FileDownloadApi } from './fileDownloadApi';
 export * from './fileProviderApi';
-import { FileProviderApi } from './fileProviderApi';
 export * from './fileUploadApi';
-import { FileUploadApi } from './fileUploadApi';
 export * from './projectApi';
-import { ProjectApi } from './projectApi';
 export * from './userApi';
-import { UserApi } from './userApi';
 import * as http from 'http';
+import { AnalyticsApi } from './analyticsApi';
+import { AnalyticsConfigApi } from './analyticsConfigApi';
+import { AuthApi } from './authApi';
+import { EmailApi } from './emailApi';
+import { FileBucketApi } from './fileBucketApi';
+import { FileConfigApi } from './fileConfigApi';
+import { FileDownloadApi } from './fileDownloadApi';
+import { FileProviderApi } from './fileProviderApi';
+import { FileUploadApi } from './fileUploadApi';
+import { ProjectApi } from './projectApi';
+import { UserApi } from './userApi';
 
 export class HttpError extends Error {
   constructor(

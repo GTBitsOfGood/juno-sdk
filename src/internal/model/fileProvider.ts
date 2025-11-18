@@ -12,7 +12,7 @@
 
 import { AccessKey } from './accessKey';
 
-export class RegisterFileProviderModel {
+export class FileProvider {
   /**
    * The access key to register with
    */
@@ -60,6 +60,6 @@ export class RegisterFileProviderModel {
   ];
 
   static getAttributeTypeMap() {
-    return RegisterFileProviderModel.attributeTypeMap;
+    return FileProvider.attributeTypeMap;
   }
 }

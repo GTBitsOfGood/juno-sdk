@@ -10,25 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { AccessKey } from './accessKey';
+import { RequestFile } from './models';
 
-export class RegisterFileProviderModel {
+export class FileProviderPartial {
   /**
-   * The access key to register with
-   */
-  'accessKey': AccessKey;
-  /**
-   * The base url associated with file provider.
-   */
-  'baseUrl': string;
-  /**
-   * The file provider name being registered.
+   * The unique provider name of the file provider
    */
   'providerName': string;
   /**
-   * File provider type (one of S3 or AZURE)
+   * The metadata of the file provider
    */
-  'type': string;
+  'metadata': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -38,28 +30,18 @@ export class RegisterFileProviderModel {
     type: string;
   }> = [
     {
-      name: 'accessKey',
-      baseName: 'accessKey',
-      type: 'AccessKey',
-    },
-    {
-      name: 'baseUrl',
-      baseName: 'baseUrl',
-      type: 'string',
-    },
-    {
       name: 'providerName',
       baseName: 'providerName',
       type: 'string',
     },
     {
-      name: 'type',
-      baseName: 'type',
+      name: 'metadata',
+      baseName: 'metadata',
       type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
-    return RegisterFileProviderModel.attributeTypeMap;
+    return FileProviderPartial.attributeTypeMap;
   }
 }
