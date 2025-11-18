@@ -172,7 +172,6 @@ let primitives = [
 
 let enumsMap: { [index: string]: any } = {
   AggregateInterval: AggregateInterval,
-  'FileProvider.TypeEnum': FileProvider.TypeEnum,
   'RegisterFileProviderModel.TypeEnum': RegisterFileProviderModel.TypeEnum,
   'SetUserTypeModel.TypeEnum': SetUserTypeModel.TypeEnum,
   'UserResponse.TypeEnum': UserResponse.TypeEnum,

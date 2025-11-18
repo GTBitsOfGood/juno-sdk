@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
 import { AccessKey } from './accessKey';
 
 export class FileProvider {
@@ -29,7 +28,7 @@ export class FileProvider {
   /**
    * File provider type (one of S3 or AZURE)
    */
-  'type': FileProvider.TypeEnum;
+  'type': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -56,19 +55,11 @@ export class FileProvider {
     {
       name: 'type',
       baseName: 'type',
-      type: 'FileProvider.TypeEnum',
+      type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
     return FileProvider.attributeTypeMap;
-  }
-}
-
-export namespace FileProvider {
-  export enum TypeEnum {
-    _0 = <any>'0',
-    _1 = <any>'1',
-    _12 = <any>'-1',
   }
 }
