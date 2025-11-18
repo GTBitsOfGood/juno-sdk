@@ -99,7 +99,7 @@ export class FileAPI {
       baseUrl: string;
       providerName: string;
       type: string;
-      accessKey: { accessKeyId: string; secretAccessKey: string };
+      accessKey: { publicAccessKey: string; privateAccessKey: string };
     },
     credentials?: ApiCredentials
   ): Promise<FileProviderPartial> {
@@ -107,10 +107,13 @@ export class FileAPI {
 
     validateString(baseUrl, 'baseUrl must be non-empty');
     validateString(providerName, 'providerName must be non-empty');
-    validateString(accessKey?.accessKeyId, 'accessKeyId must be non-empty');
     validateString(
-      accessKey?.secretAccessKey,
-      'secretAccessKey must be non-empty'
+      accessKey?.publicAccessKey,
+      'publicAccessKey must be non-empty'
+    );
+    validateString(
+      accessKey?.privateAccessKey,
+      'privateAccessKey must be non-empty'
     );
 
     const headers: any = {};
