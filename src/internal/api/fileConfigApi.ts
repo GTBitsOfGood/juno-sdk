@@ -107,6 +107,103 @@ export class FileConfigApi {
 
   /**
    *
+   * @summary Delete file configuration by project ID
+   * @param projectId
+   */
+  public async fileConfigControllerDeleteFileConfigByProjectId(
+    projectId: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: FileConfigResponse }> {
+    const localVarPath =
+      this.basePath +
+      '/file/config/delete/{projectId}'.replace(
+        '{' + 'projectId' + '}',
+        encodeURIComponent(String(projectId))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'projectId' is not null or undefined
+    if (projectId === null || projectId === undefined) {
+      throw new Error(
+        'Required parameter projectId was null or undefined when calling fileConfigControllerDeleteFileConfigByProjectId.'
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'DELETE',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: FileConfigResponse;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'FileConfigResponse');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
    * @summary Get file configuration by project ID
    * @param projectId
    */

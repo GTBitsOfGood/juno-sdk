@@ -1,21 +1,21 @@
 import {
-  RegisterEmailModel,
-  SendEmailModel,
-  EmailRecipient,
-  EmailSender,
-  EmailContent,
-  SendEmailResponse,
-  RegisterEmailResponse,
-  RegisterDomainModel,
-  VerifyDomainModel,
   EmailApi,
-  RegisterDomainResponse,
-  SetupEmailServiceModel,
-  SetupEmailResponse,
+  EmailConfigResponse,
+  EmailContent,
+  EmailRecipient,
   EmailSenderSendEmailModel,
+  RegisterDomainModel,
+  RegisterDomainResponse,
+  RegisterEmailModel,
+  RegisterEmailResponse,
+  SendEmailModel,
+  SendEmailResponse,
+  SetupEmailResponse,
+  SetupEmailServiceModel,
+  VerifyDomainModel,
 } from '../internal/api';
-import { AuthAPI } from './auth';
 import { ApiCredentials } from './apiCredentials';
+import { AuthAPI } from './auth';
 import { JunoValidationError } from './errors';
 import {
   validateEmailContent,
@@ -32,6 +32,25 @@ export class EmailAPI {
     this.internalApi = new EmailApi(baseURL);
     this.auth = auth;
     this.internalApi.accessToken = this.auth?.junoApiKey;
+  }
+
+  async getEmailConfig(
+    projectId: string,
+    credentials?: ApiCredentials
+  ): Promise<EmailConfigResponse> {
+    const headers: any = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const res = await this.internalApi.emailControllerGetEmailConfigById(
+      projectId,
+      { headers }
+    );
+    return res.body;
   }
 
   async setupEmail(

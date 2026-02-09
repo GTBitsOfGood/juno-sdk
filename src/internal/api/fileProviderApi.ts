@@ -14,7 +14,8 @@ import localVarRequest from 'request';
 import http from 'http';
 
 /* tslint:disable:no-unused-locals */
-import { FileProviderResponse } from '../model/fileProviderResponse';
+import { FileProvider } from '../model/fileProvider';
+import { FileProviderPartial } from '../model/fileProviderPartial';
 import { RegisterFileProviderModel } from '../model/registerFileProviderModel';
 
 import {
@@ -107,13 +108,193 @@ export class FileProviderApi {
 
   /**
    *
+   * @summary Delete File Provider.
+   * @param name
+   */
+  public async fileProviderControllerDeleteFileProvider(
+    name: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: FileProviderPartial }> {
+    const localVarPath =
+      this.basePath +
+      '/file/provider/{name}'.replace(
+        '{' + 'name' + '}',
+        encodeURIComponent(String(name))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'name' is not null or undefined
+    if (name === null || name === undefined) {
+      throw new Error(
+        'Required parameter name was null or undefined when calling fileProviderControllerDeleteFileProvider.'
+      );
+    }
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'DELETE',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: FileProviderPartial;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'FileProviderPartial');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
+   * @summary Get All File Providers.
+   */
+  public async fileProviderControllerGetAllFileProviders(
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{ response: http.IncomingMessage; body: Array<FileProvider> }> {
+    const localVarPath = this.basePath + '/file/provider/all';
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'GET',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: Array<FileProvider>;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(body, 'Array<FileProvider>');
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
+  /**
+   *
    * @summary Registers a File Provider.
    * @param registerFileProviderModel
    */
   public async fileProviderControllerRegisterFileProvider(
     registerFileProviderModel: RegisterFileProviderModel,
     options: { headers: { [name: string]: string } } = { headers: {} }
-  ): Promise<{ response: http.IncomingMessage; body: FileProviderResponse }> {
+  ): Promise<{ response: http.IncomingMessage; body: FileProviderPartial }> {
     const localVarPath = this.basePath + '/file/provider';
     let localVarQueryParameters: any = {};
     let localVarHeaderParams: any = (<any>Object).assign(
@@ -183,7 +364,7 @@ export class FileProviderApi {
       }
       return new Promise<{
         response: http.IncomingMessage;
-        body: FileProviderResponse;
+        body: FileProviderPartial;
       }>((resolve, reject) => {
         localVarRequest(localVarRequestOptions, (error, response, body) => {
           if (error) {
@@ -194,7 +375,7 @@ export class FileProviderApi {
               response.statusCode >= 200 &&
               response.statusCode <= 299
             ) {
-              body = ObjectSerializer.deserialize(body, 'FileProviderResponse');
+              body = ObjectSerializer.deserialize(body, 'FileProviderPartial');
               resolve({ response: response, body: body });
             } else {
               reject(new HttpError(response, body, response.statusCode));
