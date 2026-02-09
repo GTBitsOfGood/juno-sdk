@@ -1,11 +1,11 @@
 {
   "name": "juno-sdk",
-  "version": "0.0.6",
-  "description": "Juno dev SDK",
+  "version": "0.0.9",
+  "description": "Juno Development SDK",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/tmthecoder/juno-sdk",
+  "repository": "https://github.com/GTBitsOfGood/juno-sdk",
   "license": "MIT",
   "keywords": [],
   "scripts": {
