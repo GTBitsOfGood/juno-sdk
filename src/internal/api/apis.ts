@@ -1,50 +1,34 @@
 export * from './analyticsApi';
-export * from './analyticsConfigApi';
-export * from './authApi';
-export * from './emailApi';
-export * from './fileBucketApi';
-export * from './fileConfigApi';
-export * from './fileDownloadApi';
-export * from './fileProviderApi';
-export * from './fileUploadApi';
-export * from './projectApi';
-export * from './userApi';
-import * as http from 'http';
 import { AnalyticsApi } from './analyticsApi';
+export * from './analyticsConfigApi';
 import { AnalyticsConfigApi } from './analyticsConfigApi';
+export * from './authApi';
 import { AuthApi } from './authApi';
+export * from './emailApi';
 import { EmailApi } from './emailApi';
+export * from './fileBucketApi';
 import { FileBucketApi } from './fileBucketApi';
+export * from './fileConfigApi';
 import { FileConfigApi } from './fileConfigApi';
+export * from './fileDownloadApi';
 import { FileDownloadApi } from './fileDownloadApi';
+export * from './fileProviderApi';
 import { FileProviderApi } from './fileProviderApi';
+export * from './fileUploadApi';
 import { FileUploadApi } from './fileUploadApi';
+export * from './projectApi';
 import { ProjectApi } from './projectApi';
+export * from './userApi';
 import { UserApi } from './userApi';
+import * as http from 'http';
 
 export class HttpError extends Error {
-  constructor(
-    public response: http.IncomingMessage,
-    public body: any,
-    public statusCode?: number
-  ) {
-    super('HTTP request failed');
-    this.name = 'HttpError';
-  }
+    constructor (public response: http.IncomingMessage, public body: any, public statusCode?: number) {
+        super('HTTP request failed');
+        this.name = 'HttpError';
+    }
 }
 
 export { RequestFile } from '../model/models';
 
-export const APIS = [
-  AnalyticsApi,
-  AnalyticsConfigApi,
-  AuthApi,
-  EmailApi,
-  FileBucketApi,
-  FileConfigApi,
-  FileDownloadApi,
-  FileProviderApi,
-  FileUploadApi,
-  ProjectApi,
-  UserApi,
-];
+export const APIS = [AnalyticsApi, AnalyticsConfigApi, AuthApi, EmailApi, FileBucketApi, FileConfigApi, FileDownloadApi, FileProviderApi, FileUploadApi, ProjectApi, UserApi];
