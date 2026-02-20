@@ -1,11 +1,12 @@
-import { IncomingMessage } from 'http';
 import {
+  Configuration,
   CreateProjectModel,
   LinkUserModel,
   ProjectApi,
   ProjectResponse,
   UserResponses,
-} from '../internal/api';
+} from '../internal/index';
+import { ProjectResponses } from '../internal/models/ProjectResponses';
 import { UserCredentials } from './auth';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 import {
@@ -18,8 +19,9 @@ import {
 export class ProjectAPI {
   private internalApi: ProjectApi;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new ProjectApi(baseURL);
-    this.internalApi.accessToken = apiKey;
+    this.internalApi = new ProjectApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
 
   async createProject(options: {
@@ -34,62 +36,63 @@ export class ProjectAPI {
     );
     validateUserCredentials(credentials);
 
-    const createProjectModel = new CreateProjectModel();
-    createProjectModel.name = projectName;
+    const createProjectModel: CreateProjectModel = {
+      name: projectName,
+    };
 
-    let res: { body: any; response?: IncomingMessage };
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.projectControllerCreateProject(
-        createProjectModel,
-        undefined,
-        undefined
+      return await this.internalApi.projectControllerCreateProject(
+        { createProjectModel },
+        { headers: { Authorization: `Bearer ${credentials}` } }
       );
     } else {
-      res = await this.internalApi.projectControllerCreateProject(
+      return await this.internalApi.projectControllerCreateProject({
         createProjectModel,
-        credentials.password,
-        credentials.email
-      );
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-    return res.body;
   }
   // Should be by ID or Name
   async getProject(input: ProjectIdentifier): Promise<ProjectResponse> {
     validateProjectIdentifier(input);
 
-    const res = input.name
-      ? await this.internalApi.projectControllerGetProjectByName(input.name)
-      : await this.internalApi.projectControllerGetProjectById(`${input.id}`);
-    return res.body;
+    return input.name
+      ? await this.internalApi.projectControllerGetProjectByName({
+          name: input.name,
+        })
+      : await this.internalApi.projectControllerGetProjectById({
+          id: `${input.id}`,
+        });
   }
   // Should be by ID or Name
   async linkProjectToUser(options: {
     project: ProjectIdentifier;
     user: UserIdentifier;
-  }): Promise<ProjectResponse> {
+  }): Promise<void> {
     const { project, user } = options;
 
     validateProjectIdentifier(project);
     validateUserIdentifier(user);
 
-    const linkUserModel = new LinkUserModel();
+    const linkUserModel: LinkUserModel = {};
     if (user.email) {
       linkUserModel.email = user.email;
     } else {
       linkUserModel.id = user.id;
     }
 
-    const res = project.name
-      ? await this.internalApi.projectControllerLinkUserWithProjectName(
-          project.name,
-          linkUserModel
-        )
-      : await this.internalApi.projectControllerLinkUserWithProjectId(
-          project.id,
-          linkUserModel
-        );
-    return res.body;
+    if (project.name) {
+      return await this.internalApi.projectControllerLinkUserWithProjectName({
+        name: project.name,
+        linkUserModel,
+      });
+    } else {
+      return await this.internalApi.projectControllerLinkUserWithProjectId({
+        id: project.id || -1,
+        linkUserModel,
+      });
+    }
   }
 
   async getProjectUsersById(
@@ -98,47 +101,36 @@ export class ProjectAPI {
   ): Promise<UserResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.projectControllerGetUsersByProject(
-        projectId,
-        undefined,
-        undefined
+      return await this.internalApi.projectControllerGetUsersByProject(
+        { id: projectId },
+        { headers: { Authorization: `Bearer ${credentials}` } }
       );
     } else {
-      res = await this.internalApi.projectControllerGetUsersByProject(
-        projectId,
-        credentials.password,
-        credentials.email
-      );
+      return await this.internalApi.projectControllerGetUsersByProject({
+        id: projectId,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return res.body;
   }
 
   async getProjects(
     credentials: UserCredentials
-  ): Promise<Array<ProjectResponse>> {
+  ): Promise<ProjectResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body?: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.projectControllerGetAllProjects(
-        undefined,
-        undefined
+      return await this.internalApi.projectControllerGetAllProjects(
+        {},
+        { headers: { Authorization: `Bearer ${credentials}` } }
       );
     } else {
-      res = await this.internalApi.projectControllerGetAllProjects(
-        credentials.password,
-        credentials.email
-      );
+      return await this.internalApi.projectControllerGetAllProjects({
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return res.body;
   }
 
   async deleteProject(options: {
@@ -154,23 +146,17 @@ export class ProjectAPI {
       throw new Error('Project deletion is only supported by ID, not by name');
     }
 
-    let res: { body: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.projectControllerDeleteProjectById(
-        project.id.toString(),
-        undefined,
-        undefined
+      return await this.internalApi.projectControllerDeleteProjectById(
+        { id: project.id.toString() },
+        { headers: { Authorization: `Bearer ${credentials}` } }
       );
     } else {
-      res = await this.internalApi.projectControllerDeleteProjectById(
-        project.id.toString(),
-        credentials.password,
-        credentials.email
-      );
+      return await this.internalApi.projectControllerDeleteProjectById({
+        id: project.id.toString(),
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return res.body;
   }
 }

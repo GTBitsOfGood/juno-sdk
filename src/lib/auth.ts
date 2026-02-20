@@ -1,9 +1,10 @@
 import {
   AuthApi,
+  Configuration,
   IssueApiKeyResponse,
   IssueApiKeyRequest,
   IssueJWTResponse,
-} from '../internal/api';
+} from '../internal/index';
 import { validateString } from './validators';
 
 export type UserCredentials = string | { email: string; password: string };
@@ -12,12 +13,11 @@ export class AuthAPI {
   private internalApi: AuthApi;
   private apiKey?: string;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AuthApi(baseURL);
     this.apiKey = apiKey;
-    this.internalApi.accessToken = this.apiKey;
+    this.internalApi = new AuthApi(new Configuration({ basePath: baseURL, accessToken: apiKey }));
   }
   get junoApiKey(): string {
-    return this.apiKey;
+    return this.apiKey || "";
   }
   async createKey(options: {
     email: string;
@@ -48,12 +48,11 @@ export class AuthAPI {
           name: project,
         },
       };
-      const result = await this.internalApi.authControllerCreateApiKey(
-        email,
-        password,
-        issueApiKeyRequest
-      );
-      return result.body;
+      return await this.internalApi.authControllerCreateApiKey({
+        xUserPassword: password,
+        xUserEmail: email,
+        issueApiKeyRequest,
+      });
     } catch (e) {
       throw e;
     }
@@ -65,8 +64,7 @@ export class AuthAPI {
 
     apiKey = apiKey.trim();
     try {
-      const result = await this.internalApi.authControllerDeleteApiKey(apiKey);
-      return result.body;
+      return await this.internalApi.authControllerDeleteApiKey({ authorization: apiKey });
     } catch (e) {
       throw e;
     }
@@ -78,12 +76,10 @@ export class AuthAPI {
   }): Promise<IssueJWTResponse> {
     const { email, password } = options;
     try {
-      const result = await this.internalApi.authControllerGetUserJWT(
-        password,
-        email
-      );
-
-      return result.body;
+      return await this.internalApi.authControllerGetUserJWT({
+        xUserPassword: password,
+        xUserEmail: email,
+      });
     } catch (e) {
       throw e;
     }
@@ -92,9 +88,7 @@ export class AuthAPI {
   async getApiKeyJWT(options: { apiKey: string }): Promise<IssueJWTResponse> {
     const { apiKey } = options;
     try {
-      const result = await this.internalApi.authControllerGetApiKeyJWT(apiKey);
-
-      return result.body;
+      return await this.internalApi.authControllerGetApiKeyJWT({ authorization: apiKey });
     } catch (e) {
       throw e;
     }

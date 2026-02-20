@@ -1,5 +1,6 @@
 import {
   AnalyticsApi,
+  Configuration,
   ClickEventResponse,
   CustomEventResponse,
   GetAllCustomEventTypeResponse,
@@ -18,15 +19,14 @@ import {
   LogInputEventRequest,
   LogVisitEventRequest,
   VisitEventResponse,
-} from '../internal/api';
+} from '../internal/index';
 import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
 export class AnalyticsAPI {
   private internalApi: AnalyticsApi;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AnalyticsApi(baseURL);
-    this.internalApi.accessToken = apiKey;
+    this.internalApi = new AnalyticsApi(new Configuration({ basePath: baseURL, accessToken: apiKey }));
   }
 
   async logClickEvent(
@@ -42,8 +42,7 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    const res = await this.internalApi.analyticsControllerLogClickEvent(event);
-    return res.body;
+    return await this.internalApi.analyticsControllerLogClickEvent({ logClickEventRequest: event });
   }
 
   async getClickEventsPaginated(event: {
@@ -59,15 +58,13 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsControllerGetClickEventsPaginated(
-        projectName,
-        afterId,
-        environment,
-        limit,
-        afterTime
-      );
-    return res.body;
+    return await this.internalApi.analyticsControllerGetClickEventsPaginated({
+      projectName,
+      afterId,
+      environment,
+      limit,
+      afterTime,
+    });
   }
 
   async logVisitEvent(
@@ -83,8 +80,7 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    const res = await this.internalApi.analyticsControllerLogVisitEvent(event);
-    return res.body;
+    return await this.internalApi.analyticsControllerLogVisitEvent({ logVisitEventRequest: event });
   }
 
   async getVisitEventsPaginated(event: {
@@ -100,15 +96,13 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsControllerGetVisitEventsPaginated(
-        projectName,
-        afterId,
-        environment,
-        limit,
-        afterTime
-      );
-    return res.body;
+    return await this.internalApi.analyticsControllerGetVisitEventsPaginated({
+      projectName,
+      afterId,
+      environment,
+      limit,
+      afterTime,
+    });
   }
 
   async logInputEvent(
@@ -124,8 +118,7 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    const res = await this.internalApi.analyticsControllerLogInputEvent(event);
-    return res.body;
+    return await this.internalApi.analyticsControllerLogInputEvent({ logInputEventRequest: event });
   }
 
   async getInputEventsPaginated(event: {
@@ -141,15 +134,13 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsControllerGetInputEventsPaginated(
-        projectName,
-        afterId,
-        environment,
-        limit,
-        afterTime
-      );
-    return res.body;
+    return await this.internalApi.analyticsControllerGetInputEventsPaginated({
+      projectName,
+      afterId,
+      environment,
+      limit,
+      afterTime,
+    });
   }
 
   async logCustomEvent(
@@ -165,8 +156,7 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
-    const res = await this.internalApi.analyticsControllerLogCustomEvent(event);
-    return res.body;
+    return await this.internalApi.analyticsControllerLogCustomEvent({ logCustomEventRequest: event });
   }
 
   async getCustomEventsPaginated(event: {
@@ -203,17 +193,15 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsControllerGetCustomEventsPaginated(
-        projectName,
-        category,
-        subcategory,
-        afterId,
-        environment,
-        limit,
-        afterTime
-      );
-    return res.body;
+    return await this.internalApi.analyticsControllerGetCustomEventsPaginated({
+      projectName,
+      category,
+      subcategory,
+      afterId,
+      environment,
+      limit,
+      afterTime,
+    });
   }
 
   async getCustomEventTypesByProject(
@@ -225,23 +213,18 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (
-      credentials?.projectId !== undefined &&
-      credentials.projectId !== null
-    ) {
+    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.analyticsControllerGetCustomEventTypes(
-      projectName,
+    return await this.internalApi.analyticsControllerGetCustomEventTypes(
+      { projectName },
       { headers }
     );
-
-    return res.body;
   }
 
   async getCustomGraphTypesById(data: {
@@ -259,13 +242,10 @@ export class AnalyticsAPI {
       'The eventTypeId must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsControllerGetCustomGraphTypesById(
-        projectName,
-        eventTypeId
-      );
-
-    return res.body;
+    return await this.internalApi.analyticsControllerGetCustomGraphTypesById({
+      projectName,
+      eventTypeId,
+    });
   }
 
   async getAllClickEvents(
@@ -283,24 +263,18 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (
-      credentials?.projectId !== undefined &&
-      credentials.projectId !== null
-    ) {
+    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.analyticsControllerGetAllClickEvents(
-      projectName,
-      afterTime,
-      limit,
+    return await this.internalApi.analyticsControllerGetAllClickEvents(
+      { projectName, afterTime, limit },
       { headers }
     );
-    return res.body;
   }
 
   async getAllVisitEvents(
@@ -318,24 +292,18 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (
-      credentials?.projectId !== undefined &&
-      credentials.projectId !== null
-    ) {
+    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.analyticsControllerGetAllVisitEvents(
-      projectName,
-      afterTime,
-      limit,
+    return await this.internalApi.analyticsControllerGetAllVisitEvents(
+      { projectName, afterTime, limit },
       { headers }
     );
-    return res.body;
   }
 
   async getAllInputEvents(
@@ -353,24 +321,18 @@ export class AnalyticsAPI {
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (
-      credentials?.projectId !== undefined &&
-      credentials.projectId !== null
-    ) {
+    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.analyticsControllerGetAllInputEvents(
-      projectName,
-      afterTime,
-      limit,
+    return await this.internalApi.analyticsControllerGetAllInputEvents(
+      { projectName, afterTime, limit },
       { headers }
     );
-    return res.body;
   }
 
   async getAllCustomEvents(
@@ -400,25 +362,17 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (
-      credentials?.projectId !== undefined &&
-      credentials.projectId !== null
-    ) {
+    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.analyticsControllerGetAllCustomEvents(
-      projectName,
-      category,
-      subcategory,
-      afterTime,
-      limit,
+    return await this.internalApi.analyticsControllerGetAllCustomEvents(
+      { projectName, category, subcategory, afterTime, limit },
       { headers }
     );
-    return res.body;
   }
 }

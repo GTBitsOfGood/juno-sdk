@@ -1,4 +1,5 @@
 import {
+  Configuration,
   DeleteFileBucketModel,
   DownloadFileModel,
   DownloadFileResponse,
@@ -16,7 +17,7 @@ import {
   SetupFileServiceResponse,
   UploadFileModel,
   UploadFileResponse,
-} from '../internal/api';
+} from '../internal/index';
 import { ApiCredentials } from './apiCredentials';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
@@ -29,36 +30,30 @@ export class FileAPI {
   private providerApi: FileProviderApi;
 
   constructor(baseURL?: string, apiKey?: string) {
-    this.configApi = new FileConfigApi(baseURL);
-    this.uploadApi = new FileUploadApi(baseURL);
-    this.downloadApi = new FileDownloadApi(baseURL);
-    this.bucketApi = new FileBucketApi(baseURL);
-    this.providerApi = new FileProviderApi(baseURL);
-
-    this.configApi.accessToken = apiKey;
-    this.uploadApi.accessToken = apiKey;
-    this.downloadApi.accessToken = apiKey;
-    this.bucketApi.accessToken = apiKey;
-    this.providerApi.accessToken = apiKey;
+    const config = new Configuration({ basePath: baseURL, accessToken: apiKey });
+    this.configApi = new FileConfigApi(config);
+    this.uploadApi = new FileUploadApi(config);
+    this.downloadApi = new FileDownloadApi(config);
+    this.bucketApi = new FileBucketApi(config);
+    this.providerApi = new FileProviderApi(config);
   }
 
   async setup(credentials?: ApiCredentials): Promise<SetupFileServiceResponse> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
     if (credentials?.projectId !== undefined) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
-    const res = await this.configApi.fileConfigControllerSetup({ headers });
-    return res.body;
+    return await this.configApi.fileConfigControllerSetup({ headers });
   }
 
   async getConfig(
     projectId: string,
     credentials?: ApiCredentials
   ): Promise<FileConfigResponse> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -66,19 +61,17 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.configApi.fileConfigControllerGetFileConfigByProjectId(
-        projectId,
-        { headers }
-      );
-    return res.body;
+    return await this.configApi.fileConfigControllerGetFileConfigByProjectId(
+      { projectId },
+      { headers }
+    );
   }
 
   async deleteConfig(
     projectId: string,
     credentials?: ApiCredentials
   ): Promise<FileConfigResponse> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -86,12 +79,10 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.configApi.fileConfigControllerDeleteFileConfigByProjectId(
-        projectId,
-        { headers }
-      );
-    return res.body;
+    return await this.configApi.fileConfigControllerDeleteFileConfigByProjectId(
+      { projectId },
+      { headers }
+    );
   }
 
   async registerProvider(
@@ -116,7 +107,7 @@ export class FileAPI {
       'privateAccessKey must be non-empty'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -124,17 +115,17 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const model = new RegisterFileProviderModel();
-    (model as any).accessKey = accessKey as any;
-    model.baseUrl = baseUrl;
-    model.providerName = providerName;
-    model.type = type;
+    const model: RegisterFileProviderModel = {
+      accessKey: accessKey as any,
+      baseUrl,
+      providerName,
+      type,
+    };
 
-    const res =
-      await this.providerApi.fileProviderControllerRegisterFileProvider(model, {
-        headers,
-      });
-    return res.body;
+    return await this.providerApi.fileProviderControllerRegisterFileProvider(
+      { registerFileProviderModel: model },
+      { headers }
+    );
   }
 
   async deleteProvider(
@@ -142,7 +133,7 @@ export class FileAPI {
     credentials?: ApiCredentials
   ): Promise<FileProviderPartial> {
     validateString(name, 'Provider name must be non-empty');
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -150,17 +141,16 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.providerApi.fileProviderControllerDeleteFileProvider(
-      name,
+    return await this.providerApi.fileProviderControllerDeleteFileProvider(
+      { name },
       { headers }
     );
-    return res.body;
   }
 
   async getAllFileProviders(
     credentials?: ApiCredentials
   ): Promise<FileProvider[]> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -168,11 +158,9 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.providerApi.fileProviderControllerGetAllFileProviders({
-        headers,
-      });
-    return res.body;
+    return await this.providerApi.fileProviderControllerGetAllFileProviders(
+      { headers }
+    );
   }
 
   async registerBucket(
@@ -192,7 +180,7 @@ export class FileAPI {
     }
     validateString(fileProviderName, 'fileProviderName must be non-empty');
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -200,17 +188,17 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const model = new RegisterFileBucketModel();
-    model.name = name;
-    model.configId = configId;
-    model.fileProviderName = fileProviderName;
-    model.fileServiceFile = fileServiceFile ?? [];
+    const model: RegisterFileBucketModel = {
+      name,
+      configId,
+      fileProviderName,
+      fileServiceFile: fileServiceFile ?? [],
+    };
 
-    const res = await this.bucketApi.fileBucketControllerRegisterFileBucket(
-      model,
+    return await this.bucketApi.fileBucketControllerRegisterFileBucket(
+      { registerFileBucketModel: model },
       { headers }
     );
-    return res.body;
   }
 
   async deleteBucket(
@@ -224,7 +212,7 @@ export class FileAPI {
     }
     validateString(fileProviderName, 'fileProviderName must be non-empty');
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -232,18 +220,17 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.bucketApi.fileBucketControllerDeleteFileBucket(
-      options,
+    return await this.bucketApi.fileBucketControllerDeleteFileBucket(
+      { deleteFileBucketModel: options },
       { headers }
     );
-    return res.body;
   }
 
   async getBucketsByConfigIdAndEnv(
     configId: string,
     credentials?: ApiCredentials
   ): Promise<FileBucket[]> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -251,12 +238,10 @@ export class FileAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.bucketApi.fileBucketControllerGetBucketsByConfigIdAndEnv(
-        configId,
-        { headers }
-      );
-    return res.body;
+    return await this.bucketApi.fileBucketControllerGetBucketsByConfigIdAndEnv(
+      { configId },
+      { headers }
+    );
   }
 
   async uploadFile(options: {
@@ -276,15 +261,15 @@ export class FileAPI {
     }
     if (region) validateString(region, 'region must be non-empty');
 
-    const model = new UploadFileModel();
-    model.fileName = fileName;
-    model.bucketName = bucketName;
-    model.providerName = providerName;
-    model.configId = configId;
-    if (region) model.region = region;
+    const model: UploadFileModel = {
+      fileName,
+      bucketName,
+      providerName,
+      configId,
+      region: region ?? undefined,
+    };
 
-    const res = await this.uploadApi.fileUploadControllerUploadFile(model);
-    return res.body;
+    return await this.uploadApi.fileUploadControllerUploadFile({ uploadFileModel: model });
   }
 
   async downloadFile(options: {
@@ -304,16 +289,14 @@ export class FileAPI {
     validateString(providerName, 'providerName must be non-empty');
     if (region) validateString(region, 'region must be non-empty');
 
-    const model = new DownloadFileModel();
-    model.bucketName = bucketName;
-    model.configId = configId;
-    model.fileName = fileName;
-    model.providerName = providerName;
-    if (region) model.region = region;
+    const model: DownloadFileModel = {
+      bucketName,
+      configId,
+      fileName,
+      providerName,
+      region: region ?? undefined,
+    };
 
-    const res = await this.downloadApi.fileDownloadControllerDownloadFile(
-      model
-    );
-    return res.body;
+    return await this.downloadApi.fileDownloadControllerDownloadFile({ downloadFileModel: model });
   }
 }

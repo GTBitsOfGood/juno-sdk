@@ -1,5 +1,6 @@
 import {
   EmailApi,
+  Configuration,
   EmailConfigResponse,
   EmailContent,
   EmailRecipient,
@@ -13,7 +14,7 @@ import {
   SetupEmailResponse,
   SetupEmailServiceModel,
   VerifyDomainModel,
-} from '../internal/api';
+} from '../internal/index';
 import { ApiCredentials } from './apiCredentials';
 import { AuthAPI } from './auth';
 import { JunoValidationError } from './errors';
@@ -29,16 +30,15 @@ export class EmailAPI {
   private internalApi: EmailApi;
   private auth?: AuthAPI;
   constructor(baseURL?: string, auth?: AuthAPI) {
-    this.internalApi = new EmailApi(baseURL);
     this.auth = auth;
-    this.internalApi.accessToken = this.auth?.junoApiKey;
+    this.internalApi = new EmailApi(new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey }));
   }
 
   async getEmailConfig(
     projectId: string,
     credentials?: ApiCredentials
   ): Promise<EmailConfigResponse> {
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -46,11 +46,10 @@ export class EmailAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res = await this.internalApi.emailControllerGetEmailConfigById(
-      projectId,
+    return await this.internalApi.emailControllerGetEmailConfigById(
+      { id: projectId },
       { headers }
     );
-    return res.body;
   }
 
   async setupEmail(
@@ -61,9 +60,7 @@ export class EmailAPI {
 
     validateSendGridKey(sendgridKey);
 
-    const headers: any = {
-      Authorization: `Bearer ${this.auth.junoApiKey}`,
-    };
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -71,11 +68,10 @@ export class EmailAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const result = await this.internalApi.emailControllerSetup(options, {
-      headers,
-    });
-
-    return result.body;
+    return await this.internalApi.emailControllerSetup(
+      { setupEmailServiceModel: options },
+      { headers }
+    );
   }
 
   async sendEmail(
@@ -112,23 +108,22 @@ export class EmailAPI {
         'Parameter contents cannot be an empty array'
       );
     }
-    recipients.forEach((recipient) => validateEmailRecipient(recipient));
+    recipients?.forEach((recipient) => validateEmailRecipient(recipient));
     contents.forEach((content) => validateEmailContent(content));
     validateEmailSender(sender);
 
     try {
-      const sendEmailModel = new SendEmailModel();
-      sendEmailModel.sender = sender;
-      sendEmailModel.content = contents;
-      sendEmailModel.recipients = recipients ?? [];
-      sendEmailModel.replyToList = replyToList ?? [];
-      sendEmailModel.cc = cc ?? [];
-      sendEmailModel.bcc = bcc ?? [];
-      sendEmailModel.subject = options.subject;
-
-      const headers: any = {
-        Authorization: `Bearer ${this.auth.junoApiKey}`,
+      const sendEmailModel: SendEmailModel = {
+        sender,
+        content: contents,
+        recipients: recipients ?? [],
+        replyToList: replyToList ?? [],
+        cc: cc ?? [],
+        bcc: bcc ?? [],
+        subject: options.subject,
       };
+
+      const headers: Record<string, string> = {};
       if (credentials?.userJwt) {
         headers['X-User-JWT'] = credentials.userJwt;
       }
@@ -136,13 +131,10 @@ export class EmailAPI {
         headers['X-Project-Id'] = String(credentials.projectId);
       }
 
-      const result = await this.internalApi.emailControllerSendEmail(
-        sendEmailModel,
-        {
-          headers,
-        }
+      return await this.internalApi.emailControllerSendEmail(
+        { sendEmailModel },
+        { headers }
       );
-      return result.body;
     } catch (e) {
       throw e;
     }
@@ -179,20 +171,19 @@ export class EmailAPI {
         : email;
 
     try {
-      const registerEmailModel = new RegisterEmailModel();
-      registerEmailModel.email = email;
-      registerEmailModel.name = name;
-      registerEmailModel.replyTo = replyTo;
-      registerEmailModel.address = address;
-      registerEmailModel.nickname = nickname;
-      registerEmailModel.zip = zip;
-      registerEmailModel.city = city;
-      registerEmailModel.state = state;
-      registerEmailModel.country = country;
-
-      const headers: any = {
-        Authorization: `Bearer ${this.auth.junoApiKey}`,
+      const registerEmailModel: RegisterEmailModel = {
+        email,
+        name,
+        replyTo,
+        address,
+        nickname,
+        zip,
+        city,
+        state,
+        country,
       };
+
+      const headers: Record<string, string> = {};
       if (credentials?.userJwt) {
         headers['X-User-JWT'] = credentials.userJwt;
       }
@@ -200,14 +191,10 @@ export class EmailAPI {
         headers['X-Project-Id'] = String(credentials.projectId);
       }
 
-      const result =
-        await this.internalApi.emailControllerRegisterSenderAddress(
-          registerEmailModel,
-          {
-            headers,
-          }
-        );
-      return result.body;
+      return await this.internalApi.emailControllerRegisterSenderAddress(
+        { registerEmailModel },
+        { headers }
+      );
     } catch (e) {
       throw e;
     }
@@ -224,13 +211,12 @@ export class EmailAPI {
     validateString(domain, 'Domain cannot be null or empty string');
 
     try {
-      const registerDomainModel = new RegisterDomainModel();
-      registerDomainModel.domain = domain;
-      registerDomainModel.subdomain = subdomain;
-
-      const headers: any = {
-        Authorization: `Bearer ${this.auth.junoApiKey}`,
+      const registerDomainModel: RegisterDomainModel = {
+        domain,
+        subdomain,
       };
+
+      const headers: Record<string, string> = {};
       if (credentials?.userJwt) {
         headers['X-User-JWT'] = credentials.userJwt;
       }
@@ -238,13 +224,10 @@ export class EmailAPI {
         headers['X-Project-Id'] = String(credentials.projectId);
       }
 
-      const result = await this.internalApi.emailControllerRegisterEmailDomain(
-        registerDomainModel,
-        {
-          headers,
-        }
+      return await this.internalApi.emailControllerRegisterEmailDomain(
+        { registerDomainModel },
+        { headers }
       );
-      return result.body;
     } catch (e) {
       throw e;
     }
@@ -260,12 +243,11 @@ export class EmailAPI {
     validateString(domain, 'Domain cannot be null or empty string');
 
     try {
-      const verifyDomainModel = new VerifyDomainModel();
-      verifyDomainModel.domain = domain;
-
-      const headers: any = {
-        Authorization: `Bearer ${this.auth.junoApiKey}`,
+      const verifyDomainModel: VerifyDomainModel = {
+        domain,
       };
+
+      const headers: Record<string, string> = {};
       if (credentials?.userJwt) {
         headers['X-User-JWT'] = credentials.userJwt;
       }
@@ -273,13 +255,10 @@ export class EmailAPI {
         headers['X-Project-Id'] = String(credentials.projectId);
       }
 
-      const result = await this.internalApi.emailControllerVerifySenderDomain(
-        verifyDomainModel,
-        {
-          headers,
-        }
+      return await this.internalApi.emailControllerVerifySenderDomain(
+        { verifyDomainModel },
+        { headers }
       );
-      return result.body;
     } catch (e) {
       throw e;
     }
@@ -299,9 +278,7 @@ export class EmailAPI {
 
     validateString(startDate, 'startDate must be non-empty');
 
-    const headers: any = {
-      Authorization: `Bearer ${this.auth.junoApiKey}`,
-    };
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -309,20 +286,9 @@ export class EmailAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const queryParams: any = { startDate };
-    if (endDate) queryParams.endDate = endDate;
-    if (limit !== undefined) queryParams.limit = limit;
-    if (offset !== undefined) queryParams.offset = offset;
-    if (aggregatedBy) queryParams.aggregatedBy = aggregatedBy;
-
-    const result = await this.internalApi.emailControllerGetStatistics(
-      startDate,
-      limit,
-      offset,
-      aggregatedBy as any,
-      endDate,
+    return await this.internalApi.emailControllerGetStatistics(
+      { startDate, limit, offset, aggregatedBy: aggregatedBy as any, endDate },
       { headers }
     );
-    return result.body;
   }
 }
