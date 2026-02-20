@@ -3,6 +3,9 @@ import {
   IssueApiKeyResponse,
   IssueApiKeyRequest,
   IssueJWTResponse,
+  NewAccountRequestResponse,
+  NewAccountRequestsResponse,
+  RequestNewAccountModel,
 } from '../internal/api';
 import { validateString } from './validators';
 
@@ -94,6 +97,88 @@ export class AuthAPI {
     try {
       const result = await this.internalApi.authControllerGetApiKeyJWT(apiKey);
 
+      return result.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async requestNewAccount(options: {
+    email: string;
+    name: string;
+    password: string;
+    userType: RequestNewAccountModel.UserTypeEnum;
+    projectName?: string;
+  }): Promise<NewAccountRequestResponse> {
+    let { email, name, password, userType, projectName } = options;
+
+    validateString(email, 'The email must be nonempty');
+    validateString(name, 'The name must be nonempty');
+    validateString(password, 'The password must be nonempty');
+
+    email = email.trim();
+    name = name.trim();
+    password = password.trim();
+    projectName = projectName?.trim();
+    try {
+      const requestNewAccountModel: RequestNewAccountModel = {
+        email,
+        name,
+        password,
+        userType,
+        projectName,
+      };
+      const result = await this.internalApi.authControllerCreateAccountRequest(
+        requestNewAccountModel
+      );
+      return result.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getAllAccountRequests(options: {
+    email: string;
+    password: string;
+  }): Promise<NewAccountRequestsResponse> {
+    let { email, password } = options;
+
+    validateString(email, 'The email must be nonempty');
+    validateString(password, 'The password must be nonempty');
+
+    email = email.trim();
+    password = password.trim();
+    try {
+      const result = await this.internalApi.authControllerGetAllAccountRequests(
+        password,
+        email
+      );
+      return result.body;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async deleteAccountRequest(options: {
+    id: string;
+    email: string;
+    password: string;
+  }): Promise<NewAccountRequestResponse> {
+    let { id, email, password } = options;
+
+    validateString(id, 'The request ID must be nonempty');
+    validateString(email, 'The email must be nonempty');
+    validateString(password, 'The password must be nonempty');
+
+    id = id.trim();
+    email = email.trim();
+    password = password.trim();
+    try {
+      const result = await this.internalApi.authControllerDeleteAccountRequest(
+        id,
+        password,
+        email
+      );
       return result.body;
     } catch (e) {
       throw e;
