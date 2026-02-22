@@ -38,7 +38,7 @@ export class AnalyticsConfigAPI {
 
     return await this.internalApi.analyticsConfigControllerCreateAnalyticsConfig(
       { createAnalyticsConfigModel: config },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -61,7 +61,7 @@ export class AnalyticsConfigAPI {
 
     return await this.internalApi.analyticsConfigControllerGetAnalyticsConfig(
       { projectId },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 

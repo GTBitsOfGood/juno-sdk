@@ -223,7 +223,7 @@ export class AnalyticsAPI {
 
     return await this.internalApi.analyticsControllerGetCustomEventTypes(
       { projectName },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -273,7 +273,7 @@ export class AnalyticsAPI {
 
     return await this.internalApi.analyticsControllerGetAllClickEvents(
       { projectName, afterTime, limit },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -302,7 +302,7 @@ export class AnalyticsAPI {
 
     return await this.internalApi.analyticsControllerGetAllVisitEvents(
       { projectName, afterTime, limit },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -331,7 +331,7 @@ export class AnalyticsAPI {
 
     return await this.internalApi.analyticsControllerGetAllInputEvents(
       { projectName, afterTime, limit },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -372,7 +372,7 @@ export class AnalyticsAPI {
 
     return await this.internalApi.analyticsControllerGetAllCustomEvents(
       { projectName, category, subcategory, afterTime, limit },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 }

@@ -46,7 +46,9 @@ export class FileAPI {
     if (credentials?.projectId !== undefined) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
-    return await this.configApi.fileConfigControllerSetup({ headers });
+    return await this.configApi.fileConfigControllerSetup(
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+    );
   }
 
   async getConfig(
@@ -63,7 +65,7 @@ export class FileAPI {
 
     return await this.configApi.fileConfigControllerGetFileConfigByProjectId(
       { projectId },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -81,7 +83,7 @@ export class FileAPI {
 
     return await this.configApi.fileConfigControllerDeleteFileConfigByProjectId(
       { projectId },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -124,7 +126,7 @@ export class FileAPI {
 
     return await this.providerApi.fileProviderControllerRegisterFileProvider(
       { registerFileProviderModel: model },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -143,7 +145,7 @@ export class FileAPI {
 
     return await this.providerApi.fileProviderControllerDeleteFileProvider(
       { name },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -159,7 +161,7 @@ export class FileAPI {
     }
 
     return await this.providerApi.fileProviderControllerGetAllFileProviders(
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -197,7 +199,7 @@ export class FileAPI {
 
     return await this.bucketApi.fileBucketControllerRegisterFileBucket(
       { registerFileBucketModel: model },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -222,7 +224,7 @@ export class FileAPI {
 
     return await this.bucketApi.fileBucketControllerDeleteFileBucket(
       { deleteFileBucketModel: options },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -240,7 +242,7 @@ export class FileAPI {
 
     return await this.bucketApi.fileBucketControllerGetBucketsByConfigIdAndEnv(
       { configId },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 

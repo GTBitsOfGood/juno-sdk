@@ -38,7 +38,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerCreateUser(
         { createUserModel },
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerCreateUser({
@@ -69,7 +69,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerLinkUserWithProjectId(
         { id: userId, linkProjectModel: project },
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerLinkUserWithProjectId({
@@ -96,7 +96,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerSetUserType(
         { setUserTypeModel: input },
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerSetUserType({
@@ -119,7 +119,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerGetAllUsers(
         {},
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerGetAllUsers({
@@ -151,7 +151,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerUnlinkUserFromProject(
         { id: userId, unlinkProjectModel: project },
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerUnlinkUserFromProject({
@@ -175,7 +175,7 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerDeleteUserById(
         { id: userId },
-        { headers: { Authorization: `Bearer ${credentials}` } }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
       return await this.internalApi.userControllerDeleteUserById({

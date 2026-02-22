@@ -48,7 +48,7 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerGetEmailConfigById(
       { id: projectId },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -70,7 +70,7 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerSetup(
       { setupEmailServiceModel: options },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 
@@ -133,7 +133,7 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerSendEmail(
         { sendEmailModel },
-        { headers }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
       );
     } catch (e) {
       throw e;
@@ -193,7 +193,7 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerRegisterSenderAddress(
         { registerEmailModel },
-        { headers }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
       );
     } catch (e) {
       throw e;
@@ -226,7 +226,7 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerRegisterEmailDomain(
         { registerDomainModel },
-        { headers }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
       );
     } catch (e) {
       throw e;
@@ -257,7 +257,7 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerVerifySenderDomain(
         { verifyDomainModel },
-        { headers }
+        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
       );
     } catch (e) {
       throw e;
@@ -288,7 +288,7 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerGetStatistics(
       { startDate, limit, offset, aggregatedBy: aggregatedBy as any, endDate },
-      { headers }
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
     );
   }
 }
