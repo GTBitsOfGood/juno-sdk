@@ -52,7 +52,7 @@ export class UserAPI {
     userId: string;
     project: LinkProjectModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse> {
+  }): Promise<void> {
     let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
@@ -67,12 +67,12 @@ export class UserAPI {
     validateUserCredentials(credentials);
 
     if (typeof credentials == 'string') {
-      return await this.internalApi.userControllerLinkUserWithProjectId(
+      await this.internalApi.userControllerLinkUserWithProjectIdRaw(
         { id: userId, linkProjectModel: project },
         async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
-      return await this.internalApi.userControllerLinkUserWithProjectId({
+      await this.internalApi.userControllerLinkUserWithProjectIdRaw({
         id: userId,
         linkProjectModel: project,
         xUserPassword: credentials.password,
@@ -84,7 +84,7 @@ export class UserAPI {
   async setUserType(options: {
     input: SetUserTypeModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse | null | undefined> {
+  }): Promise<void> {
     const { input, credentials } = options;
     if (input.email) {
       input.email = input.email.trim();
@@ -94,12 +94,12 @@ export class UserAPI {
     validateUserCredentials(credentials);
 
     if (typeof credentials == 'string') {
-      return await this.internalApi.userControllerSetUserType(
+      await this.internalApi.userControllerSetUserTypeRaw(
         { setUserTypeModel: input },
         async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
-      return await this.internalApi.userControllerSetUserType({
+      await this.internalApi.userControllerSetUserTypeRaw({
         setUserTypeModel: input,
         xUserPassword: credentials.password,
         xUserEmail: credentials.email,
@@ -133,7 +133,7 @@ export class UserAPI {
     userId: string;
     project: UnlinkProjectModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse> {
+  }): Promise<void> {
     let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
@@ -149,12 +149,12 @@ export class UserAPI {
     validateUserCredentials(credentials);
 
     if (typeof credentials == 'string') {
-      return await this.internalApi.userControllerUnlinkUserFromProject(
+      await this.internalApi.userControllerUnlinkUserFromProjectRaw(
         { id: userId, unlinkProjectModel: project },
         async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
       );
     } else {
-      return await this.internalApi.userControllerUnlinkUserFromProject({
+      await this.internalApi.userControllerUnlinkUserFromProjectRaw({
         id: userId,
         unlinkProjectModel: project,
         xUserPassword: credentials.password,

@@ -18,6 +18,9 @@ import type {
   IssueApiKeyRequest,
   IssueApiKeyResponse,
   IssueJWTResponse,
+  NewAccountRequestResponse,
+  NewAccountRequestsResponse,
+  RequestNewAccountModel,
 } from '../models/index';
 import {
     IssueApiKeyRequestFromJSON,
@@ -26,7 +29,17 @@ import {
     IssueApiKeyResponseToJSON,
     IssueJWTResponseFromJSON,
     IssueJWTResponseToJSON,
+    NewAccountRequestResponseFromJSON,
+    NewAccountRequestResponseToJSON,
+    NewAccountRequestsResponseFromJSON,
+    NewAccountRequestsResponseToJSON,
+    RequestNewAccountModelFromJSON,
+    RequestNewAccountModelToJSON,
 } from '../models/index';
+
+export interface AuthControllerCreateAccountRequestRequest {
+    requestNewAccountModel: RequestNewAccountModel;
+}
 
 export interface AuthControllerCreateApiKeyRequest {
     xUserPassword: string;
@@ -34,8 +47,19 @@ export interface AuthControllerCreateApiKeyRequest {
     issueApiKeyRequest: IssueApiKeyRequest;
 }
 
+export interface AuthControllerDeleteAccountRequestRequest {
+    id: string;
+    xUserPassword: string;
+    xUserEmail: string;
+}
+
 export interface AuthControllerDeleteApiKeyRequest {
     authorization: string;
+}
+
+export interface AuthControllerGetAllAccountRequestsRequest {
+    xUserPassword: string;
+    xUserEmail: string;
 }
 
 export interface AuthControllerGetApiKeyJWTRequest {
@@ -55,6 +79,44 @@ export interface AuthControllerTestAuthRequest {
  * 
  */
 export class AuthApi extends runtime.BaseAPI {
+
+    /**
+     * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
+     * Submit a new account request
+     */
+    async authControllerCreateAccountRequestRaw(requestParameters: AuthControllerCreateAccountRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NewAccountRequestResponse>> {
+        if (requestParameters['requestNewAccountModel'] == null) {
+            throw new runtime.RequiredError(
+                'requestNewAccountModel',
+                'Required parameter "requestNewAccountModel" was null or undefined when calling authControllerCreateAccountRequest().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/auth/account-request`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RequestNewAccountModelToJSON(requestParameters['requestNewAccountModel']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NewAccountRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
+     * Submit a new account request
+     */
+    async authControllerCreateAccountRequest(requestParameters: AuthControllerCreateAccountRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NewAccountRequestResponse> {
+        const response = await this.authControllerCreateAccountRequestRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Issues a new API key for the project tied to the specified environment.
@@ -115,6 +177,71 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
+     * Deletes an account request by its ID. Requires admin or superadmin credentials.
+     * Delete an account request by ID
+     */
+    async authControllerDeleteAccountRequestRaw(requestParameters: AuthControllerDeleteAccountRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NewAccountRequestResponse>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling authControllerDeleteAccountRequest().'
+            );
+        }
+
+        if (requestParameters['xUserPassword'] == null) {
+            throw new runtime.RequiredError(
+                'xUserPassword',
+                'Required parameter "xUserPassword" was null or undefined when calling authControllerDeleteAccountRequest().'
+            );
+        }
+
+        if (requestParameters['xUserEmail'] == null) {
+            throw new runtime.RequiredError(
+                'xUserEmail',
+                'Required parameter "xUserEmail" was null or undefined when calling authControllerDeleteAccountRequest().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xUserPassword'] != null) {
+            headerParameters['X-User-Password'] = String(requestParameters['xUserPassword']);
+        }
+
+        if (requestParameters['xUserEmail'] != null) {
+            headerParameters['X-User-Email'] = String(requestParameters['xUserEmail']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("API_Key", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/auth/account-request/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NewAccountRequestResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Deletes an account request by its ID. Requires admin or superadmin credentials.
+     * Delete an account request by ID
+     */
+    async authControllerDeleteAccountRequest(requestParameters: AuthControllerDeleteAccountRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NewAccountRequestResponse> {
+        const response = await this.authControllerDeleteAccountRequestRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Deletes an API key, detaching it from its project.
      */
     async authControllerDeleteApiKeyRaw(requestParameters: AuthControllerDeleteApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -156,6 +283,64 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async authControllerDeleteApiKey(requestParameters: AuthControllerDeleteApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.authControllerDeleteApiKeyRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Returns all pending account requests. Requires admin or superadmin credentials.
+     * Retrieve all account requests
+     */
+    async authControllerGetAllAccountRequestsRaw(requestParameters: AuthControllerGetAllAccountRequestsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NewAccountRequestsResponse>> {
+        if (requestParameters['xUserPassword'] == null) {
+            throw new runtime.RequiredError(
+                'xUserPassword',
+                'Required parameter "xUserPassword" was null or undefined when calling authControllerGetAllAccountRequests().'
+            );
+        }
+
+        if (requestParameters['xUserEmail'] == null) {
+            throw new runtime.RequiredError(
+                'xUserEmail',
+                'Required parameter "xUserEmail" was null or undefined when calling authControllerGetAllAccountRequests().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xUserPassword'] != null) {
+            headerParameters['X-User-Password'] = String(requestParameters['xUserPassword']);
+        }
+
+        if (requestParameters['xUserEmail'] != null) {
+            headerParameters['X-User-Email'] = String(requestParameters['xUserEmail']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("API_Key", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/auth/account-request`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NewAccountRequestsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns all pending account requests. Requires admin or superadmin credentials.
+     * Retrieve all account requests
+     */
+    async authControllerGetAllAccountRequests(requestParameters: AuthControllerGetAllAccountRequestsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NewAccountRequestsResponse> {
+        const response = await this.authControllerGetAllAccountRequestsRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
