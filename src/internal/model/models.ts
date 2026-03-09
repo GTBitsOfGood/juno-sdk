@@ -1,5 +1,8 @@
 import localVarRequest from 'request';
 
+export * from './acceptAccountRequestResponseModel';
+export * from './acceptAccountRequestResponseProject';
+export * from './acceptAccountRequestResponseUser';
 export * from './accessKey';
 export * from './aggregateInterval';
 export * from './analyticsConfigResponse';
@@ -46,6 +49,8 @@ export * from './logCustomEventRequest';
 export * from './logInputEventRequest';
 export * from './logVisitEventRequest';
 export * from './modelFile';
+export * from './newAccountRequestResponse';
+export * from './newAccountRequestsResponse';
 export * from './projectResponse';
 export * from './registerDomainModel';
 export * from './registerDomainResponse';
@@ -53,6 +58,7 @@ export * from './registerEmailModel';
 export * from './registerEmailResponse';
 export * from './registerFileBucketModel';
 export * from './registerFileProviderModel';
+export * from './requestNewAccountModel';
 export * from './sendEmailModel';
 export * from './sendEmailResponse';
 export * from './sendEmailStatisticsResponse';
@@ -85,6 +91,9 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
+import { AcceptAccountRequestResponseModel } from './acceptAccountRequestResponseModel';
+import { AcceptAccountRequestResponseProject } from './acceptAccountRequestResponseProject';
+import { AcceptAccountRequestResponseUser } from './acceptAccountRequestResponseUser';
 import { AccessKey } from './accessKey';
 import { AggregateInterval } from './aggregateInterval';
 import { AnalyticsConfigResponse } from './analyticsConfigResponse';
@@ -131,6 +140,8 @@ import { LogCustomEventRequest } from './logCustomEventRequest';
 import { LogInputEventRequest } from './logInputEventRequest';
 import { LogVisitEventRequest } from './logVisitEventRequest';
 import { ModelFile } from './modelFile';
+import { NewAccountRequestResponse } from './newAccountRequestResponse';
+import { NewAccountRequestsResponse } from './newAccountRequestsResponse';
 import { ProjectResponse } from './projectResponse';
 import { RegisterDomainModel } from './registerDomainModel';
 import { RegisterDomainResponse } from './registerDomainResponse';
@@ -138,6 +149,7 @@ import { RegisterEmailModel } from './registerEmailModel';
 import { RegisterEmailResponse } from './registerEmailResponse';
 import { RegisterFileBucketModel } from './registerFileBucketModel';
 import { RegisterFileProviderModel } from './registerFileProviderModel';
+import { RequestNewAccountModel } from './requestNewAccountModel';
 import { SendEmailModel } from './sendEmailModel';
 import { SendEmailResponse } from './sendEmailResponse';
 import { SendEmailStatisticsResponse } from './sendEmailStatisticsResponse';
@@ -171,12 +183,20 @@ let primitives = [
 ];
 
 let enumsMap: { [index: string]: any } = {
+  'AcceptAccountRequestResponseUser.TypeEnum':
+    AcceptAccountRequestResponseUser.TypeEnum,
   AggregateInterval: AggregateInterval,
+  'NewAccountRequestResponse.UserTypeEnum':
+    NewAccountRequestResponse.UserTypeEnum,
+  'RequestNewAccountModel.UserTypeEnum': RequestNewAccountModel.UserTypeEnum,
   'SetUserTypeModel.TypeEnum': SetUserTypeModel.TypeEnum,
   'UserResponse.TypeEnum': UserResponse.TypeEnum,
 };
 
 let typeMap: { [index: string]: any } = {
+  AcceptAccountRequestResponseModel: AcceptAccountRequestResponseModel,
+  AcceptAccountRequestResponseProject: AcceptAccountRequestResponseProject,
+  AcceptAccountRequestResponseUser: AcceptAccountRequestResponseUser,
   AccessKey: AccessKey,
   AnalyticsConfigResponse: AnalyticsConfigResponse,
   ClickEventProperties: ClickEventProperties,
@@ -222,6 +242,8 @@ let typeMap: { [index: string]: any } = {
   LogInputEventRequest: LogInputEventRequest,
   LogVisitEventRequest: LogVisitEventRequest,
   ModelFile: ModelFile,
+  NewAccountRequestResponse: NewAccountRequestResponse,
+  NewAccountRequestsResponse: NewAccountRequestsResponse,
   ProjectResponse: ProjectResponse,
   RegisterDomainModel: RegisterDomainModel,
   RegisterDomainResponse: RegisterDomainResponse,
@@ -229,6 +251,7 @@ let typeMap: { [index: string]: any } = {
   RegisterEmailResponse: RegisterEmailResponse,
   RegisterFileBucketModel: RegisterFileBucketModel,
   RegisterFileProviderModel: RegisterFileProviderModel,
+  RequestNewAccountModel: RequestNewAccountModel,
   SendEmailModel: SendEmailModel,
   SendEmailResponse: SendEmailResponse,
   SendEmailStatisticsResponse: SendEmailStatisticsResponse,
