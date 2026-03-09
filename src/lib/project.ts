@@ -43,7 +43,12 @@ export class ProjectAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.projectControllerCreateProject(
         { createProjectModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.projectControllerCreateProject({
@@ -104,7 +109,12 @@ export class ProjectAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.projectControllerGetUsersByProject(
         { id: projectId },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.projectControllerGetUsersByProject({
@@ -115,15 +125,18 @@ export class ProjectAPI {
     }
   }
 
-  async getProjects(
-    credentials: UserCredentials
-  ): Promise<ProjectResponses> {
+  async getProjects(credentials: UserCredentials): Promise<ProjectResponses> {
     validateUserCredentials(credentials);
 
     if (typeof credentials == 'string') {
       return await this.internalApi.projectControllerGetAllProjects(
         {},
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.projectControllerGetAllProjects({
@@ -149,7 +162,12 @@ export class ProjectAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.projectControllerDeleteProjectById(
         { id: project.id.toString() },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.projectControllerDeleteProjectById({

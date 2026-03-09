@@ -38,7 +38,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerCreateUser(
         { createUserModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.userControllerCreateUser({
@@ -69,7 +74,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       await this.internalApi.userControllerLinkUserWithProjectIdRaw(
         { id: userId, linkProjectModel: project },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       await this.internalApi.userControllerLinkUserWithProjectIdRaw({
@@ -96,7 +106,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       await this.internalApi.userControllerSetUserTypeRaw(
         { setUserTypeModel: input },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       await this.internalApi.userControllerSetUserTypeRaw({
@@ -119,7 +134,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerGetAllUsers(
         {},
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.userControllerGetAllUsers({
@@ -151,7 +171,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       await this.internalApi.userControllerUnlinkUserFromProjectRaw(
         { id: userId, unlinkProjectModel: project },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       await this.internalApi.userControllerUnlinkUserFromProjectRaw({
@@ -175,7 +200,12 @@ export class UserAPI {
     if (typeof credentials == 'string') {
       return await this.internalApi.userControllerDeleteUserById(
         { id: userId },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${credentials}` } })
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
       return await this.internalApi.userControllerDeleteUserById({

@@ -26,7 +26,9 @@ import { validateString } from './validators';
 export class AnalyticsAPI {
   private internalApi: AnalyticsApi;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AnalyticsApi(new Configuration({ basePath: baseURL, accessToken: apiKey }));
+    this.internalApi = new AnalyticsApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
 
   async logClickEvent(
@@ -42,7 +44,9 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerLogClickEvent({ logClickEventRequest: event });
+    return await this.internalApi.analyticsControllerLogClickEvent({
+      logClickEventRequest: event,
+    });
   }
 
   async getClickEventsPaginated(event: {
@@ -80,7 +84,9 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerLogVisitEvent({ logVisitEventRequest: event });
+    return await this.internalApi.analyticsControllerLogVisitEvent({
+      logVisitEventRequest: event,
+    });
   }
 
   async getVisitEventsPaginated(event: {
@@ -118,7 +124,9 @@ export class AnalyticsAPI {
       'The userId must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerLogInputEvent({ logInputEventRequest: event });
+    return await this.internalApi.analyticsControllerLogInputEvent({
+      logInputEventRequest: event,
+    });
   }
 
   async getInputEventsPaginated(event: {
@@ -156,7 +164,9 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerLogCustomEvent({ logCustomEventRequest: event });
+    return await this.internalApi.analyticsControllerLogCustomEvent({
+      logCustomEventRequest: event,
+    });
   }
 
   async getCustomEventsPaginated(event: {
@@ -217,13 +227,18 @@ export class AnalyticsAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsControllerGetCustomEventTypes(
       { projectName },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -267,13 +282,18 @@ export class AnalyticsAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsControllerGetAllClickEvents(
       { projectName, afterTime, limit },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -296,13 +316,18 @@ export class AnalyticsAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsControllerGetAllVisitEvents(
       { projectName, afterTime, limit },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -325,13 +350,18 @@ export class AnalyticsAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsControllerGetAllInputEvents(
       { projectName, afterTime, limit },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -366,13 +396,18 @@ export class AnalyticsAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsControllerGetAllCustomEvents(
       { projectName, category, subcategory, afterTime, limit },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 }

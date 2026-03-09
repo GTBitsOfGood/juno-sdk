@@ -18,10 +18,12 @@ export class AuthAPI {
   private apiKey?: string;
   constructor(baseURL?: string, apiKey?: string) {
     this.apiKey = apiKey;
-    this.internalApi = new AuthApi(new Configuration({ basePath: baseURL, accessToken: apiKey }));
+    this.internalApi = new AuthApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
   get junoApiKey(): string {
-    return this.apiKey || "";
+    return this.apiKey || '';
   }
   async createKey(options: {
     email: string;
@@ -68,7 +70,9 @@ export class AuthAPI {
 
     apiKey = apiKey.trim();
     try {
-      return await this.internalApi.authControllerDeleteApiKey({ authorization: apiKey });
+      return await this.internalApi.authControllerDeleteApiKey({
+        authorization: apiKey,
+      });
     } catch (e) {
       throw e;
     }
@@ -92,7 +96,9 @@ export class AuthAPI {
   async getApiKeyJWT(options: { apiKey: string }): Promise<IssueJWTResponse> {
     const { apiKey } = options;
     try {
-      return await this.internalApi.authControllerGetApiKeyJWT({ authorization: apiKey });
+      return await this.internalApi.authControllerGetApiKeyJWT({
+        authorization: apiKey,
+      });
     } catch (e) {
       throw e;
     }
@@ -120,7 +126,9 @@ export class AuthAPI {
       projectName: projectName?.trim(),
     };
 
-    return await this.internalApi.authControllerCreateAccountRequest({ requestNewAccountModel });
+    return await this.internalApi.authControllerCreateAccountRequest({
+      requestNewAccountModel,
+    });
   }
 
   async getAllAccountRequests(options: {

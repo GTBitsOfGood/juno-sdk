@@ -11,7 +11,9 @@ import { validateString } from './validators';
 export class AnalyticsConfigAPI {
   private internalApi: AnalyticsConfigApi;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AnalyticsConfigApi(new Configuration({ basePath: baseURL, accessToken: apiKey }));
+    this.internalApi = new AnalyticsConfigApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
 
   async createAnalyticsConfig(
@@ -32,13 +34,18 @@ export class AnalyticsConfigAPI {
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
-    if (credentials?.projectId !== undefined && credentials.projectId !== null) {
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
     return await this.internalApi.analyticsConfigControllerCreateAnalyticsConfig(
       { createAnalyticsConfigModel: config },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -61,7 +68,9 @@ export class AnalyticsConfigAPI {
 
     return await this.internalApi.analyticsConfigControllerGetAnalyticsConfig(
       { projectId },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -74,10 +83,12 @@ export class AnalyticsConfigAPI {
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsConfigControllerUpdateAnalyticsConfig({
-      projectId,
-      updateAnalyticsConfigModel: config,
-    });
+    return await this.internalApi.analyticsConfigControllerUpdateAnalyticsConfig(
+      {
+        projectId,
+        updateAnalyticsConfigModel: config,
+      }
+    );
   }
 
   async deleteAnalyticsConfig(
@@ -88,6 +99,8 @@ export class AnalyticsConfigAPI {
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsConfigControllerDeleteAnalyticsConfig({ projectId });
+    return await this.internalApi.analyticsConfigControllerDeleteAnalyticsConfig(
+      { projectId }
+    );
   }
 }

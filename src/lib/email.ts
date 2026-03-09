@@ -31,7 +31,9 @@ export class EmailAPI {
   private auth?: AuthAPI;
   constructor(baseURL?: string, auth?: AuthAPI) {
     this.auth = auth;
-    this.internalApi = new EmailApi(new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey }));
+    this.internalApi = new EmailApi(
+      new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey })
+    );
   }
 
   async getEmailConfig(
@@ -48,7 +50,9 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerGetEmailConfigById(
       { id: projectId },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -70,7 +74,9 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerSetup(
       { setupEmailServiceModel: options },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 
@@ -133,7 +139,9 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerSendEmail(
         { sendEmailModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
       );
     } catch (e) {
       throw e;
@@ -193,7 +201,9 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerRegisterSenderAddress(
         { registerEmailModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
       );
     } catch (e) {
       throw e;
@@ -226,7 +236,9 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerRegisterEmailDomain(
         { registerDomainModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
       );
     } catch (e) {
       throw e;
@@ -257,7 +269,9 @@ export class EmailAPI {
 
       return await this.internalApi.emailControllerVerifySenderDomain(
         { verifyDomainModel },
-        async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
       );
     } catch (e) {
       throw e;
@@ -288,7 +302,9 @@ export class EmailAPI {
 
     return await this.internalApi.emailControllerGetStatistics(
       { startDate, limit, offset, aggregatedBy: aggregatedBy as any, endDate },
-      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), ...headers } })
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
     );
   }
 }
