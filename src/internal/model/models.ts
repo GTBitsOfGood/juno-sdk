@@ -1,5 +1,8 @@
 import localVarRequest from 'request';
 
+export * from './acceptAccountRequestResponseModel';
+export * from './acceptAccountRequestResponseProject';
+export * from './acceptAccountRequestResponseUser';
 export * from './accessKey';
 export * from './aggregateInterval';
 export * from './analyticsConfigResponse';
@@ -88,6 +91,9 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
+import { AcceptAccountRequestResponseModel } from './acceptAccountRequestResponseModel';
+import { AcceptAccountRequestResponseProject } from './acceptAccountRequestResponseProject';
+import { AcceptAccountRequestResponseUser } from './acceptAccountRequestResponseUser';
 import { AccessKey } from './accessKey';
 import { AggregateInterval } from './aggregateInterval';
 import { AnalyticsConfigResponse } from './analyticsConfigResponse';
@@ -177,6 +183,8 @@ let primitives = [
 ];
 
 let enumsMap: { [index: string]: any } = {
+  'AcceptAccountRequestResponseUser.TypeEnum':
+    AcceptAccountRequestResponseUser.TypeEnum,
   AggregateInterval: AggregateInterval,
   'NewAccountRequestResponse.UserTypeEnum':
     NewAccountRequestResponse.UserTypeEnum,
@@ -186,6 +194,9 @@ let enumsMap: { [index: string]: any } = {
 };
 
 let typeMap: { [index: string]: any } = {
+  AcceptAccountRequestResponseModel: AcceptAccountRequestResponseModel,
+  AcceptAccountRequestResponseProject: AcceptAccountRequestResponseProject,
+  AcceptAccountRequestResponseUser: AcceptAccountRequestResponseUser,
   AccessKey: AccessKey,
   AnalyticsConfigResponse: AnalyticsConfigResponse,
   ClickEventProperties: ClickEventProperties,

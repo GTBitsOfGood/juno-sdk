@@ -14,6 +14,7 @@ import localVarRequest from 'request';
 import http from 'http';
 
 /* tslint:disable:no-unused-locals */
+import { AcceptAccountRequestResponseModel } from '../model/acceptAccountRequestResponseModel';
 import { IssueApiKeyRequest } from '../model/issueApiKeyRequest';
 import { IssueApiKeyResponse } from '../model/issueApiKeyResponse';
 import { IssueJWTResponse } from '../model/issueJWTResponse';
@@ -109,6 +110,121 @@ export class AuthApi {
     this.interceptors.push(interceptor);
   }
 
+  /**
+   * Accepts a pending account request: creates the user, optionally creates/links a project (for ADMIN requests with a projectName), and deletes the pending request. Requires admin or superadmin credentials.
+   * @summary Accept an account request
+   * @param id ID of the account request to accept
+   * @param xUserPassword Password of the admin or superadmin user
+   * @param xUserEmail Email of an admin or superadmin user
+   */
+  public async authControllerAcceptAccountRequest(
+    id: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
+    options: { headers: { [name: string]: string } } = { headers: {} }
+  ): Promise<{
+    response: http.IncomingMessage;
+    body: AcceptAccountRequestResponseModel;
+  }> {
+    const localVarPath =
+      this.basePath +
+      '/auth/account-request/{id}/accept'.replace(
+        '{' + 'id' + '}',
+        encodeURIComponent(String(id))
+      );
+    let localVarQueryParameters: any = {};
+    let localVarHeaderParams: any = (<any>Object).assign(
+      {},
+      this._defaultHeaders
+    );
+    const produces = ['application/json'];
+    // give precedence to 'application/json'
+    if (produces.indexOf('application/json') >= 0) {
+      localVarHeaderParams.Accept = 'application/json';
+    } else {
+      localVarHeaderParams.Accept = produces.join(',');
+    }
+    let localVarFormParams: any = {};
+
+    // verify required parameter 'id' is not null or undefined
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling authControllerAcceptAccountRequest.'
+      );
+    }
+
+    localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
+      xUserPassword,
+      'string'
+    );
+    localVarHeaderParams['X-User-Email'] = ObjectSerializer.serialize(
+      xUserEmail,
+      'string'
+    );
+    (<any>Object).assign(localVarHeaderParams, options.headers);
+
+    let localVarUseFormData = false;
+
+    let localVarRequestOptions: localVarRequest.Options = {
+      method: 'POST',
+      qs: localVarQueryParameters,
+      headers: localVarHeaderParams,
+      uri: localVarPath,
+      useQuerystring: this._useQuerystring,
+      json: true,
+    };
+
+    let authenticationPromise = Promise.resolve();
+    if (this.authentications.API_Key.accessToken) {
+      authenticationPromise = authenticationPromise.then(() =>
+        this.authentications.API_Key.applyToRequest(localVarRequestOptions)
+      );
+    }
+    authenticationPromise = authenticationPromise.then(() =>
+      this.authentications.default.applyToRequest(localVarRequestOptions)
+    );
+
+    let interceptorPromise = authenticationPromise;
+    for (const interceptor of this.interceptors) {
+      interceptorPromise = interceptorPromise.then(() =>
+        interceptor(localVarRequestOptions)
+      );
+    }
+
+    return interceptorPromise.then(() => {
+      if (Object.keys(localVarFormParams).length) {
+        if (localVarUseFormData) {
+          (<any>localVarRequestOptions).formData = localVarFormParams;
+        } else {
+          localVarRequestOptions.form = localVarFormParams;
+        }
+      }
+      return new Promise<{
+        response: http.IncomingMessage;
+        body: AcceptAccountRequestResponseModel;
+      }>((resolve, reject) => {
+        localVarRequest(localVarRequestOptions, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            if (
+              response.statusCode &&
+              response.statusCode >= 200 &&
+              response.statusCode <= 299
+            ) {
+              body = ObjectSerializer.deserialize(
+                body,
+                'AcceptAccountRequestResponseModel'
+              );
+              resolve({ response: response, body: body });
+            } else {
+              reject(new HttpError(response, body, response.statusCode));
+            }
+          }
+        });
+      });
+    });
+  }
   /**
    * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
    * @summary Submit a new account request
@@ -335,8 +451,8 @@ export class AuthApi {
    */
   public async authControllerDeleteAccountRequest(
     id: string,
-    xUserPassword: string,
-    xUserEmail: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
@@ -366,20 +482,6 @@ export class AuthApi {
     if (id === null || id === undefined) {
       throw new Error(
         'Required parameter id was null or undefined when calling authControllerDeleteAccountRequest.'
-      );
-    }
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling authControllerDeleteAccountRequest.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling authControllerDeleteAccountRequest.'
       );
     }
 
@@ -549,8 +651,8 @@ export class AuthApi {
    * @param xUserEmail Email of an admin or superadmin user
    */
   public async authControllerGetAllAccountRequests(
-    xUserPassword: string,
-    xUserEmail: string,
+    xUserPassword?: string,
+    xUserEmail?: string,
     options: { headers: { [name: string]: string } } = { headers: {} }
   ): Promise<{
     response: http.IncomingMessage;
@@ -570,20 +672,6 @@ export class AuthApi {
       localVarHeaderParams.Accept = produces.join(',');
     }
     let localVarFormParams: any = {};
-
-    // verify required parameter 'xUserPassword' is not null or undefined
-    if (xUserPassword === null || xUserPassword === undefined) {
-      throw new Error(
-        'Required parameter xUserPassword was null or undefined when calling authControllerGetAllAccountRequests.'
-      );
-    }
-
-    // verify required parameter 'xUserEmail' is not null or undefined
-    if (xUserEmail === null || xUserEmail === undefined) {
-      throw new Error(
-        'Required parameter xUserEmail was null or undefined when calling authControllerGetAllAccountRequests.'
-      );
-    }
 
     localVarHeaderParams['X-User-Password'] = ObjectSerializer.serialize(
       xUserPassword,
