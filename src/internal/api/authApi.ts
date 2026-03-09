@@ -14,6 +14,7 @@ import localVarRequest from 'request';
 import http from 'http';
 
 /* tslint:disable:no-unused-locals */
+import { AcceptAccountRequestResponseModel } from '../model/acceptAccountRequestResponseModel';
 import { IssueApiKeyRequest } from '../model/issueApiKeyRequest';
 import { IssueApiKeyResponse } from '../model/issueApiKeyResponse';
 import { IssueJWTResponse } from '../model/issueJWTResponse';
