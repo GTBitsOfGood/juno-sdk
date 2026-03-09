@@ -117,7 +117,7 @@ export class AuthAPI {
       name: name.trim(),
       password: password.trim(),
       userType,
-      projectName,
+      projectName: projectName?.trim(),
     };
 
     return await this.internalApi.authControllerCreateAccountRequest({ requestNewAccountModel });
@@ -133,8 +133,8 @@ export class AuthAPI {
     validateString(password, 'The password must be nonempty');
 
     return await this.internalApi.authControllerGetAllAccountRequests({
-      xUserEmail: email,
-      xUserPassword: password,
+      xUserEmail: email.trim(),
+      xUserPassword: password.trim(),
     });
   }
 
@@ -150,9 +150,9 @@ export class AuthAPI {
     validateString(password, 'The password must be nonempty');
 
     return await this.internalApi.authControllerDeleteAccountRequest({
-      id,
-      xUserEmail: email,
-      xUserPassword: password,
+      id: id.trim(),
+      xUserEmail: email.trim(),
+      xUserPassword: password.trim(),
     });
   }
 }
