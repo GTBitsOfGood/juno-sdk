@@ -148,21 +148,25 @@ export class AuthAPI {
 
     validateUserCredentials(credentials);
 
-    let res: { body: any; response?: IncomingMessage };
+    try {
+      let res: { body: any; response?: IncomingMessage };
 
-    if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.authControllerGetAllAccountRequests(
-        undefined,
-        undefined
-      );
-    } else {
-      res = await this.internalApi.authControllerGetAllAccountRequests(
-        credentials.password,
-        credentials.email
-      );
+      if (typeof credentials == 'string') {
+        this.internalApi.accessToken = credentials;
+        res = await this.internalApi.authControllerGetAllAccountRequests(
+          undefined,
+          undefined
+        );
+      } else {
+        res = await this.internalApi.authControllerGetAllAccountRequests(
+          credentials.password,
+          credentials.email
+        );
+      }
+      return res.body;
+    } catch (e) {
+      throw e;
     }
-    return res.body;
   }
 
   async acceptAccountRequest(options: {
@@ -176,23 +180,27 @@ export class AuthAPI {
 
     id = id.trim();
 
-    let res: { body: any; response?: IncomingMessage };
+    try {
+      let res: { body: any; response?: IncomingMessage };
 
-    if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.authControllerAcceptAccountRequest(
-        id,
-        undefined,
-        undefined
-      );
-    } else {
-      res = await this.internalApi.authControllerAcceptAccountRequest(
-        id,
-        credentials.password,
-        credentials.email
-      );
+      if (typeof credentials == 'string') {
+        this.internalApi.accessToken = credentials;
+        res = await this.internalApi.authControllerAcceptAccountRequest(
+          id,
+          undefined,
+          undefined
+        );
+      } else {
+        res = await this.internalApi.authControllerAcceptAccountRequest(
+          id,
+          credentials.password,
+          credentials.email
+        );
+      }
+      return res.body;
+    } catch (e) {
+      throw e;
     }
-    return res.body;
   }
 
   async deleteAccountRequest(options: {
@@ -206,22 +214,26 @@ export class AuthAPI {
 
     id = id.trim();
 
-    let res: { body: any; response?: IncomingMessage };
+    try {
+      let res: { body: any; response?: IncomingMessage };
 
-    if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.authControllerDeleteAccountRequest(
-        id,
-        undefined,
-        undefined
-      );
-    } else {
-      res = await this.internalApi.authControllerDeleteAccountRequest(
-        id,
-        credentials.password,
-        credentials.email
-      );
+      if (typeof credentials == 'string') {
+        this.internalApi.accessToken = credentials;
+        res = await this.internalApi.authControllerDeleteAccountRequest(
+          id,
+          undefined,
+          undefined
+        );
+      } else {
+        res = await this.internalApi.authControllerDeleteAccountRequest(
+          id,
+          credentials.password,
+          credentials.email
+        );
+      }
+      return res.body;
+    } catch (e) {
+      throw e;
     }
-    return res.body;
   }
 }
