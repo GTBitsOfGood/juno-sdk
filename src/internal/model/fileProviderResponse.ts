@@ -11,13 +11,16 @@
  */
 
 import { RequestFile } from './models';
-import { NewAccountRequestResponse } from './newAccountRequestResponse';
 
-export class NewAccountRequestsResponse {
+export class FileProviderResponse {
   /**
-   * List of new account requests
+   * The unique provider name of the file provider
    */
-  'requests': Array<NewAccountRequestResponse>;
+  'providerName': string;
+  /**
+   * The metadata of the file provider
+   */
+  'metadata': string;
 
   static discriminator: string | undefined = undefined;
 
@@ -27,13 +30,18 @@ export class NewAccountRequestsResponse {
     type: string;
   }> = [
     {
-      name: 'requests',
-      baseName: 'requests',
-      type: 'Array<NewAccountRequestResponse>',
+      name: 'providerName',
+      baseName: 'providerName',
+      type: 'string',
+    },
+    {
+      name: 'metadata',
+      baseName: 'metadata',
+      type: 'string',
     },
   ];
 
   static getAttributeTypeMap() {
-    return NewAccountRequestsResponse.attributeTypeMap;
+    return FileProviderResponse.attributeTypeMap;
   }
 }
