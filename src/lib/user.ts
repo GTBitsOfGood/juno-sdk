@@ -1,20 +1,20 @@
-import { IncomingMessage } from 'http';
 import {
   UserApi,
+  Configuration,
   LinkProjectModel,
   SetUserTypeModel,
   CreateUserModel,
   UserResponse,
   UserResponses,
   UnlinkProjectModel,
-} from '../internal/api';
+} from '../internal/index';
 import { UserCredentials } from './auth';
 import { validateString, validateUserCredentials } from './validators';
 
 export class UserAPI {
   private internalApi: UserApi;
   constructor(baseURL?: string) {
-    this.internalApi = new UserApi(baseURL);
+    this.internalApi = new UserApi(new Configuration({ basePath: baseURL }));
   }
   async createUser(options: {
     email: string;
@@ -34,25 +34,30 @@ export class UserAPI {
     password = password.trim();
 
     const createUserModel: CreateUserModel = { email, name, password };
-    let res: { body: any; response?: IncomingMessage };
 
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.userControllerCreateUser(createUserModel);
-    } else {
-      res = await this.internalApi.userControllerCreateUser(
-        createUserModel,
-        credentials.password,
-        credentials.email
+      return await this.internalApi.userControllerCreateUser(
+        { createUserModel },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
+    } else {
+      return await this.internalApi.userControllerCreateUser({
+        createUserModel,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-    return res.body;
   }
   async linkToProject(options: {
     userId: string;
     project: LinkProjectModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse> {
+  }): Promise<void> {
     let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
@@ -66,30 +71,30 @@ export class UserAPI {
 
     validateUserCredentials(credentials);
 
-    let response: { body?: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      response = await this.internalApi.userControllerLinkUserWithProjectId(
-        userId,
-        project
+      await this.internalApi.userControllerLinkUserWithProjectIdRaw(
+        { id: userId, linkProjectModel: project },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
-      response = await this.internalApi.userControllerLinkUserWithProjectId(
-        userId,
-        project,
-        credentials.password,
-        credentials.email
-      );
+      await this.internalApi.userControllerLinkUserWithProjectIdRaw({
+        id: userId,
+        linkProjectModel: project,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return response.body;
   }
 
   async setUserType(options: {
     input: SetUserTypeModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse> {
+  }): Promise<void> {
     const { input, credentials } = options;
     if (input.email) {
       input.email = input.email.trim();
@@ -98,53 +103,57 @@ export class UserAPI {
 
     validateUserCredentials(credentials);
 
-    let res: { response: IncomingMessage; body: UserResponse };
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.userControllerSetUserType(input);
-    } else {
-      res = await this.internalApi.userControllerSetUserType(
-        input,
-        credentials.password,
-        credentials.email
+      await this.internalApi.userControllerSetUserTypeRaw(
+        { setUserTypeModel: input },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
+    } else {
+      await this.internalApi.userControllerSetUserTypeRaw({
+        setUserTypeModel: input,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-    return res.body;
   }
 
   async getUser(id: string): Promise<UserResponse> {
     validateString(id, 'The id must be nonempty');
 
-    const res = await this.internalApi.userControllerGetUserById(id);
-    return res.body;
+    return await this.internalApi.userControllerGetUserById({ id });
   }
 
   async getUsers(credentials: UserCredentials): Promise<UserResponses> {
     validateUserCredentials(credentials);
 
-    let res: { body: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      res = await this.internalApi.userControllerGetAllUsers(
-        undefined,
-        undefined
+      return await this.internalApi.userControllerGetAllUsers(
+        {},
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
-      res = await this.internalApi.userControllerGetAllUsers(
-        credentials.password,
-        credentials.email
-      );
+      return await this.internalApi.userControllerGetAllUsers({
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return res.body;
   }
 
   async unlinkFromProject(options: {
     userId: string;
     project: UnlinkProjectModel;
     credentials: UserCredentials;
-  }): Promise<UserResponse> {
+  }): Promise<void> {
     let { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
@@ -159,24 +168,24 @@ export class UserAPI {
 
     validateUserCredentials(credentials);
 
-    let response: { body?: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      response = await this.internalApi.userControllerUnlinkUserFromProject(
-        userId,
-        project
+      await this.internalApi.userControllerUnlinkUserFromProjectRaw(
+        { id: userId, unlinkProjectModel: project },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
     } else {
-      response = await this.internalApi.userControllerUnlinkUserFromProject(
-        userId,
-        project,
-        credentials.password,
-        credentials.email
-      );
+      await this.internalApi.userControllerUnlinkUserFromProjectRaw({
+        id: userId,
+        unlinkProjectModel: project,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return response.body;
   }
 
   async deleteUser(options: {
@@ -188,19 +197,22 @@ export class UserAPI {
     validateString(userId, 'The user ID must be a non-empty string.');
     validateUserCredentials(credentials);
 
-    let response: { body?: any; response?: IncomingMessage };
-
     if (typeof credentials == 'string') {
-      this.internalApi.accessToken = credentials;
-      response = await this.internalApi.userControllerDeleteUserById(userId);
-    } else {
-      response = await this.internalApi.userControllerDeleteUserById(
-        userId,
-        credentials.password,
-        credentials.email
+      return await this.internalApi.userControllerDeleteUserById(
+        { id: userId },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
       );
+    } else {
+      return await this.internalApi.userControllerDeleteUserById({
+        id: userId,
+        xUserPassword: credentials.password,
+        xUserEmail: credentials.email,
+      });
     }
-
-    return response.body;
   }
 }

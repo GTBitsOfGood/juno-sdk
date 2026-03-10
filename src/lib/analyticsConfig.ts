@@ -1,17 +1,19 @@
 import {
   AnalyticsConfigApi,
+  Configuration,
   AnalyticsConfigResponse,
   CreateAnalyticsConfigModel,
   UpdateAnalyticsConfigModel,
-} from '../internal/api';
+} from '../internal/index';
 import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
 export class AnalyticsConfigAPI {
   private internalApi: AnalyticsConfigApi;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AnalyticsConfigApi(baseURL);
-    this.internalApi.accessToken = apiKey;
+    this.internalApi = new AnalyticsConfigApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
 
   async createAnalyticsConfig(
@@ -28,7 +30,7 @@ export class AnalyticsConfigAPI {
       'The serverAnalyticsKey must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -39,12 +41,12 @@ export class AnalyticsConfigAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.internalApi.analyticsConfigControllerCreateAnalyticsConfig(
-        config,
-        { headers }
-      );
-    return res.body;
+    return await this.internalApi.analyticsConfigControllerCreateAnalyticsConfig(
+      { createAnalyticsConfigModel: config },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async getAnalyticsConfig(
@@ -56,7 +58,7 @@ export class AnalyticsConfigAPI {
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
-    const headers: any = {};
+    const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
     }
@@ -64,12 +66,12 @@ export class AnalyticsConfigAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const res =
-      await this.internalApi.analyticsConfigControllerGetAnalyticsConfig(
-        projectId,
-        { headers }
-      );
-    return res.body;
+    return await this.internalApi.analyticsConfigControllerGetAnalyticsConfig(
+      { projectId },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async updateAnalyticsConfig(
@@ -81,12 +83,12 @@ export class AnalyticsConfigAPI {
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsConfigControllerUpdateAnalyticsConfig(
+    return await this.internalApi.analyticsConfigControllerUpdateAnalyticsConfig(
+      {
         projectId,
-        config
-      );
-    return res.body;
+        updateAnalyticsConfigModel: config,
+      }
+    );
   }
 
   async deleteAnalyticsConfig(
@@ -97,10 +99,8 @@ export class AnalyticsConfigAPI {
       'The projectId must be provided as an input and has to be nonempty.'
     );
 
-    const res =
-      await this.internalApi.analyticsConfigControllerDeleteAnalyticsConfig(
-        projectId
-      );
-    return res.body;
+    return await this.internalApi.analyticsConfigControllerDeleteAnalyticsConfig(
+      { projectId }
+    );
   }
 }

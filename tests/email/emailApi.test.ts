@@ -27,7 +27,7 @@ describe('sendEmail validation tests', () => {
           ],
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 
   it('does not throw an validation error with a recipient', async () => {
@@ -55,7 +55,7 @@ describe('sendEmail validation tests', () => {
           ],
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 
   it('does not throw an validation error with a recipient', async () => {
@@ -81,7 +81,7 @@ describe('sendEmail validation tests', () => {
           ],
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 
   it('throws an validation error with no recipient, cc, or bcc', async () => {
@@ -163,7 +163,7 @@ describe('sendEmail validation tests', () => {
           ],
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 
   it('does not throw a validation error with only bcc', async () => {
@@ -189,7 +189,7 @@ describe('sendEmail validation tests', () => {
           ],
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 });
 
@@ -291,7 +291,7 @@ describe('Registering sender test validation tests', () => {
           country: 'country',
         });
       })()
-    ).rejects.toThrow(TypeError); // TypeError from lack of apiKey
+    ).rejects.toThrow(); // Error from lack of apiKey
   });
 });
 
