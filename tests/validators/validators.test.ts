@@ -1,4 +1,4 @@
-import { EmailRecipient } from '../../src/internal/models/emailRecipient';
+import { EmailRecipient } from '../../src/internal/models/EmailRecipient';
 import { JunoError, JunoValidationError } from '../../src/lib/errors';
 import {
   validateEmailRecipient,
