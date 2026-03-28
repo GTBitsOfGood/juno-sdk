@@ -72,7 +72,6 @@ export class AuthAPI {
           headers: { ...(init.headers as Record<string, string>), ...headers },
         })
       );
-      console.log('Create API key response ', response);
       return response;
     } catch (e) {
       throw e;
@@ -184,7 +183,6 @@ export class AuthAPI {
         headers: { ...(init.headers as Record<string, string>), ...headers },
       })
     );
-    console.log('Get all api keys response ', response);
     return response;
   }
 
@@ -194,10 +192,7 @@ export class AuthAPI {
   }): Promise<{ success: boolean }> {
     const { keyId, credentials } = options;
     validateUserCredentials(credentials);
-    const authorization =
-      typeof credentials === 'string'
-        ? `Bearer ${credentials}`
-        : credentials.email;
+    validateString(keyId, 'The key ID must be nonempty');
 
     const headers: Record<string, string> = {};
     if (typeof credentials === 'string') {
@@ -209,14 +204,14 @@ export class AuthAPI {
 
     try {
       await this.internalApi.authControllerDeleteApiKeyById(
-        { id: keyId, authorization } as any,
+        { id: keyId },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
         })
       );
       return { success: true };
-    } catch {
-      return { success: false };
+    } catch (e) {
+      throw e;
     }
   }
 

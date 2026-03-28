@@ -24,7 +24,6 @@ import type {
 } from '../models/index';
 import {
   GetAllApiKeysResponseFromJSON,
-  GetAllApiKeysResponseToJSON,
   IssueApiKeyRequestFromJSON,
   IssueApiKeyRequestToJSON,
   IssueApiKeyResponseFromJSON,
@@ -355,22 +354,9 @@ export class AuthApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters['authorization'] == null) {
-      throw new runtime.RequiredError(
-        'authorization',
-        'Required parameter "authorization" was null or undefined when calling authControllerDeleteApiKeyById().'
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['authorization'] != null) {
-      headerParameters['Authorization'] = String(
-        requestParameters['authorization']
-      );
-    }
 
     if (this.configuration && this.configuration.accessToken) {
       const token = this.configuration.accessToken;
