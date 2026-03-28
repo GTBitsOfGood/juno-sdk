@@ -14,6 +14,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  GetAllApiKeysResponse,
   IssueApiKeyRequest,
   IssueApiKeyResponse,
   IssueJWTResponse,
@@ -22,6 +23,7 @@ import type {
   RequestNewAccountModel,
 } from '../models/index';
 import {
+  GetAllApiKeysResponseFromJSON,
   IssueApiKeyRequestFromJSON,
   IssueApiKeyRequestToJSON,
   IssueApiKeyResponseFromJSON,
@@ -41,8 +43,6 @@ export interface AuthControllerCreateAccountRequestRequest {
 }
 
 export interface AuthControllerCreateApiKeyRequest {
-  xUserPassword: string;
-  xUserEmail: string;
   issueApiKeyRequest: IssueApiKeyRequest;
 }
 
@@ -56,9 +56,18 @@ export interface AuthControllerDeleteApiKeyRequest {
   authorization: string;
 }
 
+export interface AuthControllerDeleteApiKeyByIdRequest {
+  id: string;
+}
+
 export interface AuthControllerGetAllAccountRequestsRequest {
   xUserPassword: string;
   xUserEmail: string;
+}
+
+export interface AuthControllerGetAllApiKeysRequest {
+  offset: string;
+  limit: string;
 }
 
 export interface AuthControllerGetApiKeyJWTRequest {
@@ -139,20 +148,6 @@ export class AuthApi extends runtime.BaseAPI {
     requestParameters: AuthControllerCreateApiKeyRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<IssueApiKeyResponse>> {
-    if (requestParameters['xUserPassword'] == null) {
-      throw new runtime.RequiredError(
-        'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerCreateApiKey().'
-      );
-    }
-
-    if (requestParameters['xUserEmail'] == null) {
-      throw new runtime.RequiredError(
-        'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerCreateApiKey().'
-      );
-    }
-
     if (requestParameters['issueApiKeyRequest'] == null) {
       throw new runtime.RequiredError(
         'issueApiKeyRequest',
@@ -166,18 +161,14 @@ export class AuthApi extends runtime.BaseAPI {
 
     headerParameters['Content-Type'] = 'application/json';
 
-    if (requestParameters['xUserPassword'] != null) {
-      headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword']
-      );
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
 
-    if (requestParameters['xUserEmail'] != null) {
-      headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail']
-      );
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
     }
-
     const response = await this.request(
       {
         path: `/auth/key`,
@@ -350,6 +341,61 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
+   * Deletes an API key by ID.
+   */
+  async authControllerDeleteApiKeyByIdRaw(
+    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (requestParameters['id'] == null) {
+      throw new runtime.RequiredError(
+        'id',
+        'Required parameter "id" was null or undefined when calling authControllerDeleteApiKeyById().'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/auth/key/{id}`.replace(
+          `{${'id'}}`,
+          encodeURIComponent(String(requestParameters['id']))
+        ),
+        method: 'DELETE',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * Deletes an API key by ID.
+   */
+  async authControllerDeleteApiKeyById(
+    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<void> {
+    await this.authControllerDeleteApiKeyByIdRaw(
+      requestParameters,
+      initOverrides
+    );
+  }
+
+  /**
    * Returns all pending account requests. Requires admin or superadmin credentials.
    * Retrieve all account requests
    */
@@ -419,6 +465,76 @@ export class AuthApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<NewAccountRequestsResponse> {
     const response = await this.authControllerGetAllAccountRequestsRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Lists all API keys
+   */
+  async authControllerGetAllApiKeysRaw(
+    requestParameters: AuthControllerGetAllApiKeysRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<GetAllApiKeysResponse>> {
+    if (requestParameters['offset'] == null) {
+      throw new runtime.RequiredError(
+        'offset',
+        'Required parameter "offset" was null or undefined when calling authControllerGetAllApiKeys().'
+      );
+    }
+
+    if (requestParameters['limit'] == null) {
+      throw new runtime.RequiredError(
+        'limit',
+        'Required parameter "limit" was null or undefined when calling authControllerGetAllApiKeys().'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters['offset'] != null) {
+      queryParameters['offset'] = requestParameters['offset'];
+    }
+
+    if (requestParameters['limit'] != null) {
+      queryParameters['limit'] = requestParameters['limit'];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/auth/key/all`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetAllApiKeysResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Lists all API keys
+   */
+  async authControllerGetAllApiKeys(
+    requestParameters: AuthControllerGetAllApiKeysRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<GetAllApiKeysResponse> {
+    const response = await this.authControllerGetAllApiKeysRaw(
       requestParameters,
       initOverrides
     );

@@ -25,6 +25,7 @@ export * from './FileBucket';
 export * from './FileConfigResponse';
 export * from './FileProvider';
 export * from './FileProviderPartial';
+export * from './getAllApiKeysResponse';
 export * from './GetAllClickEventsResponse';
 export * from './GetAllCustomEventTypeResponse';
 export * from './GetAllCustomEventsResponse';
