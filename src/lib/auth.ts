@@ -8,8 +8,14 @@ import {
   NewAccountRequestsResponse,
   RequestNewAccountModel,
   RequestNewAccountModelUserTypeEnum,
+  GetAllApiKeysResponse,
 } from '../internal/index';
-import { validateString } from './validators';
+import {
+  validatePaginationParam,
+  validateProjectIdentifier,
+  validateString,
+  validateUserCredentials,
+} from './validators';
 
 export type UserCredentials = string | { email: string; password: string };
 
@@ -26,24 +32,21 @@ export class AuthAPI {
     return this.apiKey || '';
   }
   async createKey(options: {
-    email: string;
-    password: string;
     project: string;
     environment: string;
     description: string | undefined;
+    credentials: UserCredentials;
   }): Promise<IssueApiKeyResponse> {
-    let { email, password, project, environment, description } = options;
+    let { project, environment, description, credentials } = options;
 
-    validateString(email, 'The email must be nonempty');
+    validateUserCredentials(credentials);
+    validateProjectIdentifier({ name: project });
 
-    validateString(password, 'The password for the user must be nonempty');
     validateString(
       environment,
-      'The environment for the user must be nonempty'
+      'The environment for the API key must be nonempty'
     );
 
-    email = email.trim();
-    password = password.trim();
     environment = environment.trim();
     description = description?.trim();
     try {
@@ -54,11 +57,23 @@ export class AuthAPI {
           name: project,
         },
       };
-      return await this.internalApi.authControllerCreateApiKey({
-        xUserPassword: password,
-        xUserEmail: email,
-        issueApiKeyRequest,
-      });
+
+      const headers: Record<string, string> = {};
+      if (typeof credentials === 'string') {
+        headers['Authorization'] = `Bearer ${credentials}`;
+      } else {
+        headers['X-User-Email'] = credentials.email;
+        headers['X-User-Password'] = credentials.password;
+      }
+
+      const response = await this.internalApi.authControllerCreateApiKey(
+        { issueApiKeyRequest },
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
+      );
+      console.log('Create API key response ', response);
+      return response;
     } catch (e) {
       throw e;
     }
@@ -144,6 +159,65 @@ export class AuthAPI {
       xUserEmail: email.trim(),
       xUserPassword: password.trim(),
     });
+  }
+
+  async getAllApiKeysRequest(options: {
+    offset: string;
+    limit: string;
+    credentials: UserCredentials;
+  }): Promise<GetAllApiKeysResponse> {
+    const { offset, limit, credentials } = options;
+    validateUserCredentials(credentials);
+    validatePaginationParam(offset, 'offset must be a non-negative number');
+    validatePaginationParam(limit, 'limit must be a non-negative number');
+    const headers: Record<string, string> = {};
+    if (typeof credentials === 'string') {
+      headers['Authorization'] = `Bearer ${credentials}`;
+    } else {
+      headers['X-User-Email'] = credentials.email;
+      headers['X-User-Password'] = credentials.password;
+    }
+
+    const response = await this.internalApi.authControllerGetAllApiKeys(
+      { offset, limit },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+    console.log('Get all api keys response ', response);
+    return response;
+  }
+
+  async deleteApiKeyByIdRequest(options: {
+    keyId: string;
+    credentials: UserCredentials;
+  }): Promise<{ success: boolean }> {
+    const { keyId, credentials } = options;
+    validateUserCredentials(credentials);
+    const authorization =
+      typeof credentials === 'string'
+        ? `Bearer ${credentials}`
+        : credentials.email;
+
+    const headers: Record<string, string> = {};
+    if (typeof credentials === 'string') {
+      headers['Authorization'] = `Bearer ${credentials}`;
+    } else {
+      headers['X-User-Email'] = credentials.email;
+      headers['X-User-Password'] = credentials.password;
+    }
+
+    try {
+      await this.internalApi.authControllerDeleteApiKeyById(
+        { id: keyId, authorization } as any,
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
+      );
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
   }
 
   async deleteAccountRequest(options: {
