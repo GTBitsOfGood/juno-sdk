@@ -1,13 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './AnalyticsApi';
-export * from './AnalyticsConfigApi';
-export * from './AuthApi';
-export * from './EmailApi';
-export * from './FileBucketApi';
-export * from './FileConfigApi';
-export * from './FileDownloadApi';
-export * from './FileProviderApi';
-export * from './FileUploadApi';
-export * from './ProjectApi';
-export * from './UserApi';
+export * from './analyticsApi';
+export * from './analyticsConfigApi';
+export * from './authApi';
+export * from './emailApi';
+export * from './fileBucketApi';
+export * from './fileConfigApi';
+export * from './fileDownloadApi';
+export * from './fileProviderApi';
+export * from './fileUploadApi';
+export * from './projectApi';
+export * from './userApi';
