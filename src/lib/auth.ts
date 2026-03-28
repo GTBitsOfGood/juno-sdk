@@ -161,7 +161,7 @@ export class AuthAPI {
     });
   }
 
-  async getAllApiKeysRequest(options: {
+  async getAllApiKeys(options: {
     offset: string;
     limit: string;
     credentials: UserCredentials;
@@ -188,7 +188,7 @@ export class AuthAPI {
     return response;
   }
 
-  async deleteApiKeyByIdRequest(options: {
+  async deleteApiKeyById(options: {
     keyId: string;
     credentials: UserCredentials;
   }): Promise<{ success: boolean }> {
