@@ -8,6 +8,7 @@ import {
   NewAccountRequestsResponse,
   RequestNewAccountModel,
   RequestNewAccountModelUserTypeEnum,
+  AcceptAccountRequestResponseModel,
 } from '../internal/index';
 import { validateString, validateUserCredentials } from './validators';
 
@@ -155,6 +156,40 @@ export class AuthAPI {
         xUserEmail: credentials.email,
         xUserPassword: credentials.password,
       });
+    }
+  }
+
+  async acceptAccountRequest(options: {
+    id: string;
+    credentials: UserCredentials;
+  }): Promise<AcceptAccountRequestResponseModel> {
+    let { id, credentials } = options;
+
+    validateString(id, 'The request ID must be nonempty');
+    validateUserCredentials(credentials);
+
+    id = id.trim();
+
+    try {
+      if (typeof credentials == 'string') {
+        return await this.internalApi.authControllerAcceptAccountRequest(
+          { id },
+          async ({ init }) => ({
+            headers: {
+              ...(init.headers as Record<string, string>),
+              Authorization: `Bearer ${credentials}`,
+            },
+          })
+        );
+      } else {
+        return await this.internalApi.authControllerAcceptAccountRequest({
+          id,
+          xUserPassword: credentials.password,
+          xUserEmail: credentials.email,
+        });
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
