@@ -2,7 +2,7 @@ import {
   EmailContent,
   EmailRecipient,
   EmailSenderSendEmailModel,
-} from '../internal/api';
+} from '../internal/index';
 import { UserCredentials } from './auth';
 import { JunoValidationError } from './errors';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';

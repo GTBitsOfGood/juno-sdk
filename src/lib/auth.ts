@@ -1,14 +1,14 @@
-import { IncomingMessage } from 'http';
 import {
-  AcceptAccountRequestResponseModel,
   AuthApi,
-  IssueApiKeyRequest,
+  Configuration,
   IssueApiKeyResponse,
+  IssueApiKeyRequest,
   IssueJWTResponse,
   NewAccountRequestResponse,
   NewAccountRequestsResponse,
   RequestNewAccountModel,
-} from '../internal/api';
+  RequestNewAccountModelUserTypeEnum,
+} from '../internal/index';
 import { validateString, validateUserCredentials } from './validators';
 
 export type UserCredentials = string | { email: string; password: string };
@@ -19,12 +19,13 @@ export class AuthAPI {
   private internalApi: AuthApi;
   private apiKey?: string;
   constructor(baseURL?: string, apiKey?: string) {
-    this.internalApi = new AuthApi(baseURL);
     this.apiKey = apiKey;
-    this.internalApi.accessToken = this.apiKey;
+    this.internalApi = new AuthApi(
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
+    );
   }
   get junoApiKey(): string {
-    return this.apiKey;
+    return this.apiKey || '';
   }
   async createKey(options: {
     email: string;
@@ -55,12 +56,11 @@ export class AuthAPI {
           name: project,
         },
       };
-      const result = await this.internalApi.authControllerCreateApiKey(
-        email,
-        password,
-        issueApiKeyRequest
-      );
-      return result.body;
+      return await this.internalApi.authControllerCreateApiKey({
+        xUserPassword: password,
+        xUserEmail: email,
+        issueApiKeyRequest,
+      });
     } catch (e) {
       throw e;
     }
@@ -72,8 +72,9 @@ export class AuthAPI {
 
     apiKey = apiKey.trim();
     try {
-      const result = await this.internalApi.authControllerDeleteApiKey(apiKey);
-      return result.body;
+      return await this.internalApi.authControllerDeleteApiKey({
+        authorization: apiKey,
+      });
     } catch (e) {
       throw e;
     }
@@ -85,12 +86,10 @@ export class AuthAPI {
   }): Promise<IssueJWTResponse> {
     const { email, password } = options;
     try {
-      const result = await this.internalApi.authControllerGetUserJWT(
-        password,
-        email
-      );
-
-      return result.body;
+      return await this.internalApi.authControllerGetUserJWT({
+        xUserPassword: password,
+        xUserEmail: email,
+      });
     } catch (e) {
       throw e;
     }
@@ -99,9 +98,9 @@ export class AuthAPI {
   async getApiKeyJWT(options: { apiKey: string }): Promise<IssueJWTResponse> {
     const { apiKey } = options;
     try {
-      const result = await this.internalApi.authControllerGetApiKeyJWT(apiKey);
-
-      return result.body;
+      return await this.internalApi.authControllerGetApiKeyJWT({
+        authorization: apiKey,
+      });
     } catch (e) {
       throw e;
     }
@@ -111,34 +110,27 @@ export class AuthAPI {
     email: string;
     name: string;
     password: string;
-    userType: UserType;
+    userType: RequestNewAccountModelUserTypeEnum;
     projectName?: string;
   }): Promise<NewAccountRequestResponse> {
-    let { email, name, password, userType, projectName } = options;
+    const { email, name, password, userType, projectName } = options;
 
     validateString(email, 'The email must be nonempty');
     validateString(name, 'The name must be nonempty');
     validateString(password, 'The password must be nonempty');
+    validateString(userType, 'The userType must be nonempty');
 
-    email = email.trim();
-    name = name.trim();
-    password = password.trim();
-    projectName = projectName?.trim();
-    try {
-      const requestNewAccountModel: RequestNewAccountModel = {
-        email,
-        name,
-        password,
-        userType: userType as unknown as RequestNewAccountModel.UserTypeEnum,
-        projectName,
-      };
-      const result = await this.internalApi.authControllerCreateAccountRequest(
-        requestNewAccountModel
-      );
-      return result.body;
-    } catch (e) {
-      throw e;
-    }
+    const requestNewAccountModel: RequestNewAccountModel = {
+      email: email.trim(),
+      name: name.trim(),
+      password: password.trim(),
+      userType,
+      projectName: projectName?.trim(),
+    };
+
+    return await this.internalApi.authControllerCreateAccountRequest({
+      requestNewAccountModel,
+    });
   }
 
   async getAllAccountRequests(options: {
@@ -148,58 +140,21 @@ export class AuthAPI {
 
     validateUserCredentials(credentials);
 
-    try {
-      let res: { body: any; response?: IncomingMessage };
-
-      if (typeof credentials == 'string') {
-        this.internalApi.accessToken = credentials;
-        res = await this.internalApi.authControllerGetAllAccountRequests(
-          undefined,
-          undefined
-        );
-      } else {
-        res = await this.internalApi.authControllerGetAllAccountRequests(
-          credentials.password,
-          credentials.email
-        );
-      }
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  async acceptAccountRequest(options: {
-    id: string;
-    credentials: UserCredentials;
-  }): Promise<AcceptAccountRequestResponseModel> {
-    let { id, credentials } = options;
-
-    validateString(id, 'The request ID must be nonempty');
-    validateUserCredentials(credentials);
-
-    id = id.trim();
-
-    try {
-      let res: { body: any; response?: IncomingMessage };
-
-      if (typeof credentials == 'string') {
-        this.internalApi.accessToken = credentials;
-        res = await this.internalApi.authControllerAcceptAccountRequest(
-          id,
-          undefined,
-          undefined
-        );
-      } else {
-        res = await this.internalApi.authControllerAcceptAccountRequest(
-          id,
-          credentials.password,
-          credentials.email
-        );
-      }
-      return res.body;
-    } catch (e) {
-      throw e;
+    if (typeof credentials == 'string') {
+      return await this.internalApi.authControllerGetAllAccountRequests(
+        { xUserEmail: '', xUserPassword: '' },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
+      );
+    } else {
+      return await this.internalApi.authControllerGetAllAccountRequests({
+        xUserEmail: credentials.email,
+        xUserPassword: credentials.password,
+      });
     }
   }
 
@@ -207,33 +162,27 @@ export class AuthAPI {
     id: string;
     credentials: UserCredentials;
   }): Promise<NewAccountRequestResponse> {
-    let { id, credentials } = options;
+    const { id, credentials } = options;
 
-    validateString(id, 'The request ID must be nonempty');
+    validateString(id, 'The id must be nonempty');
     validateUserCredentials(credentials);
 
-    id = id.trim();
-
-    try {
-      let res: { body: any; response?: IncomingMessage };
-
-      if (typeof credentials == 'string') {
-        this.internalApi.accessToken = credentials;
-        res = await this.internalApi.authControllerDeleteAccountRequest(
-          id,
-          undefined,
-          undefined
-        );
-      } else {
-        res = await this.internalApi.authControllerDeleteAccountRequest(
-          id,
-          credentials.password,
-          credentials.email
-        );
-      }
-      return res.body;
-    } catch (e) {
-      throw e;
+    if (typeof credentials == 'string') {
+      return await this.internalApi.authControllerDeleteAccountRequest(
+        { id: id.trim(), xUserEmail: '', xUserPassword: '' },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
+      );
+    } else {
+      return await this.internalApi.authControllerDeleteAccountRequest({
+        id: id.trim(),
+        xUserEmail: credentials.email,
+        xUserPassword: credentials.password,
+      });
     }
   }
 }
