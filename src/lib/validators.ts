@@ -121,8 +121,8 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
   }
 };
 
-export const validatePaginationParam = (param: number, errorMessage) => {
-  if (param < 0) {
+export const validatePaginationParam = (param: number, errorMessage: string) => {
+  if (!Number.isFinite(param) || param < 0) {
     throw new JunoValidationError(errorMessage);
   }
 };
