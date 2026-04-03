@@ -77,6 +77,7 @@ export class AuthAPI {
       throw e;
     }
   }
+
   async revokeKey(options: { apiKey: string }): Promise<any> {
     let { apiKey } = options;
 
@@ -184,35 +185,6 @@ export class AuthAPI {
       })
     );
     return response;
-  }
-
-  async deleteApiKeyById(options: {
-    keyId: string;
-    credentials: UserCredentials;
-  }): Promise<{ success: boolean }> {
-    const { keyId, credentials } = options;
-    validateUserCredentials(credentials);
-    validateString(keyId, 'The key ID must be nonempty');
-
-    const headers: Record<string, string> = {};
-    if (typeof credentials === 'string') {
-      headers['Authorization'] = `Bearer ${credentials}`;
-    } else {
-      headers['X-User-Email'] = credentials.email;
-      headers['X-User-Password'] = credentials.password;
-    }
-
-    try {
-      await this.internalApi.authControllerDeleteApiKeyById(
-        { id: keyId },
-        async ({ init }) => ({
-          headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
-      );
-      return { success: true };
-    } catch (e) {
-      throw e;
-    }
   }
 
   async deleteAccountRequest(options: {

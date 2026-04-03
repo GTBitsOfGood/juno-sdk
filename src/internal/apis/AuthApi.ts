@@ -56,10 +56,6 @@ export interface AuthControllerDeleteApiKeyRequest {
   authorization: string;
 }
 
-export interface AuthControllerDeleteApiKeyByIdRequest {
-  id: string;
-}
-
 export interface AuthControllerGetAllAccountRequestsRequest {
   xUserPassword: string;
   xUserEmail: string;
@@ -338,61 +334,6 @@ export class AuthApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<void> {
     await this.authControllerDeleteApiKeyRaw(requestParameters, initOverrides);
-  }
-
-  /**
-   * Deletes an API key by ID.
-   */
-  async authControllerDeleteApiKeyByIdRaw(
-    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
-  ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters['id'] == null) {
-      throw new runtime.RequiredError(
-        'id',
-        'Required parameter "id" was null or undefined when calling authControllerDeleteApiKeyById().'
-      );
-    }
-
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (this.configuration && this.configuration.accessToken) {
-      const token = this.configuration.accessToken;
-      const tokenString = await token('API_Key', []);
-
-      if (tokenString) {
-        headerParameters['Authorization'] = `Bearer ${tokenString}`;
-      }
-    }
-    const response = await this.request(
-      {
-        path: `/auth/key/{id}`.replace(
-          `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id']))
-        ),
-        method: 'DELETE',
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides
-    );
-
-    return new runtime.VoidApiResponse(response);
-  }
-
-  /**
-   * Deletes an API key by ID.
-   */
-  async authControllerDeleteApiKeyById(
-    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
-  ): Promise<void> {
-    await this.authControllerDeleteApiKeyByIdRaw(
-      requestParameters,
-      initOverrides
-    );
   }
 
   /**
