@@ -189,6 +189,38 @@ export class AuthAPI {
     return response;
   }
 
+  async deleteApiKeyById(options: {
+    keyId: string;
+    credentials: UserCredentials;
+  }): Promise<{ success: boolean }> {
+    const { keyId, credentials } = options;
+    validateUserCredentials(credentials);
+    const authorization =
+      typeof credentials === 'string'
+        ? `Bearer ${credentials}`
+        : credentials.email;
+
+    const headers: Record<string, string> = {};
+    if (typeof credentials === 'string') {
+      headers['Authorization'] = `Bearer ${credentials}`;
+    } else {
+      headers['X-User-Email'] = credentials.email;
+      headers['X-User-Password'] = credentials.password;
+    }
+
+    try {
+      await this.internalApi.authControllerDeleteApiKeyById(
+        { id: keyId, authorization } as any,
+        async ({ init }) => ({
+          headers: { ...(init.headers as Record<string, string>), ...headers },
+        })
+      );
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
+  }
+
   async deleteAccountRequest(options: {
     id: string;
     email: string;
