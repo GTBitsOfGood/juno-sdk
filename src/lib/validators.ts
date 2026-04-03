@@ -121,8 +121,8 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
   }
 };
 
-export const validatePaginationParam = (param: string, errorMessage) => {
-  if (Number.isNaN(parseInt(param, 10)) || parseInt(param, 10) < 0) {
+export const validatePaginationParam = (param: number, errorMessage) => {
+  if (param < 0) {
     throw new JunoValidationError(errorMessage);
   }
 };

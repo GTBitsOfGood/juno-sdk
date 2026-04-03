@@ -67,27 +67,20 @@ export class AuthAPI {
       }
 
       const response = await this.internalApi.authControllerCreateApiKey(
-        { issueApiKeyRequest },
+        {
+          issueApiKeyRequest,
+          ...(typeof credentials === 'string'
+            ? { xUserJwt: credentials }
+            : {
+                xUserEmail: credentials.email,
+                xUserPassword: credentials.password,
+              }),
+        },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
         })
       );
       return response;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  async revokeKey(options: { apiKey: string }): Promise<any> {
-    let { apiKey } = options;
-
-    validateString(apiKey, 'The authorization token must be nonempty');
-
-    apiKey = apiKey.trim();
-    try {
-      return await this.internalApi.authControllerDeleteApiKey({
-        authorization: apiKey,
-      });
     } catch (e) {
       throw e;
     }
@@ -162,8 +155,8 @@ export class AuthAPI {
   }
 
   async getAllApiKeys(options: {
-    offset: string;
-    limit: string;
+    offset: number;
+    limit: number;
     credentials: UserCredentials;
   }): Promise<GetAllApiKeysResponse> {
     const { offset, limit, credentials } = options;
@@ -179,7 +172,16 @@ export class AuthAPI {
     }
 
     const response = await this.internalApi.authControllerGetAllApiKeys(
-      { offset, limit },
+      {
+        offset,
+        limit,
+        ...(typeof credentials === 'string'
+          ? { xUserJwt: credentials }
+          : {
+              xUserEmail: credentials.email,
+              xUserPassword: credentials.password,
+            }),
+      },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
       })
