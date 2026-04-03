@@ -70,7 +70,6 @@ export interface AuthControllerGetAllAccountRequestsRequest {
 export interface AuthControllerGetAllApiKeysRequest {
   offset?: number;
   limit?: number;
-  xUserJwt?: string;
   xUserPassword?: string;
   xUserEmail?: string;
 }
@@ -459,10 +458,6 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
-
-    if (requestParameters['xUserJwt'] != null) {
-      headerParameters['x-user-jwt'] = String(requestParameters['xUserJwt']);
-    }
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
