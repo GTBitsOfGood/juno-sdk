@@ -278,6 +278,70 @@ export class EmailAPI {
     }
   }
 
+  async getSenders(credentials?: ApiCredentials): Promise<any> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const basePath =
+      (this.internalApi as any).configuration?.basePath ?? '';
+    const token =
+      (this.internalApi as any).configuration?.accessToken;
+    if (token) {
+      const tokenString = typeof token === 'function' ? await token('API_Key', []) : token;
+      if (tokenString) {
+        headers['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+
+    const response = await fetch(`${basePath}/email/senders`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get senders: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
+  async getDomains(credentials?: ApiCredentials): Promise<any> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const basePath =
+      (this.internalApi as any).configuration?.basePath ?? '';
+    const token =
+      (this.internalApi as any).configuration?.accessToken;
+    if (token) {
+      const tokenString = typeof token === 'function' ? await token('API_Key', []) : token;
+      if (tokenString) {
+        headers['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+
+    const response = await fetch(`${basePath}/email/domains`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get domains: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
   async getStatistics(
     options: {
       startDate: string;

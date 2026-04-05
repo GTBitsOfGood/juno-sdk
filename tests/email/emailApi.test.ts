@@ -348,3 +348,53 @@ describe('verify domain validation tests', () => {
     ).rejects.toThrow(JunoValidationError);
   });
 });
+
+describe('getSenders tests', () => {
+  it('throws an error when called without API key', async () => {
+    let emailApi = new EmailAPI();
+
+    await expect(
+      (async () => {
+        await emailApi.getSenders();
+      })()
+    ).rejects.toThrow();
+  });
+
+  it('throws an error when called with invalid credentials', async () => {
+    let emailApi = new EmailAPI('http://localhost:invalid');
+
+    await expect(
+      (async () => {
+        await emailApi.getSenders({
+          userJwt: 'invalid-jwt',
+          projectId: 1,
+        });
+      })()
+    ).rejects.toThrow();
+  });
+});
+
+describe('getDomains tests', () => {
+  it('throws an error when called without API key', async () => {
+    let emailApi = new EmailAPI();
+
+    await expect(
+      (async () => {
+        await emailApi.getDomains();
+      })()
+    ).rejects.toThrow();
+  });
+
+  it('throws an error when called with invalid credentials', async () => {
+    let emailApi = new EmailAPI('http://localhost:invalid');
+
+    await expect(
+      (async () => {
+        await emailApi.getDomains({
+          userJwt: 'invalid-jwt',
+          projectId: 1,
+        });
+      })()
+    ).rejects.toThrow();
+  });
+});
