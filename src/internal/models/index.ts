@@ -13,6 +13,8 @@ export * from './CustomEventTypeResponse';
 export * from './CustomGraphType';
 export * from './CustomGraphTypeResponse';
 export * from './DeleteFileBucketModel';
+export * from './DeleteFilesModel';
+export * from './DeleteFilesResponse';
 export * from './DownloadFileModel';
 export * from './DownloadFileResponse';
 export * from './EmailConfigResponse';
