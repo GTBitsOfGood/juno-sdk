@@ -70,9 +70,7 @@ export function DeleteFilesModelFromJSONTyped(
   };
 }
 
-export function DeleteFilesModelToJSON(
-  value?: DeleteFilesModel | null
-): any {
+export function DeleteFilesModelToJSON(value?: DeleteFilesModel | null): any {
   if (value == null) {
     return value;
   }
