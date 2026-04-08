@@ -27,21 +27,21 @@ export class AnalyticsAPI {
   private internalApi: AnalyticsApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new AnalyticsApi(
-      new Configuration({ basePath: baseURL, accessToken: apiKey })
+      new Configuration({ basePath: baseURL, accessToken: apiKey }),
     );
   }
 
   async logClickEvent(
-    event: LogClickEventRequest
+    event: LogClickEventRequest,
   ): Promise<ClickEventResponse> {
     validateString(
       event.objectId,
-      'The objectId must be provided as an input and has to be nonempty.'
+      'The objectId must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       event.userId,
-      'The userId must be provided as an input and has to be nonempty.'
+      'The userId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerLogClickEvent({
@@ -59,7 +59,7 @@ export class AnalyticsAPI {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerGetClickEventsPaginated({
@@ -72,16 +72,16 @@ export class AnalyticsAPI {
   }
 
   async logVisitEvent(
-    event: LogVisitEventRequest
+    event: LogVisitEventRequest,
   ): Promise<VisitEventResponse> {
     validateString(
       event.pageUrl,
-      'The pageUrl must be provided as an input and has to be nonempty.'
+      'The pageUrl must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       event.userId,
-      'The userId must be provided as an input and has to be nonempty.'
+      'The userId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerLogVisitEvent({
@@ -99,7 +99,7 @@ export class AnalyticsAPI {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerGetVisitEventsPaginated({
@@ -112,16 +112,16 @@ export class AnalyticsAPI {
   }
 
   async logInputEvent(
-    event: LogInputEventRequest
+    event: LogInputEventRequest,
   ): Promise<InputEventResponse> {
     validateString(
       event.objectId,
-      'The objectId must be provided as an input and has to be nonempty.'
+      'The objectId must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       event.userId,
-      'The userId must be provided as an input and has to be nonempty.'
+      'The userId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerLogInputEvent({
@@ -139,7 +139,7 @@ export class AnalyticsAPI {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerGetInputEventsPaginated({
@@ -152,16 +152,16 @@ export class AnalyticsAPI {
   }
 
   async logCustomEvent(
-    event: LogCustomEventRequest
+    event: LogCustomEventRequest,
   ): Promise<CustomEventResponse> {
     validateString(
       event.category,
-      'The category must be provided as an input and has to be nonempty.'
+      'The category must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       event.subcategory,
-      'The subcategory must be provided as an input and has to be nonempty.'
+      'The subcategory must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerLogCustomEvent({
@@ -190,17 +190,17 @@ export class AnalyticsAPI {
 
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       category,
-      'The category must be provided as an input and has to be nonempty.'
+      'The category must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       subcategory,
-      'The subcategory must be provided as an input and has to be nonempty.'
+      'The subcategory must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerGetCustomEventsPaginated({
@@ -216,11 +216,11 @@ export class AnalyticsAPI {
 
   async getCustomEventTypesByProject(
     projectName: string,
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<GetAllCustomEventTypeResponse> {
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -238,7 +238,7 @@ export class AnalyticsAPI {
       { projectName },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
@@ -249,12 +249,12 @@ export class AnalyticsAPI {
     const { projectName, eventTypeId } = data;
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       eventTypeId,
-      'The eventTypeId must be provided as an input and has to be nonempty.'
+      'The eventTypeId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsControllerGetCustomGraphTypesById({
@@ -269,13 +269,13 @@ export class AnalyticsAPI {
       afterTime?: string;
       limit?: number;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<GetAllClickEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -293,7 +293,7 @@ export class AnalyticsAPI {
       { projectName, afterTime, limit },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
@@ -303,13 +303,13 @@ export class AnalyticsAPI {
       afterTime?: string;
       limit?: number;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<GetAllVisitEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -327,7 +327,7 @@ export class AnalyticsAPI {
       { projectName, afterTime, limit },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
@@ -337,13 +337,13 @@ export class AnalyticsAPI {
       afterTime?: string;
       limit?: number;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<GetAllInputEventsResponse> {
     const { projectName, afterTime, limit } = event;
 
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -361,7 +361,7 @@ export class AnalyticsAPI {
       { projectName, afterTime, limit },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
@@ -373,23 +373,23 @@ export class AnalyticsAPI {
       afterTime?: string;
       limit?: number;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<GetAllCustomEventsResponse> {
     const { projectName, category, subcategory, afterTime, limit } = event;
 
     validateString(
       projectName,
-      'The projectName must be provided as an input and has to be nonempty.'
+      'The projectName must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       category,
-      'The category must be provided as an input and has to be nonempty.'
+      'The category must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       subcategory,
-      'The subcategory must be provided as an input and has to be nonempty.'
+      'The subcategory must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -407,7 +407,7 @@ export class AnalyticsAPI {
       { projectName, category, subcategory, afterTime, limit },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 }

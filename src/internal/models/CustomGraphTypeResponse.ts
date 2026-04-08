@@ -38,21 +38,21 @@ export interface CustomGraphTypeResponse {
  * Check if a given object implements the CustomGraphTypeResponse interface.
  */
 export function instanceOfCustomGraphTypeResponse(
-  value: object
+  value: object,
 ): value is CustomGraphTypeResponse {
   if (!('graphs' in value) || value['graphs'] === undefined) return false;
   return true;
 }
 
 export function CustomGraphTypeResponseFromJSON(
-  json: any
+  json: any,
 ): CustomGraphTypeResponse {
   return CustomGraphTypeResponseFromJSONTyped(json, false);
 }
 
 export function CustomGraphTypeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CustomGraphTypeResponse {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function CustomGraphTypeResponseFromJSONTyped(
 }
 
 export function CustomGraphTypeResponseToJSON(
-  value?: CustomGraphTypeResponse | null
+  value?: CustomGraphTypeResponse | null,
 ): any {
   if (value == null) {
     return value;

@@ -38,21 +38,21 @@ export interface GetAllClickEventsResponse {
  * Check if a given object implements the GetAllClickEventsResponse interface.
  */
 export function instanceOfGetAllClickEventsResponse(
-  value: object
+  value: object,
 ): value is GetAllClickEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   return true;
 }
 
 export function GetAllClickEventsResponseFromJSON(
-  json: any
+  json: any,
 ): GetAllClickEventsResponse {
   return GetAllClickEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetAllClickEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetAllClickEventsResponse {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function GetAllClickEventsResponseFromJSONTyped(
 }
 
 export function GetAllClickEventsResponseToJSON(
-  value?: GetAllClickEventsResponse | null
+  value?: GetAllClickEventsResponse | null,
 ): any {
   if (value == null) {
     return value;

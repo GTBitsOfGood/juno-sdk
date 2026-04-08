@@ -37,20 +37,20 @@ export interface UpdateAnalyticsConfigModel {
  * Check if a given object implements the UpdateAnalyticsConfigModel interface.
  */
 export function instanceOfUpdateAnalyticsConfigModel(
-  value: object
+  value: object,
 ): value is UpdateAnalyticsConfigModel {
   return true;
 }
 
 export function UpdateAnalyticsConfigModelFromJSON(
-  json: any
+  json: any,
 ): UpdateAnalyticsConfigModel {
   return UpdateAnalyticsConfigModelFromJSONTyped(json, false);
 }
 
 export function UpdateAnalyticsConfigModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): UpdateAnalyticsConfigModel {
   if (json == null) {
     return json;
@@ -68,7 +68,7 @@ export function UpdateAnalyticsConfigModelFromJSONTyped(
 }
 
 export function UpdateAnalyticsConfigModelToJSON(
-  value?: UpdateAnalyticsConfigModel | null
+  value?: UpdateAnalyticsConfigModel | null,
 ): any {
   if (value == null) {
     return value;

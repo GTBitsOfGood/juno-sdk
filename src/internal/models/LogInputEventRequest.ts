@@ -43,7 +43,7 @@ export interface LogInputEventRequest {
  * Check if a given object implements the LogInputEventRequest interface.
  */
 export function instanceOfLogInputEventRequest(
-  value: object
+  value: object,
 ): value is LogInputEventRequest {
   if (!('objectId' in value) || value['objectId'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -57,7 +57,7 @@ export function LogInputEventRequestFromJSON(json: any): LogInputEventRequest {
 
 export function LogInputEventRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LogInputEventRequest {
   if (json == null) {
     return json;
@@ -70,7 +70,7 @@ export function LogInputEventRequestFromJSONTyped(
 }
 
 export function LogInputEventRequestToJSON(
-  value?: LogInputEventRequest | null
+  value?: LogInputEventRequest | null,
 ): any {
   if (value == null) {
     return value;

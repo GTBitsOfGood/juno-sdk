@@ -61,7 +61,7 @@ export function EmailSenderFromJSON(json: any): EmailSender {
 
 export function EmailSenderFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EmailSender {
   if (json == null) {
     return json;

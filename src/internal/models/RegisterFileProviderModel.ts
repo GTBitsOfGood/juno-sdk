@@ -56,7 +56,7 @@ export interface RegisterFileProviderModel {
  * Check if a given object implements the RegisterFileProviderModel interface.
  */
 export function instanceOfRegisterFileProviderModel(
-  value: object
+  value: object,
 ): value is RegisterFileProviderModel {
   if (!('accessKey' in value) || value['accessKey'] === undefined) return false;
   if (!('baseUrl' in value) || value['baseUrl'] === undefined) return false;
@@ -67,14 +67,14 @@ export function instanceOfRegisterFileProviderModel(
 }
 
 export function RegisterFileProviderModelFromJSON(
-  json: any
+  json: any,
 ): RegisterFileProviderModel {
   return RegisterFileProviderModelFromJSONTyped(json, false);
 }
 
 export function RegisterFileProviderModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RegisterFileProviderModel {
   if (json == null) {
     return json;
@@ -88,7 +88,7 @@ export function RegisterFileProviderModelFromJSONTyped(
 }
 
 export function RegisterFileProviderModelToJSON(
-  value?: RegisterFileProviderModel | null
+  value?: RegisterFileProviderModel | null,
 ): any {
   if (value == null) {
     return value;

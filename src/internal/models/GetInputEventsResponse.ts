@@ -44,7 +44,7 @@ export interface GetInputEventsResponse {
  * Check if a given object implements the GetInputEventsResponse interface.
  */
 export function instanceOfGetInputEventsResponse(
-  value: object
+  value: object,
 ): value is GetInputEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   if (!('afterId' in value) || value['afterId'] === undefined) return false;
@@ -52,14 +52,14 @@ export function instanceOfGetInputEventsResponse(
 }
 
 export function GetInputEventsResponseFromJSON(
-  json: any
+  json: any,
 ): GetInputEventsResponse {
   return GetInputEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetInputEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetInputEventsResponse {
   if (json == null) {
     return json;
@@ -71,7 +71,7 @@ export function GetInputEventsResponseFromJSONTyped(
 }
 
 export function GetInputEventsResponseToJSON(
-  value?: GetInputEventsResponse | null
+  value?: GetInputEventsResponse | null,
 ): any {
   if (value == null) {
     return value;

@@ -50,7 +50,7 @@ export interface SendGridDNSResponse {
  * Check if a given object implements the SendGridDNSResponse interface.
  */
 export function instanceOfSendGridDNSResponse(
-  value: object
+  value: object,
 ): value is SendGridDNSResponse {
   if (!('mailCname' in value) || value['mailCname'] === undefined) return false;
   if (!('dkim1' in value) || value['dkim1'] === undefined) return false;
@@ -64,7 +64,7 @@ export function SendGridDNSResponseFromJSON(json: any): SendGridDNSResponse {
 
 export function SendGridDNSResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SendGridDNSResponse {
   if (json == null) {
     return json;
@@ -77,7 +77,7 @@ export function SendGridDNSResponseFromJSONTyped(
 }
 
 export function SendGridDNSResponseToJSON(
-  value?: SendGridDNSResponse | null
+  value?: SendGridDNSResponse | null,
 ): any {
   if (value == null) {
     return value;

@@ -26,7 +26,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 
@@ -54,7 +54,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 
@@ -80,7 +80,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 
@@ -101,7 +101,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
 
     // also with empty array
@@ -119,7 +119,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 
@@ -136,7 +136,7 @@ describe('sendEmail validation tests', () => {
           subject: 'subject',
           contents: [],
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 
@@ -162,7 +162,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 
@@ -188,7 +188,7 @@ describe('sendEmail validation tests', () => {
             },
           ],
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 });
@@ -212,7 +212,7 @@ describe('Registering sender test validation tests', () => {
           zip: '11111',
           country: 'country',
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
 
     name = '      ';
@@ -230,7 +230,7 @@ describe('Registering sender test validation tests', () => {
           zip: '11111',
           country: 'country',
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 
@@ -252,7 +252,7 @@ describe('Registering sender test validation tests', () => {
           zip: '11111',
           country: 'country',
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
 
     email = '      ';
@@ -270,7 +270,7 @@ describe('Registering sender test validation tests', () => {
           zip: '11111',
           country: 'country',
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 
@@ -290,7 +290,7 @@ describe('Registering sender test validation tests', () => {
           zip: '11111',
           country: 'country',
         });
-      })()
+      })(),
     ).rejects.toThrow(); // Error from lack of apiKey
   });
 });
@@ -307,7 +307,7 @@ describe('register domain validation tests', () => {
           domain: domain as string,
           subdomain: undefined,
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
 
     domain = '      ';
@@ -318,7 +318,7 @@ describe('register domain validation tests', () => {
           domain: domain as string,
           subdomain: undefined,
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 });
@@ -334,7 +334,7 @@ describe('verify domain validation tests', () => {
         await emailApi.verifyDomain({
           domain: domain as string,
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
 
     domain = '      ';
@@ -344,7 +344,7 @@ describe('verify domain validation tests', () => {
         await emailApi.verifyDomain({
           domain: domain as string,
         });
-      })()
+      })(),
     ).rejects.toThrow(JunoValidationError);
   });
 });
@@ -356,7 +356,7 @@ describe('getSenders tests', () => {
     await expect(
       (async () => {
         await emailApi.getSenders();
-      })()
+      })(),
     ).rejects.toThrow();
   });
 
@@ -369,7 +369,7 @@ describe('getSenders tests', () => {
           userJwt: 'invalid-jwt',
           projectId: 1,
         });
-      })()
+      })(),
     ).rejects.toThrow();
   });
 });
@@ -381,7 +381,7 @@ describe('getDomains tests', () => {
     await expect(
       (async () => {
         await emailApi.getDomains();
-      })()
+      })(),
     ).rejects.toThrow();
   });
 
@@ -394,7 +394,7 @@ describe('getDomains tests', () => {
           userJwt: 'invalid-jwt',
           projectId: 1,
         });
-      })()
+      })(),
     ).rejects.toThrow();
   });
 });

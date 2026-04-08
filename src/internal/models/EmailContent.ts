@@ -48,7 +48,7 @@ export function EmailContentFromJSON(json: any): EmailContent {
 
 export function EmailContentFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EmailContent {
   if (json == null) {
     return json;

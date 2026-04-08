@@ -50,7 +50,7 @@ export function AccessKeyFromJSON(json: any): AccessKey {
 
 export function AccessKeyFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AccessKey {
   if (json == null) {
     return json;

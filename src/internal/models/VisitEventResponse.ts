@@ -80,7 +80,7 @@ export interface VisitEventResponse {
  * Check if a given object implements the VisitEventResponse interface.
  */
 export function instanceOfVisitEventResponse(
-  value: object
+  value: object,
 ): value is VisitEventResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('category' in value) || value['category'] === undefined) return false;
@@ -102,7 +102,7 @@ export function VisitEventResponseFromJSON(json: any): VisitEventResponse {
 
 export function VisitEventResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): VisitEventResponse {
   if (json == null) {
     return json;
@@ -120,7 +120,7 @@ export function VisitEventResponseFromJSONTyped(
 }
 
 export function VisitEventResponseToJSON(
-  value?: VisitEventResponse | null
+  value?: VisitEventResponse | null,
 ): any {
   if (value == null) {
     return value;

@@ -62,7 +62,7 @@ export function EmailDomainFromJSON(json: any): EmailDomain {
 
 export function EmailDomainFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EmailDomain {
   if (json == null) {
     return json;

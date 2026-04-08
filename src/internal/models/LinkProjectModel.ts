@@ -37,7 +37,7 @@ export interface LinkProjectModel {
  * Check if a given object implements the LinkProjectModel interface.
  */
 export function instanceOfLinkProjectModel(
-  value: object
+  value: object,
 ): value is LinkProjectModel {
   return true;
 }
@@ -48,7 +48,7 @@ export function LinkProjectModelFromJSON(json: any): LinkProjectModel {
 
 export function LinkProjectModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LinkProjectModel {
   if (json == null) {
     return json;

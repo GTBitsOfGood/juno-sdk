@@ -79,7 +79,7 @@ export interface RegisterEmailModel {
  * Check if a given object implements the RegisterEmailModel interface.
  */
 export function instanceOfRegisterEmailModel(
-  value: object
+  value: object,
 ): value is RegisterEmailModel {
   if (!('email' in value) || value['email'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
@@ -98,7 +98,7 @@ export function RegisterEmailModelFromJSON(json: any): RegisterEmailModel {
 
 export function RegisterEmailModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RegisterEmailModel {
   if (json == null) {
     return json;
@@ -117,7 +117,7 @@ export function RegisterEmailModelFromJSONTyped(
 }
 
 export function RegisterEmailModelToJSON(
-  value?: RegisterEmailModel | null
+  value?: RegisterEmailModel | null,
 ): any {
   if (value == null) {
     return value;

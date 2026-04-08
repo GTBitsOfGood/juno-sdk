@@ -19,7 +19,7 @@ export class AuthAPI {
   constructor(baseURL?: string, apiKey?: string) {
     this.apiKey = apiKey;
     this.internalApi = new AuthApi(
-      new Configuration({ basePath: baseURL, accessToken: apiKey })
+      new Configuration({ basePath: baseURL, accessToken: apiKey }),
     );
   }
   get junoApiKey(): string {
@@ -39,7 +39,7 @@ export class AuthAPI {
     validateString(password, 'The password for the user must be nonempty');
     validateString(
       environment,
-      'The environment for the user must be nonempty'
+      'The environment for the user must be nonempty',
     );
 
     email = email.trim();

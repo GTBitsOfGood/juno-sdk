@@ -31,7 +31,7 @@ export interface SendEmailResponse {
  * Check if a given object implements the SendEmailResponse interface.
  */
 export function instanceOfSendEmailResponse(
-  value: object
+  value: object,
 ): value is SendEmailResponse {
   if (!('success' in value) || value['success'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function SendEmailResponseFromJSON(json: any): SendEmailResponse {
 
 export function SendEmailResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SendEmailResponse {
   if (json == null) {
     return json;

@@ -38,41 +38,41 @@ export interface NewAccountRequestsResponse {
  * Check if a given object implements the NewAccountRequestsResponse interface.
  */
 export function instanceOfNewAccountRequestsResponse(
-  value: object
+  value: object,
 ): value is NewAccountRequestsResponse {
   if (!('requests' in value) || value['requests'] === undefined) return false;
   return true;
 }
 
 export function NewAccountRequestsResponseFromJSON(
-  json: any
+  json: any,
 ): NewAccountRequestsResponse {
   return NewAccountRequestsResponseFromJSONTyped(json, false);
 }
 
 export function NewAccountRequestsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): NewAccountRequestsResponse {
   if (json == null) {
     return json;
   }
   return {
     requests: (json['requests'] as Array<any>).map(
-      NewAccountRequestResponseFromJSON
+      NewAccountRequestResponseFromJSON,
     ),
   };
 }
 
 export function NewAccountRequestsResponseToJSON(
-  value?: NewAccountRequestsResponse | null
+  value?: NewAccountRequestsResponse | null,
 ): any {
   if (value == null) {
     return value;
   }
   return {
     requests: (value['requests'] as Array<any>).map(
-      NewAccountRequestResponseToJSON
+      NewAccountRequestResponseToJSON,
     ),
   };
 }

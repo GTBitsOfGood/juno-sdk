@@ -37,7 +37,7 @@ export interface LogVisitEventRequest {
  * Check if a given object implements the LogVisitEventRequest interface.
  */
 export function instanceOfLogVisitEventRequest(
-  value: object
+  value: object,
 ): value is LogVisitEventRequest {
   if (!('pageUrl' in value) || value['pageUrl'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -50,7 +50,7 @@ export function LogVisitEventRequestFromJSON(json: any): LogVisitEventRequest {
 
 export function LogVisitEventRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LogVisitEventRequest {
   if (json == null) {
     return json;
@@ -62,7 +62,7 @@ export function LogVisitEventRequestFromJSONTyped(
 }
 
 export function LogVisitEventRequestToJSON(
-  value?: LogVisitEventRequest | null
+  value?: LogVisitEventRequest | null,
 ): any {
   if (value == null) {
     return value;

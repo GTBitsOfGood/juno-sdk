@@ -20,7 +20,7 @@ class JunoAPI {
   get analyticsConfig(): AnalyticsConfigAPI {
     if (!this.analyticsConfigAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.analyticsConfigAPI;
@@ -29,7 +29,7 @@ class JunoAPI {
   get analytics(): AnalyticsAPI {
     if (!this.analyticsAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.analyticsAPI;
@@ -38,7 +38,7 @@ class JunoAPI {
   get user(): UserAPI {
     if (!this.userAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.userAPI;
@@ -47,7 +47,7 @@ class JunoAPI {
   get email(): EmailAPI {
     if (!this.emailAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.emailAPI;
@@ -56,7 +56,7 @@ class JunoAPI {
   get project(): ProjectAPI {
     if (!this.projectAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.projectAPI;
@@ -64,7 +64,7 @@ class JunoAPI {
   get file(): FileAPI {
     if (!this.fileAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.fileAPI;
@@ -72,7 +72,7 @@ class JunoAPI {
   get auth(): AuthAPI {
     if (!this.authAPI) {
       throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
+        'juno.init() must be called before using the Juno SDK',
       );
     }
     return this.authAPI;
@@ -87,7 +87,7 @@ class JunoAPI {
     this.analyticsAPI = new AnalyticsAPI(options.baseURL, this.apiKey);
     this.analyticsConfigAPI = new AnalyticsConfigAPI(
       options.baseURL,
-      this.apiKey
+      this.apiKey,
     );
     this.fileAPI = new FileAPI(options.baseURL, this.apiKey);
   }

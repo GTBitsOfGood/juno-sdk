@@ -38,7 +38,7 @@ export interface GetAllCustomEventTypeResponse {
  * Check if a given object implements the GetAllCustomEventTypeResponse interface.
  */
 export function instanceOfGetAllCustomEventTypeResponse(
-  value: object
+  value: object,
 ): value is GetAllCustomEventTypeResponse {
   if (!('eventTypes' in value) || value['eventTypes'] === undefined)
     return false;
@@ -46,34 +46,34 @@ export function instanceOfGetAllCustomEventTypeResponse(
 }
 
 export function GetAllCustomEventTypeResponseFromJSON(
-  json: any
+  json: any,
 ): GetAllCustomEventTypeResponse {
   return GetAllCustomEventTypeResponseFromJSONTyped(json, false);
 }
 
 export function GetAllCustomEventTypeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetAllCustomEventTypeResponse {
   if (json == null) {
     return json;
   }
   return {
     eventTypes: (json['eventTypes'] as Array<any>).map(
-      CustomEventTypeResponseFromJSON
+      CustomEventTypeResponseFromJSON,
     ),
   };
 }
 
 export function GetAllCustomEventTypeResponseToJSON(
-  value?: GetAllCustomEventTypeResponse | null
+  value?: GetAllCustomEventTypeResponse | null,
 ): any {
   if (value == null) {
     return value;
   }
   return {
     eventTypes: (value['eventTypes'] as Array<any>).map(
-      CustomEventTypeResponseToJSON
+      CustomEventTypeResponseToJSON,
     ),
   };
 }

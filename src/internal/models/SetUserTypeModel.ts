@@ -55,7 +55,7 @@ export type SetUserTypeModelTypeEnum =
  * Check if a given object implements the SetUserTypeModel interface.
  */
 export function instanceOfSetUserTypeModel(
-  value: object
+  value: object,
 ): value is SetUserTypeModel {
   if (!('type' in value) || value['type'] === undefined) return false;
   return true;
@@ -67,7 +67,7 @@ export function SetUserTypeModelFromJSON(json: any): SetUserTypeModel {
 
 export function SetUserTypeModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SetUserTypeModel {
   if (json == null) {
     return json;

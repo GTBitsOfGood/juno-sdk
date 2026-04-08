@@ -100,43 +100,43 @@ describe('Validate user identifier tests', () => {
 
   it('validates against having both inputs', () => {
     expect(() => validateUserIdentifier({ email: 'a', id: 4 } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against negative id', () => {
     expect(() => validateUserIdentifier({ email: 'a', id: -4 } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against empty email', () => {
     expect(() => validateUserIdentifier({ email: '' } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against null email', () => {
     expect(() => validateUserIdentifier({ email: null } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against null id', () => {
     expect(() => validateUserIdentifier({ id: null } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against valid id', () => {
     expect(() => validateUserIdentifier({ id: 3 } as any)).not.toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against valid email', () => {
     expect(() => validateUserIdentifier({ email: 'email' })).not.toThrow(
-      JunoError
+      JunoError,
     );
     expect(() => validateUserIdentifier({ id: 3 })).not.toThrow(JunoError);
   });
@@ -149,43 +149,43 @@ describe('Validate project identifier tests', () => {
 
   it('validates against having both inputs', () => {
     expect(() =>
-      validateProjectIdentifier({ name: 'a', id: 4 } as any)
+      validateProjectIdentifier({ name: 'a', id: 4 } as any),
     ).toThrow(JunoError);
   });
 
   it('validates against negative id', () => {
     expect(() =>
-      validateProjectIdentifier({ name: 'a', id: -4 } as any)
+      validateProjectIdentifier({ name: 'a', id: -4 } as any),
     ).toThrow(JunoError);
   });
 
   it('validates against empty name', () => {
     expect(() => validateProjectIdentifier({ name: '' } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against null name', () => {
     expect(() => validateProjectIdentifier({ name: null } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against null id', () => {
     expect(() => validateProjectIdentifier({ id: null } as any)).toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against valid id', () => {
     expect(() => validateProjectIdentifier({ id: 3 } as any)).not.toThrow(
-      JunoError
+      JunoError,
     );
   });
 
   it('validates against valid name', () => {
     expect(() => validateProjectIdentifier({ name: 'name' })).not.toThrow(
-      JunoError
+      JunoError,
     );
     expect(() => validateProjectIdentifier({ id: 3 })).not.toThrow(JunoError);
   });
@@ -202,7 +202,7 @@ describe('Validate sendgrid key tests', () => {
 
   it('fails validation against providing a sendgrid key without prefix of SG', () => {
     expect(() => validateSendGridKey('awdiojawiodj')).toThrow(
-      JunoValidationError
+      JunoValidationError,
     );
   });
 

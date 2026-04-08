@@ -31,21 +31,21 @@ export interface SetupFileServiceResponse {
  * Check if a given object implements the SetupFileServiceResponse interface.
  */
 export function instanceOfSetupFileServiceResponse(
-  value: object
+  value: object,
 ): value is SetupFileServiceResponse {
   if (!('success' in value) || value['success'] === undefined) return false;
   return true;
 }
 
 export function SetupFileServiceResponseFromJSON(
-  json: any
+  json: any,
 ): SetupFileServiceResponse {
   return SetupFileServiceResponseFromJSONTyped(json, false);
 }
 
 export function SetupFileServiceResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SetupFileServiceResponse {
   if (json == null) {
     return json;
@@ -56,7 +56,7 @@ export function SetupFileServiceResponseFromJSONTyped(
 }
 
 export function SetupFileServiceResponseToJSON(
-  value?: SetupFileServiceResponse | null
+  value?: SetupFileServiceResponse | null,
 ): any {
   if (value == null) {
     return value;

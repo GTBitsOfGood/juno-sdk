@@ -44,7 +44,7 @@ export interface GetCustomEventsResponse {
  * Check if a given object implements the GetCustomEventsResponse interface.
  */
 export function instanceOfGetCustomEventsResponse(
-  value: object
+  value: object,
 ): value is GetCustomEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   if (!('afterId' in value) || value['afterId'] === undefined) return false;
@@ -52,14 +52,14 @@ export function instanceOfGetCustomEventsResponse(
 }
 
 export function GetCustomEventsResponseFromJSON(
-  json: any
+  json: any,
 ): GetCustomEventsResponse {
   return GetCustomEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetCustomEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetCustomEventsResponse {
   if (json == null) {
     return json;
@@ -71,7 +71,7 @@ export function GetCustomEventsResponseFromJSONTyped(
 }
 
 export function GetCustomEventsResponseToJSON(
-  value?: GetCustomEventsResponse | null
+  value?: GetCustomEventsResponse | null,
 ): any {
   if (value == null) {
     return value;

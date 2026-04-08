@@ -37,7 +37,7 @@ export interface EmailRecipient {
  * Check if a given object implements the EmailRecipient interface.
  */
 export function instanceOfEmailRecipient(
-  value: object
+  value: object,
 ): value is EmailRecipient {
   if (!('email' in value) || value['email'] === undefined) return false;
   return true;
@@ -49,7 +49,7 @@ export function EmailRecipientFromJSON(json: any): EmailRecipient {
 
 export function EmailRecipientFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EmailRecipient {
   if (json == null) {
     return json;

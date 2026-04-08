@@ -83,12 +83,12 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerCreateProjectRaw(
     requestParameters: ProjectControllerCreateProjectRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<ProjectResponse>> {
     if (requestParameters['createProjectModel'] == null) {
       throw new runtime.RequiredError(
         'createProjectModel',
-        'Required parameter "createProjectModel" was null or undefined when calling projectControllerCreateProject().'
+        'Required parameter "createProjectModel" was null or undefined when calling projectControllerCreateProject().',
       );
     }
 
@@ -100,13 +100,13 @@ export class ProjectApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword']
+        requestParameters['xUserPassword'],
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail']
+        requestParameters['xUserEmail'],
       );
     }
 
@@ -126,11 +126,11 @@ export class ProjectApi extends runtime.BaseAPI {
         query: queryParameters,
         body: CreateProjectModelToJSON(requestParameters['createProjectModel']),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ProjectResponseFromJSON(jsonValue)
+      ProjectResponseFromJSON(jsonValue),
     );
   }
 
@@ -139,11 +139,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerCreateProject(
     requestParameters: ProjectControllerCreateProjectRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ProjectResponse> {
     const response = await this.projectControllerCreateProjectRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -153,12 +153,12 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerDeleteProjectByIdRaw(
     requestParameters: ProjectControllerDeleteProjectByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<ProjectResponse>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling projectControllerDeleteProjectById().'
+        'Required parameter "id" was null or undefined when calling projectControllerDeleteProjectById().',
       );
     }
 
@@ -168,13 +168,13 @@ export class ProjectApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword']
+        requestParameters['xUserPassword'],
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail']
+        requestParameters['xUserEmail'],
       );
     }
 
@@ -190,17 +190,17 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/id/{id}`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id']))
+          encodeURIComponent(String(requestParameters['id'])),
         ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ProjectResponseFromJSON(jsonValue)
+      ProjectResponseFromJSON(jsonValue),
     );
   }
 
@@ -209,11 +209,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerDeleteProjectById(
     requestParameters: ProjectControllerDeleteProjectByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ProjectResponse> {
     const response = await this.projectControllerDeleteProjectByIdRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -223,7 +223,7 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetAllProjectsRaw(
     requestParameters: ProjectControllerGetAllProjectsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<ProjectResponses>> {
     const queryParameters: any = {};
 
@@ -231,13 +231,13 @@ export class ProjectApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword']
+        requestParameters['xUserPassword'],
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail']
+        requestParameters['xUserEmail'],
       );
     }
 
@@ -256,11 +256,11 @@ export class ProjectApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ProjectResponsesFromJSON(jsonValue)
+      ProjectResponsesFromJSON(jsonValue),
     );
   }
 
@@ -269,11 +269,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetAllProjects(
     requestParameters: ProjectControllerGetAllProjectsRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ProjectResponses> {
     const response = await this.projectControllerGetAllProjectsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -283,12 +283,12 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetProjectByIdRaw(
     requestParameters: ProjectControllerGetProjectByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<ProjectResponse>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling projectControllerGetProjectById().'
+        'Required parameter "id" was null or undefined when calling projectControllerGetProjectById().',
       );
     }
 
@@ -308,17 +308,17 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/id/{id}`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id']))
+          encodeURIComponent(String(requestParameters['id'])),
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ProjectResponseFromJSON(jsonValue)
+      ProjectResponseFromJSON(jsonValue),
     );
   }
 
@@ -327,11 +327,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetProjectById(
     requestParameters: ProjectControllerGetProjectByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ProjectResponse> {
     const response = await this.projectControllerGetProjectByIdRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -341,12 +341,12 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetProjectByNameRaw(
     requestParameters: ProjectControllerGetProjectByNameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<ProjectResponse>> {
     if (requestParameters['name'] == null) {
       throw new runtime.RequiredError(
         'name',
-        'Required parameter "name" was null or undefined when calling projectControllerGetProjectByName().'
+        'Required parameter "name" was null or undefined when calling projectControllerGetProjectByName().',
       );
     }
 
@@ -366,17 +366,17 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/name/{name}`.replace(
           `{${'name'}}`,
-          encodeURIComponent(String(requestParameters['name']))
+          encodeURIComponent(String(requestParameters['name'])),
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ProjectResponseFromJSON(jsonValue)
+      ProjectResponseFromJSON(jsonValue),
     );
   }
 
@@ -385,11 +385,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetProjectByName(
     requestParameters: ProjectControllerGetProjectByNameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ProjectResponse> {
     const response = await this.projectControllerGetProjectByNameRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -399,12 +399,12 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetUsersByProjectRaw(
     requestParameters: ProjectControllerGetUsersByProjectRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UserResponses>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling projectControllerGetUsersByProject().'
+        'Required parameter "id" was null or undefined when calling projectControllerGetUsersByProject().',
       );
     }
 
@@ -414,13 +414,13 @@ export class ProjectApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword']
+        requestParameters['xUserPassword'],
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail']
+        requestParameters['xUserEmail'],
       );
     }
 
@@ -436,17 +436,17 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/{id}/users`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id']))
+          encodeURIComponent(String(requestParameters['id'])),
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UserResponsesFromJSON(jsonValue)
+      UserResponsesFromJSON(jsonValue),
     );
   }
 
@@ -455,11 +455,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerGetUsersByProject(
     requestParameters: ProjectControllerGetUsersByProjectRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UserResponses> {
     const response = await this.projectControllerGetUsersByProjectRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -469,19 +469,19 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerLinkUserWithProjectIdRaw(
     requestParameters: ProjectControllerLinkUserWithProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling projectControllerLinkUserWithProjectId().'
+        'Required parameter "id" was null or undefined when calling projectControllerLinkUserWithProjectId().',
       );
     }
 
     if (requestParameters['linkUserModel'] == null) {
       throw new runtime.RequiredError(
         'linkUserModel',
-        'Required parameter "linkUserModel" was null or undefined when calling projectControllerLinkUserWithProjectId().'
+        'Required parameter "linkUserModel" was null or undefined when calling projectControllerLinkUserWithProjectId().',
       );
     }
 
@@ -503,14 +503,14 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/id/{id}/user`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id']))
+          encodeURIComponent(String(requestParameters['id'])),
         ),
         method: 'PUT',
         headers: headerParameters,
         query: queryParameters,
         body: LinkUserModelToJSON(requestParameters['linkUserModel']),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -521,11 +521,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerLinkUserWithProjectId(
     requestParameters: ProjectControllerLinkUserWithProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
     await this.projectControllerLinkUserWithProjectIdRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
   }
 
@@ -534,19 +534,19 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerLinkUserWithProjectNameRaw(
     requestParameters: ProjectControllerLinkUserWithProjectNameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters['name'] == null) {
       throw new runtime.RequiredError(
         'name',
-        'Required parameter "name" was null or undefined when calling projectControllerLinkUserWithProjectName().'
+        'Required parameter "name" was null or undefined when calling projectControllerLinkUserWithProjectName().',
       );
     }
 
     if (requestParameters['linkUserModel'] == null) {
       throw new runtime.RequiredError(
         'linkUserModel',
-        'Required parameter "linkUserModel" was null or undefined when calling projectControllerLinkUserWithProjectName().'
+        'Required parameter "linkUserModel" was null or undefined when calling projectControllerLinkUserWithProjectName().',
       );
     }
 
@@ -568,14 +568,14 @@ export class ProjectApi extends runtime.BaseAPI {
       {
         path: `/project/name/{name}/user`.replace(
           `{${'name'}}`,
-          encodeURIComponent(String(requestParameters['name']))
+          encodeURIComponent(String(requestParameters['name'])),
         ),
         method: 'PUT',
         headers: headerParameters,
         query: queryParameters,
         body: LinkUserModelToJSON(requestParameters['linkUserModel']),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -586,11 +586,11 @@ export class ProjectApi extends runtime.BaseAPI {
    */
   async projectControllerLinkUserWithProjectName(
     requestParameters: ProjectControllerLinkUserWithProjectNameRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<void> {
     await this.projectControllerLinkUserWithProjectNameRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
   }
 }

@@ -31,7 +31,7 @@ export interface SetupEmailResponse {
  * Check if a given object implements the SetupEmailResponse interface.
  */
 export function instanceOfSetupEmailResponse(
-  value: object
+  value: object,
 ): value is SetupEmailResponse {
   if (!('success' in value) || value['success'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function SetupEmailResponseFromJSON(json: any): SetupEmailResponse {
 
 export function SetupEmailResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SetupEmailResponse {
   if (json == null) {
     return json;
@@ -54,7 +54,7 @@ export function SetupEmailResponseFromJSONTyped(
 }
 
 export function SetupEmailResponseToJSON(
-  value?: SetupEmailResponse | null
+  value?: SetupEmailResponse | null,
 ): any {
   if (value == null) {
     return value;

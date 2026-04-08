@@ -49,7 +49,7 @@ export interface RegisterFileBucketModel {
  * Check if a given object implements the RegisterFileBucketModel interface.
  */
 export function instanceOfRegisterFileBucketModel(
-  value: object
+  value: object,
 ): value is RegisterFileBucketModel {
   if (!('name' in value) || value['name'] === undefined) return false;
   if (!('configId' in value) || value['configId'] === undefined) return false;
@@ -61,14 +61,14 @@ export function instanceOfRegisterFileBucketModel(
 }
 
 export function RegisterFileBucketModelFromJSON(
-  json: any
+  json: any,
 ): RegisterFileBucketModel {
   return RegisterFileBucketModelFromJSONTyped(json, false);
 }
 
 export function RegisterFileBucketModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RegisterFileBucketModel {
   if (json == null) {
     return json;
@@ -82,7 +82,7 @@ export function RegisterFileBucketModelFromJSONTyped(
 }
 
 export function RegisterFileBucketModelToJSON(
-  value?: RegisterFileBucketModel | null
+  value?: RegisterFileBucketModel | null,
 ): any {
   if (value == null) {
     return value;

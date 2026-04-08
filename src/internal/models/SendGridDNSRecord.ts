@@ -49,7 +49,7 @@ export interface SendGridDNSRecord {
  * Check if a given object implements the SendGridDNSRecord interface.
  */
 export function instanceOfSendGridDNSRecord(
-  value: object
+  value: object,
 ): value is SendGridDNSRecord {
   if (!('valid' in value) || value['valid'] === undefined) return false;
   if (!('type' in value) || value['type'] === undefined) return false;
@@ -64,7 +64,7 @@ export function SendGridDNSRecordFromJSON(json: any): SendGridDNSRecord {
 
 export function SendGridDNSRecordFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SendGridDNSRecord {
   if (json == null) {
     return json;

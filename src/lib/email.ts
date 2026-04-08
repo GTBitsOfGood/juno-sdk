@@ -32,13 +32,13 @@ export class EmailAPI {
   constructor(baseURL?: string, auth?: AuthAPI) {
     this.auth = auth;
     this.internalApi = new EmailApi(
-      new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey })
+      new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey }),
     );
   }
 
   async getEmailConfig(
     projectId: string,
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<EmailConfigResponse> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -52,13 +52,13 @@ export class EmailAPI {
       { id: projectId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
   async setupEmail(
     options: SetupEmailServiceModel,
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<SetupEmailResponse> {
     const { sendgridKey } = options;
 
@@ -76,7 +76,7 @@ export class EmailAPI {
       { setupEmailServiceModel: options },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
@@ -90,12 +90,12 @@ export class EmailAPI {
       subject: string;
       contents: Array<EmailContent>;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<SendEmailResponse> {
     const { recipients, cc, bcc, sender, contents, replyToList } = options;
     if (!sender || !contents) {
       throw new JunoValidationError(
-        'Parameter recipients or sender or content cannot be null'
+        'Parameter recipients or sender or content cannot be null',
       );
     }
 
@@ -105,13 +105,13 @@ export class EmailAPI {
       (!bcc || bcc.length === 0)
     ) {
       throw new JunoValidationError(
-        'Email request must have at least one recipient, cc, or bcc.'
+        'Email request must have at least one recipient, cc, or bcc.',
       );
     }
 
     if (contents.length === 0) {
       throw new JunoValidationError(
-        'Parameter contents cannot be an empty array'
+        'Parameter contents cannot be an empty array',
       );
     }
     recipients?.forEach((recipient) => validateEmailRecipient(recipient));
@@ -141,7 +141,7 @@ export class EmailAPI {
         { sendEmailModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
+        }),
       );
     } catch (e) {
       throw e;
@@ -159,7 +159,7 @@ export class EmailAPI {
       zip: string;
       country: string;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<RegisterEmailResponse> {
     let { email, name, replyTo, nickname, address, city, state, zip, country } =
       options;
@@ -203,7 +203,7 @@ export class EmailAPI {
         { registerEmailModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
+        }),
       );
     } catch (e) {
       throw e;
@@ -214,7 +214,7 @@ export class EmailAPI {
       domain: string;
       subdomain: string | undefined;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<RegisterDomainResponse> {
     const { domain, subdomain } = options;
 
@@ -238,7 +238,7 @@ export class EmailAPI {
         { registerDomainModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
+        }),
       );
     } catch (e) {
       throw e;
@@ -248,7 +248,7 @@ export class EmailAPI {
     options: {
       domain: string;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<RegisterDomainResponse> {
     const { domain } = options;
 
@@ -271,7 +271,7 @@ export class EmailAPI {
         { verifyDomainModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
+        }),
       );
     } catch (e) {
       throw e;
@@ -287,12 +287,11 @@ export class EmailAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const basePath =
-      (this.internalApi as any).configuration?.basePath ?? '';
-    const token =
-      (this.internalApi as any).configuration?.accessToken;
+    const basePath = (this.internalApi as any).configuration?.basePath ?? '';
+    const token = (this.internalApi as any).configuration?.accessToken;
     if (token) {
-      const tokenString = typeof token === 'function' ? await token('API_Key', []) : token;
+      const tokenString =
+        typeof token === 'function' ? await token('API_Key', []) : token;
       if (tokenString) {
         headers['Authorization'] = `Bearer ${tokenString}`;
       }
@@ -319,12 +318,11 @@ export class EmailAPI {
       headers['X-Project-Id'] = String(credentials.projectId);
     }
 
-    const basePath =
-      (this.internalApi as any).configuration?.basePath ?? '';
-    const token =
-      (this.internalApi as any).configuration?.accessToken;
+    const basePath = (this.internalApi as any).configuration?.basePath ?? '';
+    const token = (this.internalApi as any).configuration?.accessToken;
     if (token) {
-      const tokenString = typeof token === 'function' ? await token('API_Key', []) : token;
+      const tokenString =
+        typeof token === 'function' ? await token('API_Key', []) : token;
       if (tokenString) {
         headers['Authorization'] = `Bearer ${tokenString}`;
       }
@@ -350,7 +348,7 @@ export class EmailAPI {
       offset?: number;
       aggregatedBy?: string;
     },
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<any> {
     const { startDate, endDate, limit, offset, aggregatedBy } = options;
 
@@ -368,7 +366,7 @@ export class EmailAPI {
       { startDate, limit, offset, aggregatedBy: aggregatedBy as any, endDate },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 }

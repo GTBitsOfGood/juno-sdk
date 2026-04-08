@@ -12,22 +12,22 @@ export class AnalyticsConfigAPI {
   private internalApi: AnalyticsConfigApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new AnalyticsConfigApi(
-      new Configuration({ basePath: baseURL, accessToken: apiKey })
+      new Configuration({ basePath: baseURL, accessToken: apiKey }),
     );
   }
 
   async createAnalyticsConfig(
     config: CreateAnalyticsConfigModel,
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       config.clientAnalyticsKey,
-      'The clientAnalyticsKey must be provided as an input and has to be nonempty.'
+      'The clientAnalyticsKey must be provided as an input and has to be nonempty.',
     );
 
     validateString(
       config.serverAnalyticsKey,
-      'The serverAnalyticsKey must be provided as an input and has to be nonempty.'
+      'The serverAnalyticsKey must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -45,17 +45,17 @@ export class AnalyticsConfigAPI {
       { createAnalyticsConfigModel: config },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
   async getAnalyticsConfig(
     projectId: string,
-    credentials?: ApiCredentials
+    credentials?: ApiCredentials,
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       projectId,
-      'The projectId must be provided as an input and has to be nonempty.'
+      'The projectId must be provided as an input and has to be nonempty.',
     );
 
     const headers: Record<string, string> = {};
@@ -70,37 +70,37 @@ export class AnalyticsConfigAPI {
       { projectId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      })
+      }),
     );
   }
 
   async updateAnalyticsConfig(
     projectId: string,
-    config: UpdateAnalyticsConfigModel
+    config: UpdateAnalyticsConfigModel,
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       projectId,
-      'The projectId must be provided as an input and has to be nonempty.'
+      'The projectId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsConfigControllerUpdateAnalyticsConfig(
       {
         projectId,
         updateAnalyticsConfigModel: config,
-      }
+      },
     );
   }
 
   async deleteAnalyticsConfig(
-    projectId: string
+    projectId: string,
   ): Promise<AnalyticsConfigResponse> {
     validateString(
       projectId,
-      'The projectId must be provided as an input and has to be nonempty.'
+      'The projectId must be provided as an input and has to be nonempty.',
     );
 
     return await this.internalApi.analyticsConfigControllerDeleteAnalyticsConfig(
-      { projectId }
+      { projectId },
     );
   }
 }

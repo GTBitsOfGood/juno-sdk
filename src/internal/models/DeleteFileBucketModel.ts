@@ -43,7 +43,7 @@ export interface DeleteFileBucketModel {
  * Check if a given object implements the DeleteFileBucketModel interface.
  */
 export function instanceOfDeleteFileBucketModel(
-  value: object
+  value: object,
 ): value is DeleteFileBucketModel {
   if (!('name' in value) || value['name'] === undefined) return false;
   if (!('configId' in value) || value['configId'] === undefined) return false;
@@ -53,14 +53,14 @@ export function instanceOfDeleteFileBucketModel(
 }
 
 export function DeleteFileBucketModelFromJSON(
-  json: any
+  json: any,
 ): DeleteFileBucketModel {
   return DeleteFileBucketModelFromJSONTyped(json, false);
 }
 
 export function DeleteFileBucketModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DeleteFileBucketModel {
   if (json == null) {
     return json;
@@ -73,7 +73,7 @@ export function DeleteFileBucketModelFromJSONTyped(
 }
 
 export function DeleteFileBucketModelToJSON(
-  value?: DeleteFileBucketModel | null
+  value?: DeleteFileBucketModel | null,
 ): any {
   if (value == null) {
     return value;

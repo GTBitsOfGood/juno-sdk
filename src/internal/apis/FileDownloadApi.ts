@@ -34,12 +34,12 @@ export class FileDownloadApi extends runtime.BaseAPI {
    */
   async fileDownloadControllerDownloadFileRaw(
     requestParameters: FileDownloadControllerDownloadFileRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<DownloadFileResponse>> {
     if (requestParameters['downloadFileModel'] == null) {
       throw new runtime.RequiredError(
         'downloadFileModel',
-        'Required parameter "downloadFileModel" was null or undefined when calling fileDownloadControllerDownloadFile().'
+        'Required parameter "downloadFileModel" was null or undefined when calling fileDownloadControllerDownloadFile().',
       );
     }
 
@@ -65,11 +65,11 @@ export class FileDownloadApi extends runtime.BaseAPI {
         query: queryParameters,
         body: DownloadFileModelToJSON(requestParameters['downloadFileModel']),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      DownloadFileResponseFromJSON(jsonValue)
+      DownloadFileResponseFromJSON(jsonValue),
     );
   }
 
@@ -78,11 +78,11 @@ export class FileDownloadApi extends runtime.BaseAPI {
    */
   async fileDownloadControllerDownloadFile(
     requestParameters: FileDownloadControllerDownloadFileRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<DownloadFileResponse> {
     const response = await this.fileDownloadControllerDownloadFileRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

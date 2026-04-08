@@ -80,7 +80,7 @@ export interface ClickEventResponse {
  * Check if a given object implements the ClickEventResponse interface.
  */
 export function instanceOfClickEventResponse(
-  value: object
+  value: object,
 ): value is ClickEventResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('category' in value) || value['category'] === undefined) return false;
@@ -102,7 +102,7 @@ export function ClickEventResponseFromJSON(json: any): ClickEventResponse {
 
 export function ClickEventResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClickEventResponse {
   if (json == null) {
     return json;
@@ -120,7 +120,7 @@ export function ClickEventResponseFromJSONTyped(
 }
 
 export function ClickEventResponseToJSON(
-  value?: ClickEventResponse | null
+  value?: ClickEventResponse | null,
 ): any {
   if (value == null) {
     return value;

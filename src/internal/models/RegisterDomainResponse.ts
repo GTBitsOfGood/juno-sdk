@@ -56,7 +56,7 @@ export interface RegisterDomainResponse {
  * Check if a given object implements the RegisterDomainResponse interface.
  */
 export function instanceOfRegisterDomainResponse(
-  value: object
+  value: object,
 ): value is RegisterDomainResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('valid' in value) || value['valid'] === undefined) return false;
@@ -67,14 +67,14 @@ export function instanceOfRegisterDomainResponse(
 }
 
 export function RegisterDomainResponseFromJSON(
-  json: any
+  json: any,
 ): RegisterDomainResponse {
   return RegisterDomainResponseFromJSONTyped(json, false);
 }
 
 export function RegisterDomainResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RegisterDomainResponse {
   if (json == null) {
     return json;
@@ -88,7 +88,7 @@ export function RegisterDomainResponseFromJSONTyped(
 }
 
 export function RegisterDomainResponseToJSON(
-  value?: RegisterDomainResponse | null
+  value?: RegisterDomainResponse | null,
 ): any {
   if (value == null) {
     return value;

@@ -34,12 +34,12 @@ export class FileUploadApi extends runtime.BaseAPI {
    */
   async fileUploadControllerUploadFileRaw(
     requestParameters: FileUploadControllerUploadFileRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<UploadFileResponse>> {
     if (requestParameters['uploadFileModel'] == null) {
       throw new runtime.RequiredError(
         'uploadFileModel',
-        'Required parameter "uploadFileModel" was null or undefined when calling fileUploadControllerUploadFile().'
+        'Required parameter "uploadFileModel" was null or undefined when calling fileUploadControllerUploadFile().',
       );
     }
 
@@ -65,11 +65,11 @@ export class FileUploadApi extends runtime.BaseAPI {
         query: queryParameters,
         body: UploadFileModelToJSON(requestParameters['uploadFileModel']),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      UploadFileResponseFromJSON(jsonValue)
+      UploadFileResponseFromJSON(jsonValue),
     );
   }
 
@@ -78,11 +78,11 @@ export class FileUploadApi extends runtime.BaseAPI {
    */
   async fileUploadControllerUploadFile(
     requestParameters: FileUploadControllerUploadFileRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UploadFileResponse> {
     const response = await this.fileUploadControllerUploadFileRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

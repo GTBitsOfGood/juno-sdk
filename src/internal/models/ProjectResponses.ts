@@ -38,7 +38,7 @@ export interface ProjectResponses {
  * Check if a given object implements the ProjectResponses interface.
  */
 export function instanceOfProjectResponses(
-  value: object
+  value: object,
 ): value is ProjectResponses {
   if (!('projects' in value) || value['projects'] === undefined) return false;
   return true;
@@ -50,7 +50,7 @@ export function ProjectResponsesFromJSON(json: any): ProjectResponses {
 
 export function ProjectResponsesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ProjectResponses {
   if (json == null) {
     return json;

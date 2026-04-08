@@ -82,7 +82,7 @@ export function UserResponseFromJSON(json: any): UserResponse {
 
 export function UserResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): UserResponse {
   if (json == null) {
     return json;
