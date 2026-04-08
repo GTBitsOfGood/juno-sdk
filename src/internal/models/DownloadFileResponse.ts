@@ -31,7 +31,7 @@ export interface DownloadFileResponse {
  * Check if a given object implements the DownloadFileResponse interface.
  */
 export function instanceOfDownloadFileResponse(
-  value: object,
+  value: object
 ): value is DownloadFileResponse {
   if (!('url' in value) || value['url'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function DownloadFileResponseFromJSON(json: any): DownloadFileResponse {
 
 export function DownloadFileResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): DownloadFileResponse {
   if (json == null) {
     return json;
@@ -54,7 +54,7 @@ export function DownloadFileResponseFromJSONTyped(
 }
 
 export function DownloadFileResponseToJSON(
-  value?: DownloadFileResponse | null,
+  value?: DownloadFileResponse | null
 ): any {
   if (value == null) {
     return value;

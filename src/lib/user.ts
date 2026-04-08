@@ -43,7 +43,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.userControllerCreateUser({
@@ -64,7 +64,7 @@ export class UserAPI {
     if (project.name) {
       validateString(
         project.name,
-        'The project name must be a non-empty string.',
+        'The project name must be a non-empty string.'
       );
       project.name = project.name.trim();
     }
@@ -79,7 +79,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       await this.internalApi.userControllerLinkUserWithProjectIdRaw({
@@ -111,7 +111,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       await this.internalApi.userControllerSetUserTypeRaw({
@@ -139,7 +139,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.userControllerGetAllUsers({
@@ -161,7 +161,7 @@ export class UserAPI {
     if (project.name) {
       validateString(
         project.name,
-        'The project name must be a non-empty string.',
+        'The project name must be a non-empty string.'
       );
       project.name = project.name.trim();
     }
@@ -176,7 +176,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       await this.internalApi.userControllerUnlinkUserFromProjectRaw({
@@ -205,7 +205,7 @@ export class UserAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.userControllerDeleteUserById({

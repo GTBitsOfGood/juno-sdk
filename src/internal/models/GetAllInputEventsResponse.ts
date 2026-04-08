@@ -38,21 +38,21 @@ export interface GetAllInputEventsResponse {
  * Check if a given object implements the GetAllInputEventsResponse interface.
  */
 export function instanceOfGetAllInputEventsResponse(
-  value: object,
+  value: object
 ): value is GetAllInputEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   return true;
 }
 
 export function GetAllInputEventsResponseFromJSON(
-  json: any,
+  json: any
 ): GetAllInputEventsResponse {
   return GetAllInputEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetAllInputEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): GetAllInputEventsResponse {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function GetAllInputEventsResponseFromJSONTyped(
 }
 
 export function GetAllInputEventsResponseToJSON(
-  value?: GetAllInputEventsResponse | null,
+  value?: GetAllInputEventsResponse | null
 ): any {
   if (value == null) {
     return value;

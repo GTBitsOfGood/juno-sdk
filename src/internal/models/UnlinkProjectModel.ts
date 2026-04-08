@@ -37,7 +37,7 @@ export interface UnlinkProjectModel {
  * Check if a given object implements the UnlinkProjectModel interface.
  */
 export function instanceOfUnlinkProjectModel(
-  value: object,
+  value: object
 ): value is UnlinkProjectModel {
   return true;
 }
@@ -48,7 +48,7 @@ export function UnlinkProjectModelFromJSON(json: any): UnlinkProjectModel {
 
 export function UnlinkProjectModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): UnlinkProjectModel {
   if (json == null) {
     return json;
@@ -60,7 +60,7 @@ export function UnlinkProjectModelFromJSONTyped(
 }
 
 export function UnlinkProjectModelToJSON(
-  value?: UnlinkProjectModel | null,
+  value?: UnlinkProjectModel | null
 ): any {
   if (value == null) {
     return value;

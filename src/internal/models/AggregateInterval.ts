@@ -41,7 +41,7 @@ export function AggregateIntervalFromJSON(json: any): AggregateInterval {
 
 export function AggregateIntervalFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): AggregateInterval {
   return json as AggregateInterval;
 }

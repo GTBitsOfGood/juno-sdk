@@ -31,7 +31,7 @@ export interface UploadFileResponse {
  * Check if a given object implements the UploadFileResponse interface.
  */
 export function instanceOfUploadFileResponse(
-  value: object,
+  value: object
 ): value is UploadFileResponse {
   if (!('url' in value) || value['url'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function UploadFileResponseFromJSON(json: any): UploadFileResponse {
 
 export function UploadFileResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): UploadFileResponse {
   if (json == null) {
     return json;
@@ -54,7 +54,7 @@ export function UploadFileResponseFromJSONTyped(
 }
 
 export function UploadFileResponseToJSON(
-  value?: UploadFileResponse | null,
+  value?: UploadFileResponse | null
 ): any {
   if (value == null) {
     return value;

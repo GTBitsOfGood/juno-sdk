@@ -37,7 +37,7 @@ export interface FileProviderPartial {
  * Check if a given object implements the FileProviderPartial interface.
  */
 export function instanceOfFileProviderPartial(
-  value: object,
+  value: object
 ): value is FileProviderPartial {
   if (!('providerName' in value) || value['providerName'] === undefined)
     return false;
@@ -51,7 +51,7 @@ export function FileProviderPartialFromJSON(json: any): FileProviderPartial {
 
 export function FileProviderPartialFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): FileProviderPartial {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function FileProviderPartialFromJSONTyped(
 }
 
 export function FileProviderPartialToJSON(
-  value?: FileProviderPartial | null,
+  value?: FileProviderPartial | null
 ): any {
   if (value == null) {
     return value;

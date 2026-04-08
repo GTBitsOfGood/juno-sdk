@@ -48,7 +48,7 @@ export function ModelFileFromJSON(json: any): ModelFile {
 
 export function ModelFileFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): ModelFile {
   if (json == null) {
     return json;

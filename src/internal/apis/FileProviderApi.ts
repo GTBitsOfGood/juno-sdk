@@ -44,12 +44,12 @@ export class FileProviderApi extends runtime.BaseAPI {
    */
   async fileProviderControllerDeleteFileProviderRaw(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileProviderPartial>> {
     if (requestParameters['name'] == null) {
       throw new runtime.RequiredError(
         'name',
-        'Required parameter "name" was null or undefined when calling fileProviderControllerDeleteFileProvider().',
+        'Required parameter "name" was null or undefined when calling fileProviderControllerDeleteFileProvider().'
       );
     }
 
@@ -69,17 +69,17 @@ export class FileProviderApi extends runtime.BaseAPI {
       {
         path: `/file/provider/{name}`.replace(
           `{${'name'}}`,
-          encodeURIComponent(String(requestParameters['name'])),
+          encodeURIComponent(String(requestParameters['name']))
         ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileProviderPartialFromJSON(jsonValue),
+      FileProviderPartialFromJSON(jsonValue)
     );
   }
 
@@ -88,11 +88,11 @@ export class FileProviderApi extends runtime.BaseAPI {
    */
   async fileProviderControllerDeleteFileProvider(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileProviderPartial> {
     const response = await this.fileProviderControllerDeleteFileProviderRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -101,7 +101,7 @@ export class FileProviderApi extends runtime.BaseAPI {
    * Get All File Providers.
    */
   async fileProviderControllerGetAllFileProvidersRaw(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<Array<FileProvider>>> {
     const queryParameters: any = {};
 
@@ -122,11 +122,11 @@ export class FileProviderApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(FileProviderFromJSON),
+      jsonValue.map(FileProviderFromJSON)
     );
   }
 
@@ -134,10 +134,11 @@ export class FileProviderApi extends runtime.BaseAPI {
    * Get All File Providers.
    */
   async fileProviderControllerGetAllFileProviders(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<Array<FileProvider>> {
-    const response =
-      await this.fileProviderControllerGetAllFileProvidersRaw(initOverrides);
+    const response = await this.fileProviderControllerGetAllFileProvidersRaw(
+      initOverrides
+    );
     return await response.value();
   }
 
@@ -146,12 +147,12 @@ export class FileProviderApi extends runtime.BaseAPI {
    */
   async fileProviderControllerRegisterFileProviderRaw(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileProviderPartial>> {
     if (requestParameters['registerFileProviderModel'] == null) {
       throw new runtime.RequiredError(
         'registerFileProviderModel',
-        'Required parameter "registerFileProviderModel" was null or undefined when calling fileProviderControllerRegisterFileProvider().',
+        'Required parameter "registerFileProviderModel" was null or undefined when calling fileProviderControllerRegisterFileProvider().'
       );
     }
 
@@ -176,14 +177,14 @@ export class FileProviderApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: RegisterFileProviderModelToJSON(
-          requestParameters['registerFileProviderModel'],
+          requestParameters['registerFileProviderModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileProviderPartialFromJSON(jsonValue),
+      FileProviderPartialFromJSON(jsonValue)
     );
   }
 
@@ -192,11 +193,11 @@ export class FileProviderApi extends runtime.BaseAPI {
    */
   async fileProviderControllerRegisterFileProvider(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileProviderPartial> {
     const response = await this.fileProviderControllerRegisterFileProviderRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }

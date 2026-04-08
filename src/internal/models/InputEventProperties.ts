@@ -43,7 +43,7 @@ export interface InputEventProperties {
  * Check if a given object implements the InputEventProperties interface.
  */
 export function instanceOfInputEventProperties(
-  value: object,
+  value: object
 ): value is InputEventProperties {
   if (!('objectId' in value) || value['objectId'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -57,7 +57,7 @@ export function InputEventPropertiesFromJSON(json: any): InputEventProperties {
 
 export function InputEventPropertiesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): InputEventProperties {
   if (json == null) {
     return json;
@@ -70,7 +70,7 @@ export function InputEventPropertiesFromJSONTyped(
 }
 
 export function InputEventPropertiesToJSON(
-  value?: InputEventProperties | null,
+  value?: InputEventProperties | null
 ): any {
   if (value == null) {
     return value;

@@ -56,7 +56,7 @@ export interface FileConfigResponse {
  * Check if a given object implements the FileConfigResponse interface.
  */
 export function instanceOfFileConfigResponse(
-  value: object,
+  value: object
 ): value is FileConfigResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('environment' in value) || value['environment'] === undefined)
@@ -72,7 +72,7 @@ export function FileConfigResponseFromJSON(json: any): FileConfigResponse {
 
 export function FileConfigResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): FileConfigResponse {
   if (json == null) {
     return json;
@@ -86,7 +86,7 @@ export function FileConfigResponseFromJSONTyped(
 }
 
 export function FileConfigResponseToJSON(
-  value?: FileConfigResponse | null,
+  value?: FileConfigResponse | null
 ): any {
   if (value == null) {
     return value;

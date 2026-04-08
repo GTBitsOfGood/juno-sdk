@@ -350,51 +350,139 @@ describe('verify domain validation tests', () => {
 });
 
 describe('getSenders tests', () => {
-  it('throws an error when called without API key', async () => {
-    let emailApi = new EmailAPI();
+  const originalFetch = global.fetch;
 
-    await expect(
-      (async () => {
-        await emailApi.getSenders();
-      })(),
-    ).rejects.toThrow();
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
-  it('throws an error when called with invalid credentials', async () => {
-    let emailApi = new EmailAPI('http://localhost:invalid');
+  it('throws an error when baseURL is not configured', async () => {
+    let emailApi = new EmailAPI();
+
+    await expect(emailApi.getSenders()).rejects.toThrow(
+      'Base URL is not configured for EmailAPI',
+    );
+  });
+
+  it('throws an error when response is not ok', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      statusText: 'Unauthorized',
+    });
+
+    let emailApi = new EmailAPI('http://localhost:8888', undefined);
 
     await expect(
-      (async () => {
-        await emailApi.getSenders({
-          userJwt: 'invalid-jwt',
-          projectId: 1,
-        });
-      })(),
-    ).rejects.toThrow();
+      emailApi.getSenders({ userJwt: 'test-jwt', projectId: 1 }),
+    ).rejects.toThrow('Failed to get senders: Unauthorized');
+  });
+
+  it('returns senders on success', async () => {
+    const mockSenders = {
+      senders: [
+        {
+          id: 1,
+          nickname: 'Test Sender',
+          fromEmail: 'test@example.com',
+          fromName: 'Test',
+          replyTo: 'test@example.com',
+          address: '123 Main St',
+          city: 'Atlanta',
+          state: 'GA',
+          country: 'USA',
+          zip: '30332',
+          verified: true,
+          locked: false,
+        },
+      ],
+    };
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockSenders,
+    });
+
+    let emailApi = new EmailAPI('http://localhost:8888', undefined);
+    const result = await emailApi.getSenders({
+      userJwt: 'test-jwt',
+      projectId: 1,
+    });
+
+    expect(result).toEqual(mockSenders);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:8888/email/senders',
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'X-User-JWT': 'test-jwt',
+          'X-Project-Id': '1',
+        }),
+      }),
+    );
   });
 });
 
 describe('getDomains tests', () => {
-  it('throws an error when called without API key', async () => {
-    let emailApi = new EmailAPI();
+  const originalFetch = global.fetch;
 
-    await expect(
-      (async () => {
-        await emailApi.getDomains();
-      })(),
-    ).rejects.toThrow();
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
-  it('throws an error when called with invalid credentials', async () => {
-    let emailApi = new EmailAPI('http://localhost:invalid');
+  it('throws an error when baseURL is not configured', async () => {
+    let emailApi = new EmailAPI();
+
+    await expect(emailApi.getDomains()).rejects.toThrow(
+      'Base URL is not configured for EmailAPI',
+    );
+  });
+
+  it('throws an error when response is not ok', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      statusText: 'Forbidden',
+    });
+
+    let emailApi = new EmailAPI('http://localhost:8888', undefined);
 
     await expect(
-      (async () => {
-        await emailApi.getDomains({
-          userJwt: 'invalid-jwt',
-          projectId: 1,
-        });
-      })(),
-    ).rejects.toThrow();
+      emailApi.getDomains({ userJwt: 'test-jwt', projectId: 1 }),
+    ).rejects.toThrow('Failed to get domains: Forbidden');
+  });
+
+  it('returns domains on success', async () => {
+    const mockDomains = {
+      domains: [
+        {
+          id: 1,
+          domain: 'example.com',
+          subdomain: 'mail',
+          valid: true,
+        },
+      ],
+    };
+
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockDomains,
+    });
+
+    let emailApi = new EmailAPI('http://localhost:8888', undefined);
+    const result = await emailApi.getDomains({
+      userJwt: 'test-jwt',
+      projectId: 1,
+    });
+
+    expect(result).toEqual(mockDomains);
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:8888/email/domains',
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'X-User-JWT': 'test-jwt',
+          'X-Project-Id': '1',
+        }),
+      }),
+    );
   });
 });

@@ -80,7 +80,7 @@ export interface InputEventResponse {
  * Check if a given object implements the InputEventResponse interface.
  */
 export function instanceOfInputEventResponse(
-  value: object,
+  value: object
 ): value is InputEventResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('category' in value) || value['category'] === undefined) return false;
@@ -102,7 +102,7 @@ export function InputEventResponseFromJSON(json: any): InputEventResponse {
 
 export function InputEventResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): InputEventResponse {
   if (json == null) {
     return json;
@@ -120,7 +120,7 @@ export function InputEventResponseFromJSONTyped(
 }
 
 export function InputEventResponseToJSON(
-  value?: InputEventResponse | null,
+  value?: InputEventResponse | null
 ): any {
   if (value == null) {
     return value;

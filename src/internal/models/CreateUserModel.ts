@@ -43,7 +43,7 @@ export interface CreateUserModel {
  * Check if a given object implements the CreateUserModel interface.
  */
 export function instanceOfCreateUserModel(
-  value: object,
+  value: object
 ): value is CreateUserModel {
   if (!('email' in value) || value['email'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
@@ -57,7 +57,7 @@ export function CreateUserModelFromJSON(json: any): CreateUserModel {
 
 export function CreateUserModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): CreateUserModel {
   if (json == null) {
     return json;

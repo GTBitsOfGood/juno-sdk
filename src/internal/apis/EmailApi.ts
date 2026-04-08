@@ -95,12 +95,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerGetEmailConfigByIdRaw(
     requestParameters: EmailControllerGetEmailConfigByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<EmailConfigResponse>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling emailControllerGetEmailConfigById().',
+        'Required parameter "id" was null or undefined when calling emailControllerGetEmailConfigById().'
       );
     }
 
@@ -120,17 +120,17 @@ export class EmailApi extends runtime.BaseAPI {
       {
         path: `/email/config/{id}`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id'])),
+          encodeURIComponent(String(requestParameters['id']))
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      EmailConfigResponseFromJSON(jsonValue),
+      EmailConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -139,11 +139,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerGetEmailConfigById(
     requestParameters: EmailControllerGetEmailConfigByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<EmailConfigResponse> {
     const response = await this.emailControllerGetEmailConfigByIdRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -153,12 +153,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerGetStatisticsRaw(
     requestParameters: EmailControllerGetStatisticsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<SendEmailStatisticsResponses>> {
     if (requestParameters['startDate'] == null) {
       throw new runtime.RequiredError(
         'startDate',
-        'Required parameter "startDate" was null or undefined when calling emailControllerGetStatistics().',
+        'Required parameter "startDate" was null or undefined when calling emailControllerGetStatistics().'
       );
     }
 
@@ -201,11 +201,11 @@ export class EmailApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SendEmailStatisticsResponsesFromJSON(jsonValue),
+      SendEmailStatisticsResponsesFromJSON(jsonValue)
     );
   }
 
@@ -214,11 +214,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerGetStatistics(
     requestParameters: EmailControllerGetStatisticsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<SendEmailStatisticsResponses> {
     const response = await this.emailControllerGetStatisticsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -228,12 +228,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerRegisterEmailDomainRaw(
     requestParameters: EmailControllerRegisterEmailDomainRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<RegisterDomainResponse>> {
     if (requestParameters['registerDomainModel'] == null) {
       throw new runtime.RequiredError(
         'registerDomainModel',
-        'Required parameter "registerDomainModel" was null or undefined when calling emailControllerRegisterEmailDomain().',
+        'Required parameter "registerDomainModel" was null or undefined when calling emailControllerRegisterEmailDomain().'
       );
     }
 
@@ -258,14 +258,14 @@ export class EmailApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: RegisterDomainModelToJSON(
-          requestParameters['registerDomainModel'],
+          requestParameters['registerDomainModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      RegisterDomainResponseFromJSON(jsonValue),
+      RegisterDomainResponseFromJSON(jsonValue)
     );
   }
 
@@ -274,11 +274,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerRegisterEmailDomain(
     requestParameters: EmailControllerRegisterEmailDomainRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<RegisterDomainResponse> {
     const response = await this.emailControllerRegisterEmailDomainRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -288,12 +288,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerRegisterSenderAddressRaw(
     requestParameters: EmailControllerRegisterSenderAddressRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<RegisterEmailResponse>> {
     if (requestParameters['registerEmailModel'] == null) {
       throw new runtime.RequiredError(
         'registerEmailModel',
-        'Required parameter "registerEmailModel" was null or undefined when calling emailControllerRegisterSenderAddress().',
+        'Required parameter "registerEmailModel" was null or undefined when calling emailControllerRegisterSenderAddress().'
       );
     }
 
@@ -319,11 +319,11 @@ export class EmailApi extends runtime.BaseAPI {
         query: queryParameters,
         body: RegisterEmailModelToJSON(requestParameters['registerEmailModel']),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      RegisterEmailResponseFromJSON(jsonValue),
+      RegisterEmailResponseFromJSON(jsonValue)
     );
   }
 
@@ -332,11 +332,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerRegisterSenderAddress(
     requestParameters: EmailControllerRegisterSenderAddressRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<RegisterEmailResponse> {
     const response = await this.emailControllerRegisterSenderAddressRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -346,12 +346,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerSendEmailRaw(
     requestParameters: EmailControllerSendEmailRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<SendEmailResponse>> {
     if (requestParameters['sendEmailModel'] == null) {
       throw new runtime.RequiredError(
         'sendEmailModel',
-        'Required parameter "sendEmailModel" was null or undefined when calling emailControllerSendEmail().',
+        'Required parameter "sendEmailModel" was null or undefined when calling emailControllerSendEmail().'
       );
     }
 
@@ -377,11 +377,11 @@ export class EmailApi extends runtime.BaseAPI {
         query: queryParameters,
         body: SendEmailModelToJSON(requestParameters['sendEmailModel']),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SendEmailResponseFromJSON(jsonValue),
+      SendEmailResponseFromJSON(jsonValue)
     );
   }
 
@@ -390,11 +390,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerSendEmail(
     requestParameters: EmailControllerSendEmailRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<SendEmailResponse> {
     const response = await this.emailControllerSendEmailRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -404,12 +404,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerSetupRaw(
     requestParameters: EmailControllerSetupRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<SetupEmailResponse>> {
     if (requestParameters['setupEmailServiceModel'] == null) {
       throw new runtime.RequiredError(
         'setupEmailServiceModel',
-        'Required parameter "setupEmailServiceModel" was null or undefined when calling emailControllerSetup().',
+        'Required parameter "setupEmailServiceModel" was null or undefined when calling emailControllerSetup().'
       );
     }
 
@@ -434,14 +434,14 @@ export class EmailApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: SetupEmailServiceModelToJSON(
-          requestParameters['setupEmailServiceModel'],
+          requestParameters['setupEmailServiceModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SetupEmailResponseFromJSON(jsonValue),
+      SetupEmailResponseFromJSON(jsonValue)
     );
   }
 
@@ -450,11 +450,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerSetup(
     requestParameters: EmailControllerSetupRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<SetupEmailResponse> {
     const response = await this.emailControllerSetupRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -464,12 +464,12 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerVerifySenderDomainRaw(
     requestParameters: EmailControllerVerifySenderDomainRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<RegisterDomainResponse>> {
     if (requestParameters['verifyDomainModel'] == null) {
       throw new runtime.RequiredError(
         'verifyDomainModel',
-        'Required parameter "verifyDomainModel" was null or undefined when calling emailControllerVerifySenderDomain().',
+        'Required parameter "verifyDomainModel" was null or undefined when calling emailControllerVerifySenderDomain().'
       );
     }
 
@@ -495,11 +495,11 @@ export class EmailApi extends runtime.BaseAPI {
         query: queryParameters,
         body: VerifyDomainModelToJSON(requestParameters['verifyDomainModel']),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      RegisterDomainResponseFromJSON(jsonValue),
+      RegisterDomainResponseFromJSON(jsonValue)
     );
   }
 
@@ -508,11 +508,11 @@ export class EmailApi extends runtime.BaseAPI {
    */
   async emailControllerVerifySenderDomain(
     requestParameters: EmailControllerVerifySenderDomainRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<RegisterDomainResponse> {
     const response = await this.emailControllerVerifySenderDomainRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }

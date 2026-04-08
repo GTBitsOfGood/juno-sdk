@@ -37,7 +37,7 @@ export interface RegisterDomainModel {
  * Check if a given object implements the RegisterDomainModel interface.
  */
 export function instanceOfRegisterDomainModel(
-  value: object,
+  value: object
 ): value is RegisterDomainModel {
   if (!('domain' in value) || value['domain'] === undefined) return false;
   return true;
@@ -49,7 +49,7 @@ export function RegisterDomainModelFromJSON(json: any): RegisterDomainModel {
 
 export function RegisterDomainModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): RegisterDomainModel {
   if (json == null) {
     return json;
@@ -61,7 +61,7 @@ export function RegisterDomainModelFromJSONTyped(
 }
 
 export function RegisterDomainModelToJSON(
-  value?: RegisterDomainModel | null,
+  value?: RegisterDomainModel | null
 ): any {
   if (value == null) {
     return value;

@@ -72,7 +72,7 @@ export type NewAccountRequestResponseUserTypeEnum =
  * Check if a given object implements the NewAccountRequestResponse interface.
  */
 export function instanceOfNewAccountRequestResponse(
-  value: object,
+  value: object
 ): value is NewAccountRequestResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('email' in value) || value['email'] === undefined) return false;
@@ -83,14 +83,14 @@ export function instanceOfNewAccountRequestResponse(
 }
 
 export function NewAccountRequestResponseFromJSON(
-  json: any,
+  json: any
 ): NewAccountRequestResponse {
   return NewAccountRequestResponseFromJSONTyped(json, false);
 }
 
 export function NewAccountRequestResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): NewAccountRequestResponse {
   if (json == null) {
     return json;
@@ -106,7 +106,7 @@ export function NewAccountRequestResponseFromJSONTyped(
 }
 
 export function NewAccountRequestResponseToJSON(
-  value?: NewAccountRequestResponse | null,
+  value?: NewAccountRequestResponse | null
 ): any {
   if (value == null) {
     return value;

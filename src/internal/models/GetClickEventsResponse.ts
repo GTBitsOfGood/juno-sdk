@@ -44,7 +44,7 @@ export interface GetClickEventsResponse {
  * Check if a given object implements the GetClickEventsResponse interface.
  */
 export function instanceOfGetClickEventsResponse(
-  value: object,
+  value: object
 ): value is GetClickEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   if (!('afterId' in value) || value['afterId'] === undefined) return false;
@@ -52,14 +52,14 @@ export function instanceOfGetClickEventsResponse(
 }
 
 export function GetClickEventsResponseFromJSON(
-  json: any,
+  json: any
 ): GetClickEventsResponse {
   return GetClickEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetClickEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): GetClickEventsResponse {
   if (json == null) {
     return json;
@@ -71,7 +71,7 @@ export function GetClickEventsResponseFromJSONTyped(
 }
 
 export function GetClickEventsResponseToJSON(
-  value?: GetClickEventsResponse | null,
+  value?: GetClickEventsResponse | null
 ): any {
   if (value == null) {
     return value;

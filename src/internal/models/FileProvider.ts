@@ -70,7 +70,7 @@ export function FileProviderFromJSON(json: any): FileProvider {
 
 export function FileProviderFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): FileProvider {
   if (json == null) {
     return json;

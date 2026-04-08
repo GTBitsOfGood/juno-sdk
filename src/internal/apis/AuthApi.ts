@@ -84,12 +84,12 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerCreateAccountRequestRaw(
     requestParameters: AuthControllerCreateAccountRequestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<NewAccountRequestResponse>> {
     if (requestParameters['requestNewAccountModel'] == null) {
       throw new runtime.RequiredError(
         'requestNewAccountModel',
-        'Required parameter "requestNewAccountModel" was null or undefined when calling authControllerCreateAccountRequest().',
+        'Required parameter "requestNewAccountModel" was null or undefined when calling authControllerCreateAccountRequest().'
       );
     }
 
@@ -106,14 +106,14 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: RequestNewAccountModelToJSON(
-          requestParameters['requestNewAccountModel'],
+          requestParameters['requestNewAccountModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      NewAccountRequestResponseFromJSON(jsonValue),
+      NewAccountRequestResponseFromJSON(jsonValue)
     );
   }
 
@@ -123,11 +123,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerCreateAccountRequest(
     requestParameters: AuthControllerCreateAccountRequestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<NewAccountRequestResponse> {
     const response = await this.authControllerCreateAccountRequestRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -137,26 +137,26 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerCreateApiKeyRaw(
     requestParameters: AuthControllerCreateApiKeyRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<IssueApiKeyResponse>> {
     if (requestParameters['xUserPassword'] == null) {
       throw new runtime.RequiredError(
         'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerCreateApiKey().',
+        'Required parameter "xUserPassword" was null or undefined when calling authControllerCreateApiKey().'
       );
     }
 
     if (requestParameters['xUserEmail'] == null) {
       throw new runtime.RequiredError(
         'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerCreateApiKey().',
+        'Required parameter "xUserEmail" was null or undefined when calling authControllerCreateApiKey().'
       );
     }
 
     if (requestParameters['issueApiKeyRequest'] == null) {
       throw new runtime.RequiredError(
         'issueApiKeyRequest',
-        'Required parameter "issueApiKeyRequest" was null or undefined when calling authControllerCreateApiKey().',
+        'Required parameter "issueApiKeyRequest" was null or undefined when calling authControllerCreateApiKey().'
       );
     }
 
@@ -168,13 +168,13 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword'],
+        requestParameters['xUserPassword']
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail'],
+        requestParameters['xUserEmail']
       );
     }
 
@@ -186,11 +186,11 @@ export class AuthApi extends runtime.BaseAPI {
         query: queryParameters,
         body: IssueApiKeyRequestToJSON(requestParameters['issueApiKeyRequest']),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      IssueApiKeyResponseFromJSON(jsonValue),
+      IssueApiKeyResponseFromJSON(jsonValue)
     );
   }
 
@@ -199,11 +199,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerCreateApiKey(
     requestParameters: AuthControllerCreateApiKeyRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<IssueApiKeyResponse> {
     const response = await this.authControllerCreateApiKeyRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -214,26 +214,26 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerDeleteAccountRequestRaw(
     requestParameters: AuthControllerDeleteAccountRequestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<NewAccountRequestResponse>> {
     if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
         'id',
-        'Required parameter "id" was null or undefined when calling authControllerDeleteAccountRequest().',
+        'Required parameter "id" was null or undefined when calling authControllerDeleteAccountRequest().'
       );
     }
 
     if (requestParameters['xUserPassword'] == null) {
       throw new runtime.RequiredError(
         'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerDeleteAccountRequest().',
+        'Required parameter "xUserPassword" was null or undefined when calling authControllerDeleteAccountRequest().'
       );
     }
 
     if (requestParameters['xUserEmail'] == null) {
       throw new runtime.RequiredError(
         'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerDeleteAccountRequest().',
+        'Required parameter "xUserEmail" was null or undefined when calling authControllerDeleteAccountRequest().'
       );
     }
 
@@ -243,13 +243,13 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword'],
+        requestParameters['xUserPassword']
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail'],
+        requestParameters['xUserEmail']
       );
     }
 
@@ -265,17 +265,17 @@ export class AuthApi extends runtime.BaseAPI {
       {
         path: `/auth/account-request/{id}`.replace(
           `{${'id'}}`,
-          encodeURIComponent(String(requestParameters['id'])),
+          encodeURIComponent(String(requestParameters['id']))
         ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      NewAccountRequestResponseFromJSON(jsonValue),
+      NewAccountRequestResponseFromJSON(jsonValue)
     );
   }
 
@@ -285,11 +285,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerDeleteAccountRequest(
     requestParameters: AuthControllerDeleteAccountRequestRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<NewAccountRequestResponse> {
     const response = await this.authControllerDeleteAccountRequestRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -299,12 +299,12 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerDeleteApiKeyRaw(
     requestParameters: AuthControllerDeleteApiKeyRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters['authorization'] == null) {
       throw new runtime.RequiredError(
         'authorization',
-        'Required parameter "authorization" was null or undefined when calling authControllerDeleteApiKey().',
+        'Required parameter "authorization" was null or undefined when calling authControllerDeleteApiKey().'
       );
     }
 
@@ -314,7 +314,7 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['authorization'] != null) {
       headerParameters['Authorization'] = String(
-        requestParameters['authorization'],
+        requestParameters['authorization']
       );
     }
 
@@ -333,7 +333,7 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.VoidApiResponse(response);
@@ -344,7 +344,7 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerDeleteApiKey(
     requestParameters: AuthControllerDeleteApiKeyRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<void> {
     await this.authControllerDeleteApiKeyRaw(requestParameters, initOverrides);
   }
@@ -355,19 +355,19 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetAllAccountRequestsRaw(
     requestParameters: AuthControllerGetAllAccountRequestsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<NewAccountRequestsResponse>> {
     if (requestParameters['xUserPassword'] == null) {
       throw new runtime.RequiredError(
         'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerGetAllAccountRequests().',
+        'Required parameter "xUserPassword" was null or undefined when calling authControllerGetAllAccountRequests().'
       );
     }
 
     if (requestParameters['xUserEmail'] == null) {
       throw new runtime.RequiredError(
         'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerGetAllAccountRequests().',
+        'Required parameter "xUserEmail" was null or undefined when calling authControllerGetAllAccountRequests().'
       );
     }
 
@@ -377,13 +377,13 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword'],
+        requestParameters['xUserPassword']
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail'],
+        requestParameters['xUserEmail']
       );
     }
 
@@ -402,11 +402,11 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      NewAccountRequestsResponseFromJSON(jsonValue),
+      NewAccountRequestsResponseFromJSON(jsonValue)
     );
   }
 
@@ -416,11 +416,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetAllAccountRequests(
     requestParameters: AuthControllerGetAllAccountRequestsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<NewAccountRequestsResponse> {
     const response = await this.authControllerGetAllAccountRequestsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -431,12 +431,12 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetApiKeyJWTRaw(
     requestParameters: AuthControllerGetApiKeyJWTRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<IssueJWTResponse>> {
     if (requestParameters['authorization'] == null) {
       throw new runtime.RequiredError(
         'authorization',
-        'Required parameter "authorization" was null or undefined when calling authControllerGetApiKeyJWT().',
+        'Required parameter "authorization" was null or undefined when calling authControllerGetApiKeyJWT().'
       );
     }
 
@@ -446,7 +446,7 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['authorization'] != null) {
       headerParameters['Authorization'] = String(
-        requestParameters['authorization'],
+        requestParameters['authorization']
       );
     }
 
@@ -465,11 +465,11 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      IssueJWTResponseFromJSON(jsonValue),
+      IssueJWTResponseFromJSON(jsonValue)
     );
   }
 
@@ -479,11 +479,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetApiKeyJWT(
     requestParameters: AuthControllerGetApiKeyJWTRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<IssueJWTResponse> {
     const response = await this.authControllerGetApiKeyJWTRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -494,19 +494,19 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetUserJWTRaw(
     requestParameters: AuthControllerGetUserJWTRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<IssueJWTResponse>> {
     if (requestParameters['xUserPassword'] == null) {
       throw new runtime.RequiredError(
         'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerGetUserJWT().',
+        'Required parameter "xUserPassword" was null or undefined when calling authControllerGetUserJWT().'
       );
     }
 
     if (requestParameters['xUserEmail'] == null) {
       throw new runtime.RequiredError(
         'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerGetUserJWT().',
+        'Required parameter "xUserEmail" was null or undefined when calling authControllerGetUserJWT().'
       );
     }
 
@@ -516,13 +516,13 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['xUserPassword'] != null) {
       headerParameters['X-User-Password'] = String(
-        requestParameters['xUserPassword'],
+        requestParameters['xUserPassword']
       );
     }
 
     if (requestParameters['xUserEmail'] != null) {
       headerParameters['X-User-Email'] = String(
-        requestParameters['xUserEmail'],
+        requestParameters['xUserEmail']
       );
     }
 
@@ -541,11 +541,11 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      IssueJWTResponseFromJSON(jsonValue),
+      IssueJWTResponseFromJSON(jsonValue)
     );
   }
 
@@ -555,11 +555,11 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerGetUserJWT(
     requestParameters: AuthControllerGetUserJWTRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<IssueJWTResponse> {
     const response = await this.authControllerGetUserJWTRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -570,12 +570,12 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerTestAuthRaw(
     requestParameters: AuthControllerTestAuthRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters['authorization'] == null) {
       throw new runtime.RequiredError(
         'authorization',
-        'Required parameter "authorization" was null or undefined when calling authControllerTestAuth().',
+        'Required parameter "authorization" was null or undefined when calling authControllerTestAuth().'
       );
     }
 
@@ -585,7 +585,7 @@ export class AuthApi extends runtime.BaseAPI {
 
     if (requestParameters['authorization'] != null) {
       headerParameters['Authorization'] = String(
-        requestParameters['authorization'],
+        requestParameters['authorization']
       );
     }
 
@@ -604,7 +604,7 @@ export class AuthApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.VoidApiResponse(response);
@@ -616,7 +616,7 @@ export class AuthApi extends runtime.BaseAPI {
    */
   async authControllerTestAuth(
     requestParameters: AuthControllerTestAuthRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<void> {
     await this.authControllerTestAuthRaw(requestParameters, initOverrides);
   }

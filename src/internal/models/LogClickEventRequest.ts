@@ -37,7 +37,7 @@ export interface LogClickEventRequest {
  * Check if a given object implements the LogClickEventRequest interface.
  */
 export function instanceOfLogClickEventRequest(
-  value: object,
+  value: object
 ): value is LogClickEventRequest {
   if (!('objectId' in value) || value['objectId'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -50,7 +50,7 @@ export function LogClickEventRequestFromJSON(json: any): LogClickEventRequest {
 
 export function LogClickEventRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): LogClickEventRequest {
   if (json == null) {
     return json;
@@ -62,7 +62,7 @@ export function LogClickEventRequestFromJSONTyped(
 }
 
 export function LogClickEventRequestToJSON(
-  value?: LogClickEventRequest | null,
+  value?: LogClickEventRequest | null
 ): any {
   if (value == null) {
     return value;

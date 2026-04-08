@@ -31,7 +31,7 @@ export interface CreateProjectModel {
  * Check if a given object implements the CreateProjectModel interface.
  */
 export function instanceOfCreateProjectModel(
-  value: object,
+  value: object
 ): value is CreateProjectModel {
   if (!('name' in value) || value['name'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function CreateProjectModelFromJSON(json: any): CreateProjectModel {
 
 export function CreateProjectModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): CreateProjectModel {
   if (json == null) {
     return json;
@@ -54,7 +54,7 @@ export function CreateProjectModelFromJSONTyped(
 }
 
 export function CreateProjectModelToJSON(
-  value?: CreateProjectModel | null,
+  value?: CreateProjectModel | null
 ): any {
   if (value == null) {
     return value;

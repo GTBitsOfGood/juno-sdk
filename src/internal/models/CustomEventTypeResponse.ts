@@ -55,7 +55,7 @@ export interface CustomEventTypeResponse {
  * Check if a given object implements the CustomEventTypeResponse interface.
  */
 export function instanceOfCustomEventTypeResponse(
-  value: object,
+  value: object
 ): value is CustomEventTypeResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('category' in value) || value['category'] === undefined) return false;
@@ -68,14 +68,14 @@ export function instanceOfCustomEventTypeResponse(
 }
 
 export function CustomEventTypeResponseFromJSON(
-  json: any,
+  json: any
 ): CustomEventTypeResponse {
   return CustomEventTypeResponseFromJSONTyped(json, false);
 }
 
 export function CustomEventTypeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): CustomEventTypeResponse {
   if (json == null) {
     return json;
@@ -90,7 +90,7 @@ export function CustomEventTypeResponseFromJSONTyped(
 }
 
 export function CustomEventTypeResponseToJSON(
-  value?: CustomEventTypeResponse | null,
+  value?: CustomEventTypeResponse | null
 ): any {
   if (value == null) {
     return value;

@@ -55,7 +55,7 @@ export interface DownloadFileModel {
  * Check if a given object implements the DownloadFileModel interface.
  */
 export function instanceOfDownloadFileModel(
-  value: object,
+  value: object
 ): value is DownloadFileModel {
   if (!('bucketName' in value) || value['bucketName'] === undefined)
     return false;
@@ -72,7 +72,7 @@ export function DownloadFileModelFromJSON(json: any): DownloadFileModel {
 
 export function DownloadFileModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): DownloadFileModel {
   if (json == null) {
     return json;

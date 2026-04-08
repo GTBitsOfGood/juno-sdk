@@ -31,7 +31,7 @@ export interface SetupEmailServiceModel {
  * Check if a given object implements the SetupEmailServiceModel interface.
  */
 export function instanceOfSetupEmailServiceModel(
-  value: object,
+  value: object
 ): value is SetupEmailServiceModel {
   if (!('sendgridKey' in value) || value['sendgridKey'] === undefined)
     return false;
@@ -39,14 +39,14 @@ export function instanceOfSetupEmailServiceModel(
 }
 
 export function SetupEmailServiceModelFromJSON(
-  json: any,
+  json: any
 ): SetupEmailServiceModel {
   return SetupEmailServiceModelFromJSONTyped(json, false);
 }
 
 export function SetupEmailServiceModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): SetupEmailServiceModel {
   if (json == null) {
     return json;
@@ -57,7 +57,7 @@ export function SetupEmailServiceModelFromJSONTyped(
 }
 
 export function SetupEmailServiceModelToJSON(
-  value?: SetupEmailServiceModel | null,
+  value?: SetupEmailServiceModel | null
 ): any {
   if (value == null) {
     return value;

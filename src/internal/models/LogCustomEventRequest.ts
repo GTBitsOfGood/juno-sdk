@@ -43,7 +43,7 @@ export interface LogCustomEventRequest {
  * Check if a given object implements the LogCustomEventRequest interface.
  */
 export function instanceOfLogCustomEventRequest(
-  value: object,
+  value: object
 ): value is LogCustomEventRequest {
   if (!('category' in value) || value['category'] === undefined) return false;
   if (!('subcategory' in value) || value['subcategory'] === undefined)
@@ -54,14 +54,14 @@ export function instanceOfLogCustomEventRequest(
 }
 
 export function LogCustomEventRequestFromJSON(
-  json: any,
+  json: any
 ): LogCustomEventRequest {
   return LogCustomEventRequestFromJSONTyped(json, false);
 }
 
 export function LogCustomEventRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): LogCustomEventRequest {
   if (json == null) {
     return json;
@@ -74,7 +74,7 @@ export function LogCustomEventRequestFromJSONTyped(
 }
 
 export function LogCustomEventRequestToJSON(
-  value?: LogCustomEventRequest | null,
+  value?: LogCustomEventRequest | null
 ): any {
   if (value == null) {
     return value;

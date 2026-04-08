@@ -73,7 +73,7 @@ export interface CustomGraphType {
  * Check if a given object implements the CustomGraphType interface.
  */
 export function instanceOfCustomGraphType(
-  value: object,
+  value: object
 ): value is CustomGraphType {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('eventTypeId' in value) || value['eventTypeId'] === undefined)
@@ -94,7 +94,7 @@ export function CustomGraphTypeFromJSON(json: any): CustomGraphType {
 
 export function CustomGraphTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): CustomGraphType {
   if (json == null) {
     return json;

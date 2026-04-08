@@ -43,7 +43,7 @@ export interface IssueApiKeyRequest {
  * Check if a given object implements the IssueApiKeyRequest interface.
  */
 export function instanceOfIssueApiKeyRequest(
-  value: object,
+  value: object
 ): value is IssueApiKeyRequest {
   if (!('environment' in value) || value['environment'] === undefined)
     return false;
@@ -57,7 +57,7 @@ export function IssueApiKeyRequestFromJSON(json: any): IssueApiKeyRequest {
 
 export function IssueApiKeyRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): IssueApiKeyRequest {
   if (json == null) {
     return json;
@@ -70,7 +70,7 @@ export function IssueApiKeyRequestFromJSONTyped(
 }
 
 export function IssueApiKeyRequestToJSON(
-  value?: IssueApiKeyRequest | null,
+  value?: IssueApiKeyRequest | null
 ): any {
   if (value == null) {
     return value;

@@ -38,21 +38,21 @@ export interface GetAllCustomEventsResponse {
  * Check if a given object implements the GetAllCustomEventsResponse interface.
  */
 export function instanceOfGetAllCustomEventsResponse(
-  value: object,
+  value: object
 ): value is GetAllCustomEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   return true;
 }
 
 export function GetAllCustomEventsResponseFromJSON(
-  json: any,
+  json: any
 ): GetAllCustomEventsResponse {
   return GetAllCustomEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetAllCustomEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): GetAllCustomEventsResponse {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function GetAllCustomEventsResponseFromJSONTyped(
 }
 
 export function GetAllCustomEventsResponseToJSON(
-  value?: GetAllCustomEventsResponse | null,
+  value?: GetAllCustomEventsResponse | null
 ): any {
   if (value == null) {
     return value;

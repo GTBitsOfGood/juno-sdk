@@ -56,7 +56,7 @@ export class FileAPI {
 
   async getConfig(
     projectId: string,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileConfigResponse> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -70,13 +70,13 @@ export class FileAPI {
       { projectId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async deleteConfig(
     projectId: string,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileConfigResponse> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -90,7 +90,7 @@ export class FileAPI {
       { projectId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
@@ -101,7 +101,7 @@ export class FileAPI {
       type: string;
       accessKey: { publicAccessKey: string; privateAccessKey: string };
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileProviderPartial> {
     const { baseUrl, providerName, type, accessKey } = options;
 
@@ -109,11 +109,11 @@ export class FileAPI {
     validateString(providerName, 'providerName must be non-empty');
     validateString(
       accessKey?.publicAccessKey,
-      'publicAccessKey must be non-empty',
+      'publicAccessKey must be non-empty'
     );
     validateString(
       accessKey?.privateAccessKey,
-      'privateAccessKey must be non-empty',
+      'privateAccessKey must be non-empty'
     );
 
     const headers: Record<string, string> = {};
@@ -135,13 +135,13 @@ export class FileAPI {
       { registerFileProviderModel: model },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async deleteProvider(
     name: string,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileProviderPartial> {
     validateString(name, 'Provider name must be non-empty');
     const headers: Record<string, string> = {};
@@ -156,12 +156,12 @@ export class FileAPI {
       { name },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async getAllFileProviders(
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileProvider[]> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -174,7 +174,7 @@ export class FileAPI {
     return await this.providerApi.fileProviderControllerGetAllFileProviders(
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
@@ -185,7 +185,7 @@ export class FileAPI {
       fileProviderName: string;
       fileServiceFile?: Array<object>;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileBucket> {
     const { name, configId, fileProviderName, fileServiceFile } = options;
 
@@ -214,13 +214,13 @@ export class FileAPI {
       { registerFileBucketModel: model },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async deleteBucket(
     options: DeleteFileBucketModel,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileBucket> {
     const { name, configId, fileProviderName } = options;
     validateString(name, 'Bucket name must be non-empty');
@@ -241,13 +241,13 @@ export class FileAPI {
       { deleteFileBucketModel: options },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async getBucketsByConfigIdAndEnv(
     configId: string,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<FileBucket[]> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -261,7 +261,7 @@ export class FileAPI {
       { configId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 

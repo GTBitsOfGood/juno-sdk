@@ -20,7 +20,7 @@ export class ProjectAPI {
   private internalApi: ProjectApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new ProjectApi(
-      new Configuration({ basePath: baseURL, accessToken: apiKey }),
+      new Configuration({ basePath: baseURL, accessToken: apiKey })
     );
   }
 
@@ -32,7 +32,7 @@ export class ProjectAPI {
 
     validateString(
       projectName,
-      'The project name must be provided as an input and has to be nonempty.',
+      'The project name must be provided as an input and has to be nonempty.'
     );
     validateUserCredentials(credentials);
 
@@ -48,7 +48,7 @@ export class ProjectAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.projectControllerCreateProject({
@@ -102,7 +102,7 @@ export class ProjectAPI {
 
   async getProjectUsersById(
     projectId: string,
-    credentials: UserCredentials,
+    credentials: UserCredentials
   ): Promise<UserResponses> {
     validateUserCredentials(credentials);
 
@@ -114,7 +114,7 @@ export class ProjectAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.projectControllerGetUsersByProject({
@@ -136,7 +136,7 @@ export class ProjectAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.projectControllerGetAllProjects({
@@ -167,7 +167,7 @@ export class ProjectAPI {
             ...(init.headers as Record<string, string>),
             Authorization: `Bearer ${credentials}`,
           },
-        }),
+        })
       );
     } else {
       return await this.internalApi.projectControllerDeleteProjectById({

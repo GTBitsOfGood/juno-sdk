@@ -31,7 +31,7 @@ export interface VerifyDomainModel {
  * Check if a given object implements the VerifyDomainModel interface.
  */
 export function instanceOfVerifyDomainModel(
-  value: object,
+  value: object
 ): value is VerifyDomainModel {
   if (!('domain' in value) || value['domain'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function VerifyDomainModelFromJSON(json: any): VerifyDomainModel {
 
 export function VerifyDomainModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): VerifyDomainModel {
   if (json == null) {
     return json;

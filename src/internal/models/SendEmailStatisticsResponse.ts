@@ -127,7 +127,7 @@ export interface SendEmailStatisticsResponse {
  * Check if a given object implements the SendEmailStatisticsResponse interface.
  */
 export function instanceOfSendEmailStatisticsResponse(
-  value: object,
+  value: object
 ): value is SendEmailStatisticsResponse {
   if (!('date' in value) || value['date'] === undefined) return false;
   if (!('clicks' in value) || value['clicks'] === undefined) return false;
@@ -158,14 +158,14 @@ export function instanceOfSendEmailStatisticsResponse(
 }
 
 export function SendEmailStatisticsResponseFromJSON(
-  json: any,
+  json: any
 ): SendEmailStatisticsResponse {
   return SendEmailStatisticsResponseFromJSONTyped(json, false);
 }
 
 export function SendEmailStatisticsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): SendEmailStatisticsResponse {
   if (json == null) {
     return json;
@@ -192,7 +192,7 @@ export function SendEmailStatisticsResponseFromJSONTyped(
 }
 
 export function SendEmailStatisticsResponseToJSON(
-  value?: SendEmailStatisticsResponse | null,
+  value?: SendEmailStatisticsResponse | null
 ): any {
   if (value == null) {
     return value;

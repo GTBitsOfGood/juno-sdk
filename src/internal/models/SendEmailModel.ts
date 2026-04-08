@@ -86,7 +86,7 @@ export interface SendEmailModel {
  * Check if a given object implements the SendEmailModel interface.
  */
 export function instanceOfSendEmailModel(
-  value: object,
+  value: object
 ): value is SendEmailModel {
   if (!('recipients' in value) || value['recipients'] === undefined)
     return false;
@@ -106,7 +106,7 @@ export function SendEmailModelFromJSON(json: any): SendEmailModel {
 
 export function SendEmailModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): SendEmailModel {
   if (json == null) {
     return json;
@@ -116,7 +116,7 @@ export function SendEmailModelFromJSONTyped(
     cc: (json['cc'] as Array<any>).map(EmailRecipientFromJSON),
     bcc: (json['bcc'] as Array<any>).map(EmailRecipientFromJSON),
     replyToList: (json['replyToList'] as Array<any>).map(
-      EmailRecipientFromJSON,
+      EmailRecipientFromJSON
     ),
     sender: EmailSenderSendEmailModelFromJSON(json['sender']),
     subject: json['subject'],

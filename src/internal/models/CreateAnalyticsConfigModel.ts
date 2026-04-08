@@ -37,7 +37,7 @@ export interface CreateAnalyticsConfigModel {
  * Check if a given object implements the CreateAnalyticsConfigModel interface.
  */
 export function instanceOfCreateAnalyticsConfigModel(
-  value: object,
+  value: object
 ): value is CreateAnalyticsConfigModel {
   if (
     !('serverAnalyticsKey' in value) ||
@@ -53,14 +53,14 @@ export function instanceOfCreateAnalyticsConfigModel(
 }
 
 export function CreateAnalyticsConfigModelFromJSON(
-  json: any,
+  json: any
 ): CreateAnalyticsConfigModel {
   return CreateAnalyticsConfigModelFromJSONTyped(json, false);
 }
 
 export function CreateAnalyticsConfigModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): CreateAnalyticsConfigModel {
   if (json == null) {
     return json;
@@ -72,7 +72,7 @@ export function CreateAnalyticsConfigModelFromJSONTyped(
 }
 
 export function CreateAnalyticsConfigModelToJSON(
-  value?: CreateAnalyticsConfigModel | null,
+  value?: CreateAnalyticsConfigModel | null
 ): any {
   if (value == null) {
     return value;

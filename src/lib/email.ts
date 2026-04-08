@@ -26,19 +26,54 @@ import {
   validateString,
 } from './validators';
 
+export interface VerifiedSenderInfo {
+  id: number;
+  nickname: string;
+  fromEmail: string;
+  fromName: string;
+  replyTo: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+  verified: boolean;
+  locked: boolean;
+}
+
+export interface GetSendersResult {
+  senders: VerifiedSenderInfo[];
+}
+
+export interface AuthenticatedDomainInfo {
+  id: number;
+  domain: string;
+  subdomain?: string;
+  valid: boolean;
+}
+
+export interface GetDomainsResult {
+  domains: AuthenticatedDomainInfo[];
+}
+
 export class EmailAPI {
   private internalApi: EmailApi;
+  private config: Configuration;
+  private baseURL?: string;
   private auth?: AuthAPI;
   constructor(baseURL?: string, auth?: AuthAPI) {
     this.auth = auth;
-    this.internalApi = new EmailApi(
-      new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey }),
-    );
+    this.baseURL = baseURL;
+    this.config = new Configuration({
+      basePath: baseURL,
+      accessToken: auth?.junoApiKey,
+    });
+    this.internalApi = new EmailApi(this.config);
   }
 
   async getEmailConfig(
     projectId: string,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<EmailConfigResponse> {
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
@@ -52,13 +87,13 @@ export class EmailAPI {
       { id: projectId },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
   async setupEmail(
     options: SetupEmailServiceModel,
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<SetupEmailResponse> {
     const { sendgridKey } = options;
 
@@ -76,7 +111,7 @@ export class EmailAPI {
       { setupEmailServiceModel: options },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
   }
 
@@ -90,12 +125,12 @@ export class EmailAPI {
       subject: string;
       contents: Array<EmailContent>;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<SendEmailResponse> {
     const { recipients, cc, bcc, sender, contents, replyToList } = options;
     if (!sender || !contents) {
       throw new JunoValidationError(
-        'Parameter recipients or sender or content cannot be null',
+        'Parameter recipients or sender or content cannot be null'
       );
     }
 
@@ -105,13 +140,13 @@ export class EmailAPI {
       (!bcc || bcc.length === 0)
     ) {
       throw new JunoValidationError(
-        'Email request must have at least one recipient, cc, or bcc.',
+        'Email request must have at least one recipient, cc, or bcc.'
       );
     }
 
     if (contents.length === 0) {
       throw new JunoValidationError(
-        'Parameter contents cannot be an empty array',
+        'Parameter contents cannot be an empty array'
       );
     }
     recipients?.forEach((recipient) => validateEmailRecipient(recipient));
@@ -141,7 +176,7 @@ export class EmailAPI {
         { sendEmailModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        }),
+        })
       );
     } catch (e) {
       throw e;
@@ -159,7 +194,7 @@ export class EmailAPI {
       zip: string;
       country: string;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<RegisterEmailResponse> {
     let { email, name, replyTo, nickname, address, city, state, zip, country } =
       options;
@@ -203,7 +238,7 @@ export class EmailAPI {
         { registerEmailModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        }),
+        })
       );
     } catch (e) {
       throw e;
@@ -214,7 +249,7 @@ export class EmailAPI {
       domain: string;
       subdomain: string | undefined;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<RegisterDomainResponse> {
     const { domain, subdomain } = options;
 
@@ -238,7 +273,7 @@ export class EmailAPI {
         { registerDomainModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        }),
+        })
       );
     } catch (e) {
       throw e;
@@ -248,7 +283,7 @@ export class EmailAPI {
     options: {
       domain: string;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<RegisterDomainResponse> {
     const { domain } = options;
 
@@ -271,31 +306,15 @@ export class EmailAPI {
         { verifyDomainModel },
         async ({ init }) => ({
           headers: { ...(init.headers as Record<string, string>), ...headers },
-        }),
+        })
       );
     } catch (e) {
       throw e;
     }
   }
 
-  async getSenders(credentials?: ApiCredentials): Promise<any> {
-    const headers: Record<string, string> = {};
-    if (credentials?.userJwt) {
-      headers['X-User-JWT'] = credentials.userJwt;
-    }
-    if (credentials?.projectId !== undefined) {
-      headers['X-Project-Id'] = String(credentials.projectId);
-    }
-
-    const basePath = (this.internalApi as any).configuration?.basePath ?? '';
-    const token = (this.internalApi as any).configuration?.accessToken;
-    if (token) {
-      const tokenString =
-        typeof token === 'function' ? await token('API_Key', []) : token;
-      if (tokenString) {
-        headers['Authorization'] = `Bearer ${tokenString}`;
-      }
-    }
+  async getSenders(credentials?: ApiCredentials): Promise<GetSendersResult> {
+    const { basePath, headers } = await this.buildFetchHeaders(credentials);
 
     const response = await fetch(`${basePath}/email/senders`, {
       method: 'GET',
@@ -309,24 +328,8 @@ export class EmailAPI {
     return await response.json();
   }
 
-  async getDomains(credentials?: ApiCredentials): Promise<any> {
-    const headers: Record<string, string> = {};
-    if (credentials?.userJwt) {
-      headers['X-User-JWT'] = credentials.userJwt;
-    }
-    if (credentials?.projectId !== undefined) {
-      headers['X-Project-Id'] = String(credentials.projectId);
-    }
-
-    const basePath = (this.internalApi as any).configuration?.basePath ?? '';
-    const token = (this.internalApi as any).configuration?.accessToken;
-    if (token) {
-      const tokenString =
-        typeof token === 'function' ? await token('API_Key', []) : token;
-      if (tokenString) {
-        headers['Authorization'] = `Bearer ${tokenString}`;
-      }
-    }
+  async getDomains(credentials?: ApiCredentials): Promise<GetDomainsResult> {
+    const { basePath, headers } = await this.buildFetchHeaders(credentials);
 
     const response = await fetch(`${basePath}/email/domains`, {
       method: 'GET',
@@ -348,7 +351,7 @@ export class EmailAPI {
       offset?: number;
       aggregatedBy?: string;
     },
-    credentials?: ApiCredentials,
+    credentials?: ApiCredentials
   ): Promise<any> {
     const { startDate, endDate, limit, offset, aggregatedBy } = options;
 
@@ -366,7 +369,29 @@ export class EmailAPI {
       { startDate, limit, offset, aggregatedBy: aggregatedBy as any, endDate },
       async ({ init }) => ({
         headers: { ...(init.headers as Record<string, string>), ...headers },
-      }),
+      })
     );
+  }
+
+  private async buildFetchHeaders(
+    credentials?: ApiCredentials
+  ): Promise<{ basePath: string; headers: Record<string, string> }> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) headers['X-User-JWT'] = credentials.userJwt;
+    if (credentials?.projectId !== undefined)
+      headers['X-Project-Id'] = String(credentials.projectId);
+
+    const basePath = this.config.basePath;
+    const token = this.config.accessToken;
+
+    if (!this.baseURL) {
+      throw new Error('Base URL is not configured for EmailAPI');
+    }
+    if (token) {
+      const tokenString =
+        typeof token === 'function' ? await token('API_Key', []) : token;
+      if (tokenString) headers['Authorization'] = `Bearer ${tokenString}`;
+    }
+    return { basePath, headers };
   }
 }

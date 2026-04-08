@@ -31,21 +31,21 @@ export interface RegisterEmailResponse {
  * Check if a given object implements the RegisterEmailResponse interface.
  */
 export function instanceOfRegisterEmailResponse(
-  value: object,
+  value: object
 ): value is RegisterEmailResponse {
   if (!('email' in value) || value['email'] === undefined) return false;
   return true;
 }
 
 export function RegisterEmailResponseFromJSON(
-  json: any,
+  json: any
 ): RegisterEmailResponse {
   return RegisterEmailResponseFromJSONTyped(json, false);
 }
 
 export function RegisterEmailResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): RegisterEmailResponse {
   if (json == null) {
     return json;
@@ -56,7 +56,7 @@ export function RegisterEmailResponseFromJSONTyped(
 }
 
 export function RegisterEmailResponseToJSON(
-  value?: RegisterEmailResponse | null,
+  value?: RegisterEmailResponse | null
 ): any {
   if (value == null) {
     return value;

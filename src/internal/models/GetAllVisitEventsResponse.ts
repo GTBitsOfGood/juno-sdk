@@ -38,21 +38,21 @@ export interface GetAllVisitEventsResponse {
  * Check if a given object implements the GetAllVisitEventsResponse interface.
  */
 export function instanceOfGetAllVisitEventsResponse(
-  value: object,
+  value: object
 ): value is GetAllVisitEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   return true;
 }
 
 export function GetAllVisitEventsResponseFromJSON(
-  json: any,
+  json: any
 ): GetAllVisitEventsResponse {
   return GetAllVisitEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetAllVisitEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): GetAllVisitEventsResponse {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function GetAllVisitEventsResponseFromJSONTyped(
 }
 
 export function GetAllVisitEventsResponseToJSON(
-  value?: GetAllVisitEventsResponse | null,
+  value?: GetAllVisitEventsResponse | null
 ): any {
   if (value == null) {
     return value;

@@ -53,12 +53,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerCreateAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerCreateAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<AnalyticsConfigResponse>> {
     if (requestParameters['createAnalyticsConfigModel'] == null) {
       throw new runtime.RequiredError(
         'createAnalyticsConfigModel',
-        'Required parameter "createAnalyticsConfigModel" was null or undefined when calling analyticsConfigControllerCreateAnalyticsConfig().',
+        'Required parameter "createAnalyticsConfigModel" was null or undefined when calling analyticsConfigControllerCreateAnalyticsConfig().'
       );
     }
 
@@ -83,14 +83,14 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: CreateAnalyticsConfigModelToJSON(
-          requestParameters['createAnalyticsConfigModel'],
+          requestParameters['createAnalyticsConfigModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      AnalyticsConfigResponseFromJSON(jsonValue),
+      AnalyticsConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -99,12 +99,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerCreateAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerCreateAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<AnalyticsConfigResponse> {
     const response =
       await this.analyticsConfigControllerCreateAnalyticsConfigRaw(
         requestParameters,
-        initOverrides,
+        initOverrides
       );
     return await response.value();
   }
@@ -114,12 +114,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerDeleteAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerDeleteAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<AnalyticsConfigResponse>> {
     if (requestParameters['projectId'] == null) {
       throw new runtime.RequiredError(
         'projectId',
-        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerDeleteAnalyticsConfig().',
+        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerDeleteAnalyticsConfig().'
       );
     }
 
@@ -139,17 +139,17 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
       {
         path: `/analytics/config/{projectId}`.replace(
           `{${'projectId'}}`,
-          encodeURIComponent(String(requestParameters['projectId'])),
+          encodeURIComponent(String(requestParameters['projectId']))
         ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      AnalyticsConfigResponseFromJSON(jsonValue),
+      AnalyticsConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -158,12 +158,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerDeleteAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerDeleteAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<AnalyticsConfigResponse> {
     const response =
       await this.analyticsConfigControllerDeleteAnalyticsConfigRaw(
         requestParameters,
-        initOverrides,
+        initOverrides
       );
     return await response.value();
   }
@@ -173,12 +173,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerGetAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerGetAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<AnalyticsConfigResponse>> {
     if (requestParameters['projectId'] == null) {
       throw new runtime.RequiredError(
         'projectId',
-        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerGetAnalyticsConfig().',
+        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerGetAnalyticsConfig().'
       );
     }
 
@@ -198,17 +198,17 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
       {
         path: `/analytics/config/{projectId}`.replace(
           `{${'projectId'}}`,
-          encodeURIComponent(String(requestParameters['projectId'])),
+          encodeURIComponent(String(requestParameters['projectId']))
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      AnalyticsConfigResponseFromJSON(jsonValue),
+      AnalyticsConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -217,11 +217,11 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerGetAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerGetAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<AnalyticsConfigResponse> {
     const response = await this.analyticsConfigControllerGetAnalyticsConfigRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -231,19 +231,19 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerUpdateAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerUpdateAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<AnalyticsConfigResponse>> {
     if (requestParameters['projectId'] == null) {
       throw new runtime.RequiredError(
         'projectId',
-        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerUpdateAnalyticsConfig().',
+        'Required parameter "projectId" was null or undefined when calling analyticsConfigControllerUpdateAnalyticsConfig().'
       );
     }
 
     if (requestParameters['updateAnalyticsConfigModel'] == null) {
       throw new runtime.RequiredError(
         'updateAnalyticsConfigModel',
-        'Required parameter "updateAnalyticsConfigModel" was null or undefined when calling analyticsConfigControllerUpdateAnalyticsConfig().',
+        'Required parameter "updateAnalyticsConfigModel" was null or undefined when calling analyticsConfigControllerUpdateAnalyticsConfig().'
       );
     }
 
@@ -265,20 +265,20 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
       {
         path: `/analytics/config/{projectId}`.replace(
           `{${'projectId'}}`,
-          encodeURIComponent(String(requestParameters['projectId'])),
+          encodeURIComponent(String(requestParameters['projectId']))
         ),
         method: 'PUT',
         headers: headerParameters,
         query: queryParameters,
         body: UpdateAnalyticsConfigModelToJSON(
-          requestParameters['updateAnalyticsConfigModel'],
+          requestParameters['updateAnalyticsConfigModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      AnalyticsConfigResponseFromJSON(jsonValue),
+      AnalyticsConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -287,12 +287,12 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
    */
   async analyticsConfigControllerUpdateAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerUpdateAnalyticsConfigRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<AnalyticsConfigResponse> {
     const response =
       await this.analyticsConfigControllerUpdateAnalyticsConfigRaw(
         requestParameters,
-        initOverrides,
+        initOverrides
       );
     return await response.value();
   }

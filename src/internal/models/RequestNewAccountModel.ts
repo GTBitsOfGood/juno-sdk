@@ -66,7 +66,7 @@ export type RequestNewAccountModelUserTypeEnum =
  * Check if a given object implements the RequestNewAccountModel interface.
  */
 export function instanceOfRequestNewAccountModel(
-  value: object,
+  value: object
 ): value is RequestNewAccountModel {
   if (!('email' in value) || value['email'] === undefined) return false;
   if (!('name' in value) || value['name'] === undefined) return false;
@@ -76,14 +76,14 @@ export function instanceOfRequestNewAccountModel(
 }
 
 export function RequestNewAccountModelFromJSON(
-  json: any,
+  json: any
 ): RequestNewAccountModel {
   return RequestNewAccountModelFromJSONTyped(json, false);
 }
 
 export function RequestNewAccountModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): RequestNewAccountModel {
   if (json == null) {
     return json;
@@ -98,7 +98,7 @@ export function RequestNewAccountModelFromJSONTyped(
 }
 
 export function RequestNewAccountModelToJSON(
-  value?: RequestNewAccountModel | null,
+  value?: RequestNewAccountModel | null
 ): any {
   if (value == null) {
     return value;

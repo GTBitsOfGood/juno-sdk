@@ -31,7 +31,7 @@ export interface IssueJWTResponse {
  * Check if a given object implements the IssueJWTResponse interface.
  */
 export function instanceOfIssueJWTResponse(
-  value: object,
+  value: object
 ): value is IssueJWTResponse {
   if (!('token' in value) || value['token'] === undefined) return false;
   return true;
@@ -43,7 +43,7 @@ export function IssueJWTResponseFromJSON(json: any): IssueJWTResponse {
 
 export function IssueJWTResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): IssueJWTResponse {
   if (json == null) {
     return json;

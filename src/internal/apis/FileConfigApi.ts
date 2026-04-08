@@ -41,12 +41,12 @@ export class FileConfigApi extends runtime.BaseAPI {
    */
   async fileConfigControllerDeleteFileConfigByProjectIdRaw(
     requestParameters: FileConfigControllerDeleteFileConfigByProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileConfigResponse>> {
     if (requestParameters['projectId'] == null) {
       throw new runtime.RequiredError(
         'projectId',
-        'Required parameter "projectId" was null or undefined when calling fileConfigControllerDeleteFileConfigByProjectId().',
+        'Required parameter "projectId" was null or undefined when calling fileConfigControllerDeleteFileConfigByProjectId().'
       );
     }
 
@@ -66,17 +66,17 @@ export class FileConfigApi extends runtime.BaseAPI {
       {
         path: `/file/config/delete/{projectId}`.replace(
           `{${'projectId'}}`,
-          encodeURIComponent(String(requestParameters['projectId'])),
+          encodeURIComponent(String(requestParameters['projectId']))
         ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileConfigResponseFromJSON(jsonValue),
+      FileConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -85,12 +85,12 @@ export class FileConfigApi extends runtime.BaseAPI {
    */
   async fileConfigControllerDeleteFileConfigByProjectId(
     requestParameters: FileConfigControllerDeleteFileConfigByProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileConfigResponse> {
     const response =
       await this.fileConfigControllerDeleteFileConfigByProjectIdRaw(
         requestParameters,
-        initOverrides,
+        initOverrides
       );
     return await response.value();
   }
@@ -100,12 +100,12 @@ export class FileConfigApi extends runtime.BaseAPI {
    */
   async fileConfigControllerGetFileConfigByProjectIdRaw(
     requestParameters: FileConfigControllerGetFileConfigByProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileConfigResponse>> {
     if (requestParameters['projectId'] == null) {
       throw new runtime.RequiredError(
         'projectId',
-        'Required parameter "projectId" was null or undefined when calling fileConfigControllerGetFileConfigByProjectId().',
+        'Required parameter "projectId" was null or undefined when calling fileConfigControllerGetFileConfigByProjectId().'
       );
     }
 
@@ -125,17 +125,17 @@ export class FileConfigApi extends runtime.BaseAPI {
       {
         path: `/file/config/{projectId}`.replace(
           `{${'projectId'}}`,
-          encodeURIComponent(String(requestParameters['projectId'])),
+          encodeURIComponent(String(requestParameters['projectId']))
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileConfigResponseFromJSON(jsonValue),
+      FileConfigResponseFromJSON(jsonValue)
     );
   }
 
@@ -144,11 +144,11 @@ export class FileConfigApi extends runtime.BaseAPI {
    */
   async fileConfigControllerGetFileConfigByProjectId(
     requestParameters: FileConfigControllerGetFileConfigByProjectIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileConfigResponse> {
     const response = await this.fileConfigControllerGetFileConfigByProjectIdRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -157,7 +157,7 @@ export class FileConfigApi extends runtime.BaseAPI {
    * Sets up file services for the Project/Environment
    */
   async fileConfigControllerSetupRaw(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<SetupFileServiceResponse>> {
     const queryParameters: any = {};
 
@@ -178,11 +178,11 @@ export class FileConfigApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SetupFileServiceResponseFromJSON(jsonValue),
+      SetupFileServiceResponseFromJSON(jsonValue)
     );
   }
 
@@ -190,7 +190,7 @@ export class FileConfigApi extends runtime.BaseAPI {
    * Sets up file services for the Project/Environment
    */
   async fileConfigControllerSetup(
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<SetupFileServiceResponse> {
     const response = await this.fileConfigControllerSetupRaw(initOverrides);
     return await response.value();

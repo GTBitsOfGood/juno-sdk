@@ -46,7 +46,7 @@ export function LinkUserModelFromJSON(json: any): LinkUserModel {
 
 export function LinkUserModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): LinkUserModel {
   if (json == null) {
     return json;

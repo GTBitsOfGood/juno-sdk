@@ -44,7 +44,7 @@ export interface GetVisitEventsResponse {
  * Check if a given object implements the GetVisitEventsResponse interface.
  */
 export function instanceOfGetVisitEventsResponse(
-  value: object,
+  value: object
 ): value is GetVisitEventsResponse {
   if (!('events' in value) || value['events'] === undefined) return false;
   if (!('afterId' in value) || value['afterId'] === undefined) return false;
@@ -52,14 +52,14 @@ export function instanceOfGetVisitEventsResponse(
 }
 
 export function GetVisitEventsResponseFromJSON(
-  json: any,
+  json: any
 ): GetVisitEventsResponse {
   return GetVisitEventsResponseFromJSONTyped(json, false);
 }
 
 export function GetVisitEventsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): GetVisitEventsResponse {
   if (json == null) {
     return json;
@@ -71,7 +71,7 @@ export function GetVisitEventsResponseFromJSONTyped(
 }
 
 export function GetVisitEventsResponseToJSON(
-  value?: GetVisitEventsResponse | null,
+  value?: GetVisitEventsResponse | null
 ): any {
   if (value == null) {
     return value;

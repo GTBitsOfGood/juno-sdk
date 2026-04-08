@@ -68,7 +68,7 @@ export interface EmailConfigResponse {
  * Check if a given object implements the EmailConfigResponse interface.
  */
 export function instanceOfEmailConfigResponse(
-  value: object,
+  value: object
 ): value is EmailConfigResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('environment' in value) || value['environment'] === undefined)
@@ -86,7 +86,7 @@ export function EmailConfigResponseFromJSON(json: any): EmailConfigResponse {
 
 export function EmailConfigResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): EmailConfigResponse {
   if (json == null) {
     return json;
@@ -101,7 +101,7 @@ export function EmailConfigResponseFromJSONTyped(
 }
 
 export function EmailConfigResponseToJSON(
-  value?: EmailConfigResponse | null,
+  value?: EmailConfigResponse | null
 ): any {
   if (value == null) {
     return value;

@@ -71,7 +71,7 @@ export function FileBucketFromJSON(json: any): FileBucket {
 
 export function FileBucketFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): FileBucket {
   if (json == null) {
     return json;

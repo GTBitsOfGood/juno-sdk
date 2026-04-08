@@ -49,7 +49,7 @@ export interface AnalyticsConfigResponse {
  * Check if a given object implements the AnalyticsConfigResponse interface.
  */
 export function instanceOfAnalyticsConfigResponse(
-  value: object,
+  value: object
 ): value is AnalyticsConfigResponse {
   if (!('id' in value) || value['id'] === undefined) return false;
   if (!('environment' in value) || value['environment'] === undefined)
@@ -68,14 +68,14 @@ export function instanceOfAnalyticsConfigResponse(
 }
 
 export function AnalyticsConfigResponseFromJSON(
-  json: any,
+  json: any
 ): AnalyticsConfigResponse {
   return AnalyticsConfigResponseFromJSONTyped(json, false);
 }
 
 export function AnalyticsConfigResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): AnalyticsConfigResponse {
   if (json == null) {
     return json;
@@ -89,7 +89,7 @@ export function AnalyticsConfigResponseFromJSONTyped(
 }
 
 export function AnalyticsConfigResponseToJSON(
-  value?: AnalyticsConfigResponse | null,
+  value?: AnalyticsConfigResponse | null
 ): any {
   if (value == null) {
     return value;

@@ -37,21 +37,21 @@ export interface EmailSenderSendEmailModel {
  * Check if a given object implements the EmailSenderSendEmailModel interface.
  */
 export function instanceOfEmailSenderSendEmailModel(
-  value: object,
+  value: object
 ): value is EmailSenderSendEmailModel {
   if (!('email' in value) || value['email'] === undefined) return false;
   return true;
 }
 
 export function EmailSenderSendEmailModelFromJSON(
-  json: any,
+  json: any
 ): EmailSenderSendEmailModel {
   return EmailSenderSendEmailModelFromJSONTyped(json, false);
 }
 
 export function EmailSenderSendEmailModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): EmailSenderSendEmailModel {
   if (json == null) {
     return json;
@@ -63,7 +63,7 @@ export function EmailSenderSendEmailModelFromJSONTyped(
 }
 
 export function EmailSenderSendEmailModelToJSON(
-  value?: EmailSenderSendEmailModel | null,
+  value?: EmailSenderSendEmailModel | null
 ): any {
   if (value == null) {
     return value;

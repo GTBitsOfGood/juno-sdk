@@ -48,7 +48,7 @@ export function UserResponsesFromJSON(json: any): UserResponses {
 
 export function UserResponsesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): UserResponses {
   if (json == null) {
     return json;

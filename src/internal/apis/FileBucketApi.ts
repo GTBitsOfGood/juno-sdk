@@ -48,12 +48,12 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerDeleteFileBucketRaw(
     requestParameters: FileBucketControllerDeleteFileBucketRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileBucket>> {
     if (requestParameters['deleteFileBucketModel'] == null) {
       throw new runtime.RequiredError(
         'deleteFileBucketModel',
-        'Required parameter "deleteFileBucketModel" was null or undefined when calling fileBucketControllerDeleteFileBucket().',
+        'Required parameter "deleteFileBucketModel" was null or undefined when calling fileBucketControllerDeleteFileBucket().'
       );
     }
 
@@ -78,14 +78,14 @@ export class FileBucketApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: DeleteFileBucketModelToJSON(
-          requestParameters['deleteFileBucketModel'],
+          requestParameters['deleteFileBucketModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileBucketFromJSON(jsonValue),
+      FileBucketFromJSON(jsonValue)
     );
   }
 
@@ -94,11 +94,11 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerDeleteFileBucket(
     requestParameters: FileBucketControllerDeleteFileBucketRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileBucket> {
     const response = await this.fileBucketControllerDeleteFileBucketRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -108,12 +108,12 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerGetBucketsByConfigIdAndEnvRaw(
     requestParameters: FileBucketControllerGetBucketsByConfigIdAndEnvRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<Array<FileBucket>>> {
     if (requestParameters['configId'] == null) {
       throw new runtime.RequiredError(
         'configId',
-        'Required parameter "configId" was null or undefined when calling fileBucketControllerGetBucketsByConfigIdAndEnv().',
+        'Required parameter "configId" was null or undefined when calling fileBucketControllerGetBucketsByConfigIdAndEnv().'
       );
     }
 
@@ -133,17 +133,17 @@ export class FileBucketApi extends runtime.BaseAPI {
       {
         path: `/file/bucket/{configId}`.replace(
           `{${'configId'}}`,
-          encodeURIComponent(String(requestParameters['configId'])),
+          encodeURIComponent(String(requestParameters['configId']))
         ),
         method: 'GET',
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(FileBucketFromJSON),
+      jsonValue.map(FileBucketFromJSON)
     );
   }
 
@@ -152,12 +152,12 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerGetBucketsByConfigIdAndEnv(
     requestParameters: FileBucketControllerGetBucketsByConfigIdAndEnvRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<Array<FileBucket>> {
     const response =
       await this.fileBucketControllerGetBucketsByConfigIdAndEnvRaw(
         requestParameters,
-        initOverrides,
+        initOverrides
       );
     return await response.value();
   }
@@ -167,12 +167,12 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerRegisterFileBucketRaw(
     requestParameters: FileBucketControllerRegisterFileBucketRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<FileBucket>> {
     if (requestParameters['registerFileBucketModel'] == null) {
       throw new runtime.RequiredError(
         'registerFileBucketModel',
-        'Required parameter "registerFileBucketModel" was null or undefined when calling fileBucketControllerRegisterFileBucket().',
+        'Required parameter "registerFileBucketModel" was null or undefined when calling fileBucketControllerRegisterFileBucket().'
       );
     }
 
@@ -197,14 +197,14 @@ export class FileBucketApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: RegisterFileBucketModelToJSON(
-          requestParameters['registerFileBucketModel'],
+          requestParameters['registerFileBucketModel']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FileBucketFromJSON(jsonValue),
+      FileBucketFromJSON(jsonValue)
     );
   }
 
@@ -213,11 +213,11 @@ export class FileBucketApi extends runtime.BaseAPI {
    */
   async fileBucketControllerRegisterFileBucket(
     requestParameters: FileBucketControllerRegisterFileBucketRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileBucket> {
     const response = await this.fileBucketControllerRegisterFileBucketRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }

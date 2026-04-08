@@ -38,41 +38,41 @@ export interface SendEmailStatisticsResponses {
  * Check if a given object implements the SendEmailStatisticsResponses interface.
  */
 export function instanceOfSendEmailStatisticsResponses(
-  value: object,
+  value: object
 ): value is SendEmailStatisticsResponses {
   if (!('responses' in value) || value['responses'] === undefined) return false;
   return true;
 }
 
 export function SendEmailStatisticsResponsesFromJSON(
-  json: any,
+  json: any
 ): SendEmailStatisticsResponses {
   return SendEmailStatisticsResponsesFromJSONTyped(json, false);
 }
 
 export function SendEmailStatisticsResponsesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): SendEmailStatisticsResponses {
   if (json == null) {
     return json;
   }
   return {
     responses: (json['responses'] as Array<any>).map(
-      SendEmailStatisticsResponseFromJSON,
+      SendEmailStatisticsResponseFromJSON
     ),
   };
 }
 
 export function SendEmailStatisticsResponsesToJSON(
-  value?: SendEmailStatisticsResponses | null,
+  value?: SendEmailStatisticsResponses | null
 ): any {
   if (value == null) {
     return value;
   }
   return {
     responses: (value['responses'] as Array<any>).map(
-      SendEmailStatisticsResponseToJSON,
+      SendEmailStatisticsResponseToJSON
     ),
   };
 }

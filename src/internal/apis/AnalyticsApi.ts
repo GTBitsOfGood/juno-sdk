@@ -166,12 +166,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllClickEventsRaw(
     requestParameters: AnalyticsControllerGetAllClickEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetAllClickEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllClickEvents().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllClickEvents().'
       );
     }
 
@@ -206,11 +206,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAllClickEventsResponseFromJSON(jsonValue),
+      GetAllClickEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -219,11 +219,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllClickEvents(
     requestParameters: AnalyticsControllerGetAllClickEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetAllClickEventsResponse> {
     const response = await this.analyticsControllerGetAllClickEventsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -233,26 +233,26 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllCustomEventsRaw(
     requestParameters: AnalyticsControllerGetAllCustomEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetAllCustomEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllCustomEvents().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllCustomEvents().'
       );
     }
 
     if (requestParameters['category'] == null) {
       throw new runtime.RequiredError(
         'category',
-        'Required parameter "category" was null or undefined when calling analyticsControllerGetAllCustomEvents().',
+        'Required parameter "category" was null or undefined when calling analyticsControllerGetAllCustomEvents().'
       );
     }
 
     if (requestParameters['subcategory'] == null) {
       throw new runtime.RequiredError(
         'subcategory',
-        'Required parameter "subcategory" was null or undefined when calling analyticsControllerGetAllCustomEvents().',
+        'Required parameter "subcategory" was null or undefined when calling analyticsControllerGetAllCustomEvents().'
       );
     }
 
@@ -295,11 +295,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAllCustomEventsResponseFromJSON(jsonValue),
+      GetAllCustomEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -308,11 +308,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllCustomEvents(
     requestParameters: AnalyticsControllerGetAllCustomEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetAllCustomEventsResponse> {
     const response = await this.analyticsControllerGetAllCustomEventsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -322,12 +322,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllInputEventsRaw(
     requestParameters: AnalyticsControllerGetAllInputEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetAllInputEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllInputEvents().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllInputEvents().'
       );
     }
 
@@ -362,11 +362,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAllInputEventsResponseFromJSON(jsonValue),
+      GetAllInputEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -375,11 +375,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllInputEvents(
     requestParameters: AnalyticsControllerGetAllInputEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetAllInputEventsResponse> {
     const response = await this.analyticsControllerGetAllInputEventsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -389,12 +389,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllVisitEventsRaw(
     requestParameters: AnalyticsControllerGetAllVisitEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetAllVisitEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllVisitEvents().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetAllVisitEvents().'
       );
     }
 
@@ -429,11 +429,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAllVisitEventsResponseFromJSON(jsonValue),
+      GetAllVisitEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -442,11 +442,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetAllVisitEvents(
     requestParameters: AnalyticsControllerGetAllVisitEventsRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetAllVisitEventsResponse> {
     const response = await this.analyticsControllerGetAllVisitEventsRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -456,12 +456,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetClickEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetClickEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetClickEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetClickEventsPaginated().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetClickEventsPaginated().'
       );
     }
 
@@ -504,11 +504,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetClickEventsResponseFromJSON(jsonValue),
+      GetClickEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -517,11 +517,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetClickEventsPaginated(
     requestParameters: AnalyticsControllerGetClickEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetClickEventsResponse> {
     const response = await this.analyticsControllerGetClickEventsPaginatedRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -531,12 +531,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomEventTypesRaw(
     requestParameters: AnalyticsControllerGetCustomEventTypesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetAllCustomEventTypeResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomEventTypes().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomEventTypes().'
       );
     }
 
@@ -563,11 +563,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAllCustomEventTypeResponseFromJSON(jsonValue),
+      GetAllCustomEventTypeResponseFromJSON(jsonValue)
     );
   }
 
@@ -576,11 +576,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomEventTypes(
     requestParameters: AnalyticsControllerGetCustomEventTypesRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetAllCustomEventTypeResponse> {
     const response = await this.analyticsControllerGetCustomEventTypesRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -590,26 +590,26 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetCustomEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetCustomEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().'
       );
     }
 
     if (requestParameters['category'] == null) {
       throw new runtime.RequiredError(
         'category',
-        'Required parameter "category" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().',
+        'Required parameter "category" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().'
       );
     }
 
     if (requestParameters['subcategory'] == null) {
       throw new runtime.RequiredError(
         'subcategory',
-        'Required parameter "subcategory" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().',
+        'Required parameter "subcategory" was null or undefined when calling analyticsControllerGetCustomEventsPaginated().'
       );
     }
 
@@ -660,11 +660,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetCustomEventsResponseFromJSON(jsonValue),
+      GetCustomEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -673,11 +673,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomEventsPaginated(
     requestParameters: AnalyticsControllerGetCustomEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetCustomEventsResponse> {
     const response = await this.analyticsControllerGetCustomEventsPaginatedRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -687,19 +687,19 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomGraphTypesByIdRaw(
     requestParameters: AnalyticsControllerGetCustomGraphTypesByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<CustomGraphTypeResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomGraphTypesById().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetCustomGraphTypesById().'
       );
     }
 
     if (requestParameters['eventTypeId'] == null) {
       throw new runtime.RequiredError(
         'eventTypeId',
-        'Required parameter "eventTypeId" was null or undefined when calling analyticsControllerGetCustomGraphTypesById().',
+        'Required parameter "eventTypeId" was null or undefined when calling analyticsControllerGetCustomGraphTypesById().'
       );
     }
 
@@ -730,11 +730,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CustomGraphTypeResponseFromJSON(jsonValue),
+      CustomGraphTypeResponseFromJSON(jsonValue)
     );
   }
 
@@ -743,11 +743,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetCustomGraphTypesById(
     requestParameters: AnalyticsControllerGetCustomGraphTypesByIdRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<CustomGraphTypeResponse> {
     const response = await this.analyticsControllerGetCustomGraphTypesByIdRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -757,12 +757,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetInputEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetInputEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetInputEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetInputEventsPaginated().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetInputEventsPaginated().'
       );
     }
 
@@ -805,11 +805,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetInputEventsResponseFromJSON(jsonValue),
+      GetInputEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -818,11 +818,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetInputEventsPaginated(
     requestParameters: AnalyticsControllerGetInputEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetInputEventsResponse> {
     const response = await this.analyticsControllerGetInputEventsPaginatedRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -832,12 +832,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetVisitEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetVisitEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<GetVisitEventsResponse>> {
     if (requestParameters['projectName'] == null) {
       throw new runtime.RequiredError(
         'projectName',
-        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetVisitEventsPaginated().',
+        'Required parameter "projectName" was null or undefined when calling analyticsControllerGetVisitEventsPaginated().'
       );
     }
 
@@ -880,11 +880,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetVisitEventsResponseFromJSON(jsonValue),
+      GetVisitEventsResponseFromJSON(jsonValue)
     );
   }
 
@@ -893,11 +893,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerGetVisitEventsPaginated(
     requestParameters: AnalyticsControllerGetVisitEventsPaginatedRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<GetVisitEventsResponse> {
     const response = await this.analyticsControllerGetVisitEventsPaginatedRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -907,12 +907,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogClickEventRaw(
     requestParameters: AnalyticsControllerLogClickEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<ClickEventResponse>> {
     if (requestParameters['logClickEventRequest'] == null) {
       throw new runtime.RequiredError(
         'logClickEventRequest',
-        'Required parameter "logClickEventRequest" was null or undefined when calling analyticsControllerLogClickEvent().',
+        'Required parameter "logClickEventRequest" was null or undefined when calling analyticsControllerLogClickEvent().'
       );
     }
 
@@ -937,14 +937,14 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: LogClickEventRequestToJSON(
-          requestParameters['logClickEventRequest'],
+          requestParameters['logClickEventRequest']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ClickEventResponseFromJSON(jsonValue),
+      ClickEventResponseFromJSON(jsonValue)
     );
   }
 
@@ -953,11 +953,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogClickEvent(
     requestParameters: AnalyticsControllerLogClickEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<ClickEventResponse> {
     const response = await this.analyticsControllerLogClickEventRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -967,12 +967,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogCustomEventRaw(
     requestParameters: AnalyticsControllerLogCustomEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<CustomEventResponse>> {
     if (requestParameters['logCustomEventRequest'] == null) {
       throw new runtime.RequiredError(
         'logCustomEventRequest',
-        'Required parameter "logCustomEventRequest" was null or undefined when calling analyticsControllerLogCustomEvent().',
+        'Required parameter "logCustomEventRequest" was null or undefined when calling analyticsControllerLogCustomEvent().'
       );
     }
 
@@ -997,14 +997,14 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: LogCustomEventRequestToJSON(
-          requestParameters['logCustomEventRequest'],
+          requestParameters['logCustomEventRequest']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CustomEventResponseFromJSON(jsonValue),
+      CustomEventResponseFromJSON(jsonValue)
     );
   }
 
@@ -1013,11 +1013,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogCustomEvent(
     requestParameters: AnalyticsControllerLogCustomEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<CustomEventResponse> {
     const response = await this.analyticsControllerLogCustomEventRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -1027,12 +1027,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogInputEventRaw(
     requestParameters: AnalyticsControllerLogInputEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<InputEventResponse>> {
     if (requestParameters['logInputEventRequest'] == null) {
       throw new runtime.RequiredError(
         'logInputEventRequest',
-        'Required parameter "logInputEventRequest" was null or undefined when calling analyticsControllerLogInputEvent().',
+        'Required parameter "logInputEventRequest" was null or undefined when calling analyticsControllerLogInputEvent().'
       );
     }
 
@@ -1057,14 +1057,14 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: LogInputEventRequestToJSON(
-          requestParameters['logInputEventRequest'],
+          requestParameters['logInputEventRequest']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      InputEventResponseFromJSON(jsonValue),
+      InputEventResponseFromJSON(jsonValue)
     );
   }
 
@@ -1073,11 +1073,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogInputEvent(
     requestParameters: AnalyticsControllerLogInputEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<InputEventResponse> {
     const response = await this.analyticsControllerLogInputEventRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }
@@ -1087,12 +1087,12 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogVisitEventRaw(
     requestParameters: AnalyticsControllerLogVisitEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<VisitEventResponse>> {
     if (requestParameters['logVisitEventRequest'] == null) {
       throw new runtime.RequiredError(
         'logVisitEventRequest',
-        'Required parameter "logVisitEventRequest" was null or undefined when calling analyticsControllerLogVisitEvent().',
+        'Required parameter "logVisitEventRequest" was null or undefined when calling analyticsControllerLogVisitEvent().'
       );
     }
 
@@ -1117,14 +1117,14 @@ export class AnalyticsApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: LogVisitEventRequestToJSON(
-          requestParameters['logVisitEventRequest'],
+          requestParameters['logVisitEventRequest']
         ),
       },
-      initOverrides,
+      initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      VisitEventResponseFromJSON(jsonValue),
+      VisitEventResponseFromJSON(jsonValue)
     );
   }
 
@@ -1133,11 +1133,11 @@ export class AnalyticsApi extends runtime.BaseAPI {
    */
   async analyticsControllerLogVisitEvent(
     requestParameters: AnalyticsControllerLogVisitEventRequest,
-    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<VisitEventResponse> {
     const response = await this.analyticsControllerLogVisitEventRaw(
       requestParameters,
-      initOverrides,
+      initOverrides
     );
     return await response.value();
   }

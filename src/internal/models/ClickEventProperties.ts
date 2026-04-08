@@ -37,7 +37,7 @@ export interface ClickEventProperties {
  * Check if a given object implements the ClickEventProperties interface.
  */
 export function instanceOfClickEventProperties(
-  value: object,
+  value: object
 ): value is ClickEventProperties {
   if (!('objectId' in value) || value['objectId'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -50,7 +50,7 @@ export function ClickEventPropertiesFromJSON(json: any): ClickEventProperties {
 
 export function ClickEventPropertiesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): ClickEventProperties {
   if (json == null) {
     return json;
@@ -62,7 +62,7 @@ export function ClickEventPropertiesFromJSONTyped(
 }
 
 export function ClickEventPropertiesToJSON(
-  value?: ClickEventProperties | null,
+  value?: ClickEventProperties | null
 ): any {
   if (value == null) {
     return value;

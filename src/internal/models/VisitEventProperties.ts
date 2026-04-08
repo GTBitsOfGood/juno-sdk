@@ -37,7 +37,7 @@ export interface VisitEventProperties {
  * Check if a given object implements the VisitEventProperties interface.
  */
 export function instanceOfVisitEventProperties(
-  value: object,
+  value: object
 ): value is VisitEventProperties {
   if (!('pageUrl' in value) || value['pageUrl'] === undefined) return false;
   if (!('userId' in value) || value['userId'] === undefined) return false;
@@ -50,7 +50,7 @@ export function VisitEventPropertiesFromJSON(json: any): VisitEventProperties {
 
 export function VisitEventPropertiesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): VisitEventProperties {
   if (json == null) {
     return json;
@@ -62,7 +62,7 @@ export function VisitEventPropertiesFromJSONTyped(
 }
 
 export function VisitEventPropertiesToJSON(
-  value?: VisitEventProperties | null,
+  value?: VisitEventProperties | null
 ): any {
   if (value == null) {
     return value;

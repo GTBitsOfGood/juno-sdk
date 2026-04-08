@@ -9,7 +9,7 @@ import { ProjectIdentifier, UserIdentifier } from './identifiers';
 
 export const validateString = (
   str?: String,
-  errorMessage = 'Invalid string argument',
+  errorMessage = 'Invalid string argument'
 ) => {
   if (typeof str !== 'string' || !str || str.trim().length === 0) {
     throw new JunoValidationError(errorMessage);
@@ -44,7 +44,7 @@ export const validateEmailContent = (content: EmailContent) => {
 export const validateProjectIdentifier = (input: ProjectIdentifier) => {
   if (!input) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or name and cannot be null.',
+      'The user input provided must include either the id or name and cannot be null.'
     );
   }
 
@@ -53,13 +53,13 @@ export const validateProjectIdentifier = (input: ProjectIdentifier) => {
 
   if (!hasName && !hasId) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or name and cannot be null.',
+      'The user input provided must include either the id or name and cannot be null.'
     );
   }
 
   if (hasName && hasId) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or name, but not both.',
+      'The user input provided must include either the id or name, but not both.'
     );
   }
 
@@ -84,7 +84,7 @@ export const validateProjectIdentifier = (input: ProjectIdentifier) => {
 export const validateUserIdentifier = (input: UserIdentifier) => {
   if (!input) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or email and cannot be null.',
+      'The user input provided must include either the id or email and cannot be null.'
     );
   }
 
@@ -93,13 +93,13 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
 
   if (!hasEmail && !hasId) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or email and cannot be null.',
+      'The user input provided must include either the id or email and cannot be null.'
     );
   }
 
   if (hasEmail && hasId) {
     throw new JunoValidationError(
-      'The user input provided must include either the id or email, but not both.',
+      'The user input provided must include either the id or email, but not both.'
     );
   }
 
@@ -137,7 +137,7 @@ export const validateSendGridKey = (sendgridKey: string) => {
   // who accidentally plug in their API key (this has already happened)
   if (!sendgridKey.startsWith('SG')) {
     throw new JunoValidationError(
-      'Invalid SendGrid key format. The key should start with SG',
+      'Invalid SendGrid key format. The key should start with SG'
     );
   }
 };

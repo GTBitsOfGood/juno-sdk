@@ -55,7 +55,7 @@ export interface UploadFileModel {
  * Check if a given object implements the UploadFileModel interface.
  */
 export function instanceOfUploadFileModel(
-  value: object,
+  value: object
 ): value is UploadFileModel {
   if (!('fileName' in value) || value['fileName'] === undefined) return false;
   if (!('bucketName' in value) || value['bucketName'] === undefined)
@@ -72,7 +72,7 @@ export function UploadFileModelFromJSON(json: any): UploadFileModel {
 
 export function UploadFileModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean,
+  ignoreDiscriminator: boolean
 ): UploadFileModel {
   if (json == null) {
     return json;
