@@ -1,12 +1,15 @@
 import {
   Configuration,
   DeleteFileBucketModel,
+  DeleteFilesModel,
+  DeleteFilesResponse,
   DownloadFileModel,
   DownloadFileResponse,
   FileBucket,
   FileBucketApi,
   FileConfigApi,
   FileConfigResponse,
+  FileDeleteApi,
   FileDownloadApi,
   FileProvider,
   FileProviderApi,
@@ -26,6 +29,7 @@ export class FileAPI {
   private configApi: FileConfigApi;
   private uploadApi: FileUploadApi;
   private downloadApi: FileDownloadApi;
+  private deleteApi: FileDeleteApi;
   private bucketApi: FileBucketApi;
   private providerApi: FileProviderApi;
 
@@ -37,6 +41,7 @@ export class FileAPI {
     this.configApi = new FileConfigApi(config);
     this.uploadApi = new FileUploadApi(config);
     this.downloadApi = new FileDownloadApi(config);
+    this.deleteApi = new FileDeleteApi(config);
     this.bucketApi = new FileBucketApi(config);
     this.providerApi = new FileProviderApi(config);
   }
@@ -293,6 +298,49 @@ export class FileAPI {
     return await this.uploadApi.fileUploadControllerUploadFile({
       uploadFileModel: model,
     });
+  }
+
+  async deleteFiles(
+    options: {
+      bucketName: string;
+      configId: number;
+      fileNames: string[];
+    },
+    credentials?: ApiCredentials
+  ): Promise<DeleteFilesResponse> {
+    const { bucketName, configId, fileNames } = options;
+
+    validateString(bucketName, 'bucketName must be non-empty');
+    if (typeof configId !== 'number') {
+      throw new JunoValidationError('configId must be a number');
+    }
+    if (!Array.isArray(fileNames) || fileNames.length === 0) {
+      throw new JunoValidationError('fileNames must be a non-empty array');
+    }
+    fileNames.forEach((name) =>
+      validateString(name, 'each entry in fileNames must be a non-empty string')
+    );
+
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    const model: DeleteFilesModel = {
+      bucketName,
+      configId,
+      fileNames,
+    };
+
+    return await this.deleteApi.fileDeleteControllerDeleteFiles(
+      { deleteFilesModel: model },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async downloadFile(options: {

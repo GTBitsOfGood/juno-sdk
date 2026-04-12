@@ -6,6 +6,7 @@ export * from './AuthApi';
 export * from './EmailApi';
 export * from './FileBucketApi';
 export * from './FileConfigApi';
+export * from './FileDeleteApi';
 export * from './FileDownloadApi';
 export * from './FileProviderApi';
 export * from './FileUploadApi';
