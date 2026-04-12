@@ -270,6 +270,26 @@ export class FileAPI {
     );
   }
 
+  async getAllFiles(
+    configId: string,
+    credentials?: ApiCredentials
+  ): Promise<Array<object>> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.bucketApi.fileBucketControllerGetAllFiles(
+      { configId },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+  }
+
   async uploadFile(options: {
     fileName: string;
     bucketName: string;
