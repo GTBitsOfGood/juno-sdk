@@ -31,6 +31,10 @@ export interface FileBucketControllerDeleteFileBucketRequest {
   deleteFileBucketModel: DeleteFileBucketModel;
 }
 
+export interface FileBucketControllerGetAllFilesRequest {
+  configId: string;
+}
+
 export interface FileBucketControllerGetBucketsByConfigIdAndEnvRequest {
   configId: string;
 }
@@ -97,6 +101,62 @@ export class FileBucketApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<FileBucket> {
     const response = await this.fileBucketControllerDeleteFileBucketRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Get all files from all buckets for a config.
+   */
+  async fileBucketControllerGetAllFilesRaw(
+    requestParameters: FileBucketControllerGetAllFilesRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Array<object>>> {
+    if (requestParameters['configId'] == null) {
+      throw new runtime.RequiredError(
+        'configId',
+        'Required parameter "configId" was null or undefined when calling fileBucketControllerGetAllFiles().'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/file/all/{configId}`.replace(
+          `{${'configId'}}`,
+          encodeURIComponent(String(requestParameters['configId']))
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse<any>(response);
+  }
+
+  /**
+   * Get all files from all buckets for a config.
+   */
+  async fileBucketControllerGetAllFiles(
+    requestParameters: FileBucketControllerGetAllFilesRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Array<object>> {
+    const response = await this.fileBucketControllerGetAllFilesRaw(
       requestParameters,
       initOverrides
     );
