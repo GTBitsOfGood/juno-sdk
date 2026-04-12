@@ -171,7 +171,7 @@ export class AuthAPI {
       headers['X-User-Password'] = credentials.password;
     }
 
-    const response = await this.internalApi.authControllerGetAllApiKeys(
+    return this.internalApi.authControllerGetAllApiKeys(
       {
         offset,
         limit,
@@ -186,7 +186,6 @@ export class AuthAPI {
         headers: { ...(init.headers as Record<string, string>), ...headers },
       })
     );
-    return response;
   }
 
   async deleteApiKeyById(options: {
@@ -195,10 +194,7 @@ export class AuthAPI {
   }): Promise<{ success: boolean }> {
     const { keyId, credentials } = options;
     validateUserCredentials(credentials);
-    const authorization =
-      typeof credentials === 'string'
-        ? `Bearer ${credentials}`
-        : credentials.email;
+    validateString(keyId, 'The key ID must be nonempty');
 
     const headers: Record<string, string> = {};
     if (typeof credentials === 'string') {
@@ -208,17 +204,21 @@ export class AuthAPI {
       headers['X-User-Password'] = credentials.password;
     }
 
-    try {
-      await this.internalApi.authControllerDeleteApiKeyById(
-        { id: keyId, authorization } as any,
-        async ({ init }) => ({
-          headers: { ...(init.headers as Record<string, string>), ...headers },
-        })
-      );
-      return { success: true };
-    } catch {
-      return { success: false };
-    }
+    await this.internalApi.authControllerDeleteApiKeyById(
+      {
+        id: keyId,
+        ...(typeof credentials === 'string'
+          ? { xUserJwt: credentials }
+          : {
+              xUserEmail: credentials.email,
+              xUserPassword: credentials.password,
+            }),
+      },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+    return { success: true };
   }
 
   async deleteAccountRequest(options: {
