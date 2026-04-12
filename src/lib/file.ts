@@ -317,6 +317,9 @@ export class FileAPI {
     if (!Array.isArray(fileNames) || fileNames.length === 0) {
       throw new JunoValidationError('fileNames must be a non-empty array');
     }
+    fileNames.forEach((name) =>
+      validateString(name, 'each entry in fileNames must be a non-empty string')
+    );
 
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
