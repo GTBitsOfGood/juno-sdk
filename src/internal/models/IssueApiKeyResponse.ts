@@ -20,11 +20,35 @@ import { mapValues } from '../runtime';
  */
 export interface IssueApiKeyResponse {
   /**
-   * The generated API key
+   * The generated API key value (store immediately, not retrievable again)
    * @type {string}
    * @memberof IssueApiKeyResponse
    */
   apiKey: string;
+  /**
+   * Environment this key was issued for
+   * @type {string}
+   * @memberof IssueApiKeyResponse
+   */
+  environment: string;
+  /**
+   * Description provided at creation
+   * @type {string}
+   * @memberof IssueApiKeyResponse
+   */
+  description: string;
+  /**
+   * ISO timestamp of key creation
+   * @type {string}
+   * @memberof IssueApiKeyResponse
+   */
+  createdAt: string;
+  /**
+   * project identifier for the API key
+   * @type {string}
+   * @memberof IssueApiKeyResponse
+   */
+  project: string;
 }
 
 /**
@@ -34,6 +58,12 @@ export function instanceOfIssueApiKeyResponse(
   value: object
 ): value is IssueApiKeyResponse {
   if (!('apiKey' in value) || value['apiKey'] === undefined) return false;
+  if (!('environment' in value) || value['environment'] === undefined)
+    return false;
+  if (!('description' in value) || value['description'] === undefined)
+    return false;
+  if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+  if (!('project' in value) || value['project'] === undefined) return false;
   return true;
 }
 
@@ -50,6 +80,10 @@ export function IssueApiKeyResponseFromJSONTyped(
   }
   return {
     apiKey: json['apiKey'],
+    environment: json['environment'],
+    description: json['description'],
+    createdAt: json['createdAt'],
+    project: json['project'],
   };
 }
 
@@ -61,5 +95,9 @@ export function IssueApiKeyResponseToJSON(
   }
   return {
     apiKey: value['apiKey'],
+    environment: value['environment'],
+    description: value['description'],
+    createdAt: value['createdAt'],
+    project: value['project'],
   };
 }

@@ -121,6 +121,15 @@ export const validateUserIdentifier = (input: UserIdentifier) => {
   }
 };
 
+export const validatePaginationParam = (
+  param: number,
+  errorMessage: string
+) => {
+  if (!Number.isFinite(param) || param < 0) {
+    throw new JunoValidationError(errorMessage);
+  }
+};
+
 export const validateUserCredentials = (credentials: UserCredentials) => {
   if (typeof credentials === 'string') {
     validateString(credentials, 'the JWT token must be non-empty');

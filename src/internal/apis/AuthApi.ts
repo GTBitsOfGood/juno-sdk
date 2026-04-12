@@ -14,6 +14,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  GetAllApiKeysResponse,
   IssueApiKeyRequest,
   IssueApiKeyResponse,
   IssueJWTResponse,
@@ -22,6 +23,8 @@ import type {
   RequestNewAccountModel,
 } from '../models/index';
 import {
+  GetAllApiKeysResponseFromJSON,
+  GetAllApiKeysResponseToJSON,
   IssueApiKeyRequestFromJSON,
   IssueApiKeyRequestToJSON,
   IssueApiKeyResponseFromJSON,
@@ -41,9 +44,9 @@ export interface AuthControllerCreateAccountRequestRequest {
 }
 
 export interface AuthControllerCreateApiKeyRequest {
-  xUserPassword: string;
-  xUserEmail: string;
   issueApiKeyRequest: IssueApiKeyRequest;
+  xUserPassword?: string;
+  xUserEmail?: string;
 }
 
 export interface AuthControllerDeleteAccountRequestRequest {
@@ -52,13 +55,23 @@ export interface AuthControllerDeleteAccountRequestRequest {
   xUserEmail: string;
 }
 
-export interface AuthControllerDeleteApiKeyRequest {
-  authorization: string;
+export interface AuthControllerDeleteApiKeyByIdRequest {
+  id: string;
+  xUserJwt?: string;
+  xUserPassword?: string;
+  xUserEmail?: string;
 }
 
 export interface AuthControllerGetAllAccountRequestsRequest {
   xUserPassword: string;
   xUserEmail: string;
+}
+
+export interface AuthControllerGetAllApiKeysRequest {
+  offset?: number;
+  limit?: number;
+  xUserPassword?: string;
+  xUserEmail?: string;
 }
 
 export interface AuthControllerGetApiKeyJWTRequest {
@@ -139,20 +152,6 @@ export class AuthApi extends runtime.BaseAPI {
     requestParameters: AuthControllerCreateApiKeyRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<IssueApiKeyResponse>> {
-    if (requestParameters['xUserPassword'] == null) {
-      throw new runtime.RequiredError(
-        'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerCreateApiKey().'
-      );
-    }
-
-    if (requestParameters['xUserEmail'] == null) {
-      throw new runtime.RequiredError(
-        'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerCreateApiKey().'
-      );
-    }
-
     if (requestParameters['issueApiKeyRequest'] == null) {
       throw new runtime.RequiredError(
         'issueApiKeyRequest',
@@ -295,16 +294,16 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
-   * Deletes an API key, detaching it from its project.
+   * Revokes an API key, detaching it from its project.
    */
-  async authControllerDeleteApiKeyRaw(
-    requestParameters: AuthControllerDeleteApiKeyRequest,
+  async authControllerDeleteApiKeyByIdRaw(
+    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<void>> {
-    if (requestParameters['authorization'] == null) {
+    if (requestParameters['id'] == null) {
       throw new runtime.RequiredError(
-        'authorization',
-        'Required parameter "authorization" was null or undefined when calling authControllerDeleteApiKey().'
+        'id',
+        'Required parameter "id" was null or undefined when calling authControllerDeleteApiKeyById().'
       );
     }
 
@@ -312,9 +311,19 @@ export class AuthApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters['authorization'] != null) {
-      headerParameters['Authorization'] = String(
-        requestParameters['authorization']
+    if (requestParameters['xUserJwt'] != null) {
+      headerParameters['x-user-jwt'] = String(requestParameters['xUserJwt']);
+    }
+
+    if (requestParameters['xUserPassword'] != null) {
+      headerParameters['X-User-Password'] = String(
+        requestParameters['xUserPassword']
+      );
+    }
+
+    if (requestParameters['xUserEmail'] != null) {
+      headerParameters['X-User-Email'] = String(
+        requestParameters['xUserEmail']
       );
     }
 
@@ -328,7 +337,10 @@ export class AuthApi extends runtime.BaseAPI {
     }
     const response = await this.request(
       {
-        path: `/auth/key`,
+        path: `/auth/key/{id}`.replace(
+          `{${'id'}}`,
+          encodeURIComponent(String(requestParameters['id']))
+        ),
         method: 'DELETE',
         headers: headerParameters,
         query: queryParameters,
@@ -340,13 +352,16 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
-   * Deletes an API key, detaching it from its project.
+   * Revokes an API key, detaching it from its project.
    */
-  async authControllerDeleteApiKey(
-    requestParameters: AuthControllerDeleteApiKeyRequest,
+  async authControllerDeleteApiKeyById(
+    requestParameters: AuthControllerDeleteApiKeyByIdRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<void> {
-    await this.authControllerDeleteApiKeyRaw(requestParameters, initOverrides);
+    await this.authControllerDeleteApiKeyByIdRaw(
+      requestParameters,
+      initOverrides
+    );
   }
 
   /**
@@ -426,6 +441,66 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
+   * Lists all API keys
+   */
+  async authControllerGetAllApiKeysRaw(
+    requestParameters: AuthControllerGetAllApiKeysRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<GetAllApiKeysResponse>> {
+    const queryParameters: any = {};
+
+    if (requestParameters['offset'] != null) {
+      queryParameters['offset'] = requestParameters['offset'];
+    }
+
+    if (requestParameters['limit'] != null) {
+      queryParameters['limit'] = requestParameters['limit'];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters['xUserPassword'] != null) {
+      headerParameters['X-User-Password'] = String(
+        requestParameters['xUserPassword']
+      );
+    }
+
+    if (requestParameters['xUserEmail'] != null) {
+      headerParameters['X-User-Email'] = String(
+        requestParameters['xUserEmail']
+      );
+    }
+
+    const response = await this.request(
+      {
+        path: `/auth/key/all`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetAllApiKeysResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Lists all API keys
+   */
+  async authControllerGetAllApiKeys(
+    requestParameters: AuthControllerGetAllApiKeysRequest = {},
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<GetAllApiKeysResponse> {
+    const response = await this.authControllerGetAllApiKeysRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
    * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given a valid API key.
    * Generates a temporary JWT for the project tied to a specified API key.
    */
@@ -489,7 +564,7 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
-   * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given valid user credentials.
+   * Generates a user identity token that can be used to authenticate admin and management endpoints in place of email/password credentials.
    * Generates a temporary JWT tied to a specified user.
    */
   async authControllerGetUserJWTRaw(
@@ -550,7 +625,7 @@ export class AuthApi extends runtime.BaseAPI {
   }
 
   /**
-   * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given valid user credentials.
+   * Generates a user identity token that can be used to authenticate admin and management endpoints in place of email/password credentials.
    * Generates a temporary JWT tied to a specified user.
    */
   async authControllerGetUserJWT(
