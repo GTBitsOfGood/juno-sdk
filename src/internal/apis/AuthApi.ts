@@ -14,6 +14,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  AcceptAccountRequestResponseModel,
   GetAllApiKeysResponse,
   IssueApiKeyRequest,
   IssueApiKeyResponse,
@@ -23,6 +24,8 @@ import type {
   RequestNewAccountModel,
 } from '../models/index';
 import {
+  AcceptAccountRequestResponseModelFromJSON,
+  AcceptAccountRequestResponseModelToJSON,
   GetAllApiKeysResponseFromJSON,
   GetAllApiKeysResponseToJSON,
   IssueApiKeyRequestFromJSON,
@@ -39,6 +42,12 @@ import {
   RequestNewAccountModelToJSON,
 } from '../models/index';
 
+export interface AuthControllerAcceptAccountRequestRequest {
+  id: string;
+  xUserPassword?: string;
+  xUserEmail?: string;
+}
+
 export interface AuthControllerCreateAccountRequestRequest {
   requestNewAccountModel: RequestNewAccountModel;
 }
@@ -51,8 +60,8 @@ export interface AuthControllerCreateApiKeyRequest {
 
 export interface AuthControllerDeleteAccountRequestRequest {
   id: string;
-  xUserPassword: string;
-  xUserEmail: string;
+  xUserPassword?: string;
+  xUserEmail?: string;
 }
 
 export interface AuthControllerDeleteApiKeyByIdRequest {
@@ -63,8 +72,15 @@ export interface AuthControllerDeleteApiKeyByIdRequest {
 }
 
 export interface AuthControllerGetAllAccountRequestsRequest {
-  xUserPassword: string;
-  xUserEmail: string;
+  xUserPassword?: string;
+  xUserEmail?: string;
+}
+
+export interface AuthControllerGetAllApiKeysRequest {
+  offset?: number;
+  limit?: number;
+  xUserPassword?: string;
+  xUserEmail?: string;
 }
 
 export interface AuthControllerGetAllApiKeysRequest {
@@ -91,6 +107,78 @@ export interface AuthControllerTestAuthRequest {
  *
  */
 export class AuthApi extends runtime.BaseAPI {
+  /**
+   * Accepts a pending account request: creates the user, optionally creates/links a project (for ADMIN requests with a projectName), and deletes the pending request. Requires admin or superadmin credentials.
+   * Accept an account request
+   */
+  async authControllerAcceptAccountRequestRaw(
+    requestParameters: AuthControllerAcceptAccountRequestRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<AcceptAccountRequestResponseModel>> {
+    if (requestParameters['id'] == null) {
+      throw new runtime.RequiredError(
+        'id',
+        'Required parameter "id" was null or undefined when calling authControllerAcceptAccountRequest().'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters['xUserPassword'] != null) {
+      headerParameters['X-User-Password'] = String(
+        requestParameters['xUserPassword']
+      );
+    }
+
+    if (requestParameters['xUserEmail'] != null) {
+      headerParameters['X-User-Email'] = String(
+        requestParameters['xUserEmail']
+      );
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/auth/account-request/{id}/accept`.replace(
+          `{${'id'}}`,
+          encodeURIComponent(String(requestParameters['id']))
+        ),
+        method: 'POST',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      AcceptAccountRequestResponseModelFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Accepts a pending account request: creates the user, optionally creates/links a project (for ADMIN requests with a projectName), and deletes the pending request. Requires admin or superadmin credentials.
+   * Accept an account request
+   */
+  async authControllerAcceptAccountRequest(
+    requestParameters: AuthControllerAcceptAccountRequestRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<AcceptAccountRequestResponseModel> {
+    const response = await this.authControllerAcceptAccountRequestRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
   /**
    * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
    * Submit a new account request
@@ -219,20 +307,6 @@ export class AuthApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         'id',
         'Required parameter "id" was null or undefined when calling authControllerDeleteAccountRequest().'
-      );
-    }
-
-    if (requestParameters['xUserPassword'] == null) {
-      throw new runtime.RequiredError(
-        'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerDeleteAccountRequest().'
-      );
-    }
-
-    if (requestParameters['xUserEmail'] == null) {
-      throw new runtime.RequiredError(
-        'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerDeleteAccountRequest().'
       );
     }
 
@@ -372,20 +446,6 @@ export class AuthApi extends runtime.BaseAPI {
     requestParameters: AuthControllerGetAllAccountRequestsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<runtime.ApiResponse<NewAccountRequestsResponse>> {
-    if (requestParameters['xUserPassword'] == null) {
-      throw new runtime.RequiredError(
-        'xUserPassword',
-        'Required parameter "xUserPassword" was null or undefined when calling authControllerGetAllAccountRequests().'
-      );
-    }
-
-    if (requestParameters['xUserEmail'] == null) {
-      throw new runtime.RequiredError(
-        'xUserEmail',
-        'Required parameter "xUserEmail" was null or undefined when calling authControllerGetAllAccountRequests().'
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -430,7 +490,7 @@ export class AuthApi extends runtime.BaseAPI {
    * Retrieve all account requests
    */
   async authControllerGetAllAccountRequests(
-    requestParameters: AuthControllerGetAllAccountRequestsRequest,
+    requestParameters: AuthControllerGetAllAccountRequestsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction
   ): Promise<NewAccountRequestsResponse> {
     const response = await this.authControllerGetAllAccountRequestsRaw(

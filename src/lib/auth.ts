@@ -9,6 +9,7 @@ import {
   RequestNewAccountModel,
   RequestNewAccountModelUserTypeEnum,
   GetAllApiKeysResponse,
+  AcceptAccountRequestResponseModel,
 } from '../internal/index';
 import {
   validatePaginationParam,
@@ -18,6 +19,8 @@ import {
 } from './validators';
 
 export type UserCredentials = string | { email: string; password: string };
+
+export type UserType = 'SUPERADMIN' | 'ADMIN' | 'USER';
 
 export class AuthAPI {
   private internalApi: AuthApi;
@@ -140,18 +143,62 @@ export class AuthAPI {
   }
 
   async getAllAccountRequests(options: {
-    email: string;
-    password: string;
+    credentials: UserCredentials;
   }): Promise<NewAccountRequestsResponse> {
-    const { email, password } = options;
+    const { credentials } = options;
 
-    validateString(email, 'The email must be nonempty');
-    validateString(password, 'The password must be nonempty');
+    validateUserCredentials(credentials);
 
-    return await this.internalApi.authControllerGetAllAccountRequests({
-      xUserEmail: email.trim(),
-      xUserPassword: password.trim(),
-    });
+    if (typeof credentials == 'string') {
+      return await this.internalApi.authControllerGetAllAccountRequests(
+        { xUserEmail: '', xUserPassword: '' },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
+      );
+    } else {
+      return await this.internalApi.authControllerGetAllAccountRequests({
+        xUserEmail: credentials.email,
+        xUserPassword: credentials.password,
+      });
+    }
+  }
+
+  async acceptAccountRequest(options: {
+    id: string;
+    credentials: UserCredentials;
+  }): Promise<AcceptAccountRequestResponseModel> {
+    let { id, credentials } = options;
+
+    validateString(id, 'The request ID must be nonempty');
+    validateUserCredentials(credentials);
+
+    id = id.trim();
+
+    try {
+      if (typeof credentials == 'string') {
+        return await this.internalApi.authControllerAcceptAccountRequest(
+          { id },
+          async ({ init }) => ({
+            headers: {
+              ...(init.headers as Record<string, string>),
+              Authorization: `Bearer ${credentials}`,
+            },
+          })
+        );
+      } else {
+        return await this.internalApi.authControllerAcceptAccountRequest({
+          id,
+          xUserPassword: credentials.password,
+          xUserEmail: credentials.email,
+        });
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getAllApiKeys(options: {
@@ -223,19 +270,29 @@ export class AuthAPI {
 
   async deleteAccountRequest(options: {
     id: string;
-    email: string;
-    password: string;
+    credentials: UserCredentials;
   }): Promise<NewAccountRequestResponse> {
-    const { id, email, password } = options;
+    const { id, credentials } = options;
 
     validateString(id, 'The id must be nonempty');
-    validateString(email, 'The email must be nonempty');
-    validateString(password, 'The password must be nonempty');
+    validateUserCredentials(credentials);
 
-    return await this.internalApi.authControllerDeleteAccountRequest({
-      id: id.trim(),
-      xUserEmail: email.trim(),
-      xUserPassword: password.trim(),
-    });
+    if (typeof credentials == 'string') {
+      return await this.internalApi.authControllerDeleteAccountRequest(
+        { id: id.trim(), xUserEmail: '', xUserPassword: '' },
+        async ({ init }) => ({
+          headers: {
+            ...(init.headers as Record<string, string>),
+            Authorization: `Bearer ${credentials}`,
+          },
+        })
+      );
+    } else {
+      return await this.internalApi.authControllerDeleteAccountRequest({
+        id: id.trim(),
+        xUserEmail: credentials.email,
+        xUserPassword: credentials.password,
+      });
+    }
   }
 }
