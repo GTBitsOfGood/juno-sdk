@@ -83,6 +83,13 @@ export interface AuthControllerGetAllApiKeysRequest {
   xUserEmail?: string;
 }
 
+export interface AuthControllerGetAllApiKeysRequest {
+  offset?: number;
+  limit?: number;
+  xUserPassword?: string;
+  xUserEmail?: string;
+}
+
 export interface AuthControllerGetApiKeyJWTRequest {
   authorization: string;
 }
