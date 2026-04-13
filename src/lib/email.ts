@@ -26,14 +26,49 @@ import {
   validateString,
 } from './validators';
 
+export interface VerifiedSenderInfo {
+  id: number;
+  nickname: string;
+  fromEmail: string;
+  fromName: string;
+  replyTo: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+  verified: boolean;
+  locked: boolean;
+}
+
+export interface GetSendersResult {
+  senders: VerifiedSenderInfo[];
+}
+
+export interface AuthenticatedDomainInfo {
+  id: number;
+  domain: string;
+  subdomain?: string;
+  valid: boolean;
+}
+
+export interface GetDomainsResult {
+  domains: AuthenticatedDomainInfo[];
+}
+
 export class EmailAPI {
   private internalApi: EmailApi;
+  private config: Configuration;
+  private baseURL?: string;
   private auth?: AuthAPI;
   constructor(baseURL?: string, auth?: AuthAPI) {
     this.auth = auth;
-    this.internalApi = new EmailApi(
-      new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey })
-    );
+    this.baseURL = baseURL;
+    this.config = new Configuration({
+      basePath: baseURL,
+      accessToken: auth?.junoApiKey,
+    });
+    this.internalApi = new EmailApi(this.config);
   }
 
   async getEmailConfig(
@@ -278,6 +313,36 @@ export class EmailAPI {
     }
   }
 
+  async getSenders(credentials?: ApiCredentials): Promise<GetSendersResult> {
+    const { basePath, headers } = await this.buildFetchHeaders(credentials);
+
+    const response = await fetch(`${basePath}/email/senders`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get senders: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
+  async getDomains(credentials?: ApiCredentials): Promise<GetDomainsResult> {
+    const { basePath, headers } = await this.buildFetchHeaders(credentials);
+
+    const response = await fetch(`${basePath}/email/domains`, {
+      method: 'GET',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get domains: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
   async getStatistics(
     options: {
       startDate: string;
@@ -306,5 +371,27 @@ export class EmailAPI {
         headers: { ...(init.headers as Record<string, string>), ...headers },
       })
     );
+  }
+
+  private async buildFetchHeaders(
+    credentials?: ApiCredentials
+  ): Promise<{ basePath: string; headers: Record<string, string> }> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) headers['X-User-JWT'] = credentials.userJwt;
+    if (credentials?.projectId !== undefined)
+      headers['X-Project-Id'] = String(credentials.projectId);
+
+    const basePath = this.config.basePath;
+    const token = this.config.accessToken;
+
+    if (!this.baseURL) {
+      throw new Error('Base URL is not configured for EmailAPI');
+    }
+    if (token) {
+      const tokenString =
+        typeof token === 'function' ? await token('API_Key', []) : token;
+      if (tokenString) headers['Authorization'] = `Bearer ${tokenString}`;
+    }
+    return { basePath, headers };
   }
 }
