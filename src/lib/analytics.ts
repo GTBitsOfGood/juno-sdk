@@ -49,26 +49,39 @@ export class AnalyticsAPI {
     });
   }
 
-  async getClickEventsPaginated(event: {
-    projectName: string;
-    afterId?: string;
-    environment?: string;
-    limit?: number;
-    afterTime?: string;
-  }): Promise<GetClickEventsResponse> {
+  async getClickEventsPaginated(
+    event: {
+      projectName: string;
+      afterId?: string;
+      environment?: string;
+      limit?: number;
+      afterTime?: string;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetClickEventsResponse> {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerGetClickEventsPaginated({
-      projectName,
-      afterId,
-      environment,
-      limit,
-      afterTime,
-    });
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.internalApi.analyticsControllerGetClickEventsPaginated(
+      { projectName, afterId, environment, limit, afterTime },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async logVisitEvent(
@@ -89,26 +102,39 @@ export class AnalyticsAPI {
     });
   }
 
-  async getVisitEventsPaginated(event: {
-    projectName: string;
-    afterId?: string;
-    environment?: string;
-    limit?: number;
-    afterTime?: string;
-  }): Promise<GetVisitEventsResponse> {
+  async getVisitEventsPaginated(
+    event: {
+      projectName: string;
+      afterId?: string;
+      environment?: string;
+      limit?: number;
+      afterTime?: string;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetVisitEventsResponse> {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerGetVisitEventsPaginated({
-      projectName,
-      afterId,
-      environment,
-      limit,
-      afterTime,
-    });
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.internalApi.analyticsControllerGetVisitEventsPaginated(
+      { projectName, afterId, environment, limit, afterTime },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async logInputEvent(
@@ -129,26 +155,39 @@ export class AnalyticsAPI {
     });
   }
 
-  async getInputEventsPaginated(event: {
-    projectName: string;
-    afterId?: string;
-    environment?: string;
-    limit?: number;
-    afterTime?: string;
-  }): Promise<GetInputEventsResponse> {
+  async getInputEventsPaginated(
+    event: {
+      projectName: string;
+      afterId?: string;
+      environment?: string;
+      limit?: number;
+      afterTime?: string;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetInputEventsResponse> {
     const { projectName, afterId, environment, limit, afterTime } = event;
     validateString(
       projectName,
       'The projectName must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerGetInputEventsPaginated({
-      projectName,
-      afterId,
-      environment,
-      limit,
-      afterTime,
-    });
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.internalApi.analyticsControllerGetInputEventsPaginated(
+      { projectName, afterId, environment, limit, afterTime },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async logCustomEvent(
@@ -169,15 +208,18 @@ export class AnalyticsAPI {
     });
   }
 
-  async getCustomEventsPaginated(event: {
-    projectName: string;
-    category: string;
-    subcategory: string;
-    afterId?: string;
-    environment?: string;
-    limit?: number;
-    afterTime?: string;
-  }): Promise<GetCustomEventsResponse> {
+  async getCustomEventsPaginated(
+    event: {
+      projectName: string;
+      category: string;
+      subcategory: string;
+      afterId?: string;
+      environment?: string;
+      limit?: number;
+      afterTime?: string;
+    },
+    credentials?: ApiCredentials
+  ): Promise<GetCustomEventsResponse> {
     const {
       projectName,
       category,
@@ -203,15 +245,31 @@ export class AnalyticsAPI {
       'The subcategory must be provided as an input and has to be nonempty.'
     );
 
-    return await this.internalApi.analyticsControllerGetCustomEventsPaginated({
-      projectName,
-      category,
-      subcategory,
-      afterId,
-      environment,
-      limit,
-      afterTime,
-    });
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (
+      credentials?.projectId !== undefined &&
+      credentials.projectId !== null
+    ) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.internalApi.analyticsControllerGetCustomEventsPaginated(
+      {
+        projectName,
+        category,
+        subcategory,
+        afterId,
+        environment,
+        limit,
+        afterTime,
+      },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
   }
 
   async getCustomEventTypesByProject(
