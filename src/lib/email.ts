@@ -5,6 +5,8 @@ import {
   EmailContent,
   EmailRecipient,
   EmailSenderSendEmailModel,
+  GetDomainsResponse,
+  GetSendersResponse,
   RegisterDomainModel,
   RegisterDomainResponse,
   RegisterEmailModel,
@@ -278,6 +280,35 @@ export class EmailAPI {
     }
   }
 
+  /**
+   * Lists the verified senders registered for the project. Pass `credentials`
+   * (user JWT + project id) so the gateway checks the caller's access to the
+   * project.
+   */
+  async getSenders(credentials?: ApiCredentials): Promise<GetSendersResponse> {
+    const headers = this.credentialHeaders(credentials);
+
+    return await this.internalApi.emailControllerGetSenders(
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+  }
+
+  /**
+   * Lists the authenticated domains registered for the project. `valid` is a
+   * boolean here (unlike the string returned by registerDomain/verifyDomain).
+   */
+  async getDomains(credentials?: ApiCredentials): Promise<GetDomainsResponse> {
+    const headers = this.credentialHeaders(credentials);
+
+    return await this.internalApi.emailControllerGetDomains(
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+  }
+
   async getStatistics(
     options: {
       startDate: string;
@@ -306,5 +337,18 @@ export class EmailAPI {
         headers: { ...(init.headers as Record<string, string>), ...headers },
       })
     );
+  }
+
+  private credentialHeaders(
+    credentials?: ApiCredentials
+  ): Record<string, string> {
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+    return headers;
   }
 }
