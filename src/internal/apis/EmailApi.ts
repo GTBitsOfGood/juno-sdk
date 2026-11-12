@@ -16,6 +16,8 @@ import * as runtime from '../runtime';
 import type {
   AggregateInterval,
   EmailConfigResponse,
+  GetDomainsResponse,
+  GetSendersResponse,
   RegisterDomainModel,
   RegisterDomainResponse,
   RegisterEmailModel,
@@ -32,6 +34,10 @@ import {
   AggregateIntervalToJSON,
   EmailConfigResponseFromJSON,
   EmailConfigResponseToJSON,
+  GetDomainsResponseFromJSON,
+  GetDomainsResponseToJSON,
+  GetSendersResponseFromJSON,
+  GetSendersResponseToJSON,
   RegisterDomainModelFromJSON,
   RegisterDomainModelToJSON,
   RegisterDomainResponseFromJSON,
@@ -91,6 +97,49 @@ export interface EmailControllerVerifySenderDomainRequest {
  */
 export class EmailApi extends runtime.BaseAPI {
   /**
+   * Gets all authenticated domains from SendGrid
+   */
+  async emailControllerGetDomainsRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<GetDomainsResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/email/domains`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetDomainsResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Gets all authenticated domains from SendGrid
+   */
+  async emailControllerGetDomains(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<GetDomainsResponse> {
+    const response = await this.emailControllerGetDomainsRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Get email configuration by ID
    */
   async emailControllerGetEmailConfigByIdRaw(
@@ -145,6 +194,49 @@ export class EmailApi extends runtime.BaseAPI {
       requestParameters,
       initOverrides
     );
+    return await response.value();
+  }
+
+  /**
+   * Gets all verified senders from SendGrid
+   */
+  async emailControllerGetSendersRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<GetSendersResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/email/senders`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetSendersResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Gets all verified senders from SendGrid
+   */
+  async emailControllerGetSenders(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<GetSendersResponse> {
+    const response = await this.emailControllerGetSendersRaw(initOverrides);
     return await response.value();
   }
 

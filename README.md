@@ -35,6 +35,8 @@ The SDK uses several models to structure the data exchanged between the client a
 - **EmailContent**: Represents the content of an email, including its MIME type and body.
 - **EmailRecipient**: Specifies the email and name of the recipient.
 - **EmailSender**: Specifies the email and name of the sender.
+- **GetSendersResponse**: Lists a project's verified senders (`VerifiedSenderResponse`, including `verified` and `locked`).
+- **GetDomainsResponse**: Lists a project's authenticated domains (`AuthenticatedDomainResponse`, including a boolean `valid`).
 - **ProjectResponse**: Represents the response received when querying project details.
 
 ### API Endpoints
@@ -44,7 +46,7 @@ The SDK includes API methods for interacting with Juno services. These methods a
 #### Core APIs:
 
 - **AuthApi**: Handles authentication tasks, such as issuing API keys and generating JWT tokens.
-- **EmailApi**: Manages email operations like sending emails and registering domains.
+- **EmailApi**: Manages email operations like sending emails, registering and verifying domains, registering senders, and listing a project's senders and domains.
 - **ProjectApi**: Manages project-related tasks, including creating projects and linking users.
 - **UserApi**: Handles user operations, including creating users and managing user roles.
 
@@ -78,7 +80,12 @@ The **UserApi** is designed for creating and managing users:
 The **EmailApi** allows you to manage email-related operations, such as registering domains and sending emails. It includes the following functionality:
 
 - **Register Domain**: Register a domain to use as the sender of emails.
+- **Verify Domain**: Re-check a registered domain's DNS records.
 - **Send Email**: Send an email through Juno’s email service by specifying the sender, recipient, and content.
+- **List Senders**: `getSenders(credentials)` returns the verified senders registered for a project.
+- **List Domains**: `getDomains(credentials)` returns the authenticated domains registered for a project, each with a boolean `valid` flag.
+
+Pass `{ userJwt, projectId }` as the `credentials` argument to act on a specific project. The gateway only checks that the user has access to that project when a user JWT is sent.
 
 ### General Workflow
 
