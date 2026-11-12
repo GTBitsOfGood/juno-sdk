@@ -16,6 +16,8 @@
 
 </div>
 
+> 📖 Juno's docs live at [juno.bitsofgood.org/docs](https://juno.bitsofgood.org/docs) (still being filled in, see [juno#267](https://github.com/GTBitsOfGood/juno/issues/267)). The dashboard is at [juno.bitsofgood.org](https://juno.bitsofgood.org).
+
 # Juno SDK
 
 **Juno SDK** is a development toolkit for interacting with [Juno](https://github.com/GTBitsOfGood/juno)'s central infrastructure. This SDK provides comprehensive API bindings to simplify common tasks such as authentication, email management, user management, and project-related operations. The following guide outlines the core structure of the SDK and provides basic usage examples to help new developers get started.
