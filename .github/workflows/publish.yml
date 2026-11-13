@@ -1,0 +1,77 @@
+name: Publish to npm
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # needed to create the GitHub release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Tag must match package.json
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          if [ "v$PKG" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $PKG. Run standard-version before tagging."
+            exit 1
+          fi
+          echo "PKG_VERSION=$PKG" >> "$GITHUB_ENV"
+
+      - name: Fail if this version is already on npm
+        run: |
+          if [ -n "$(npm view "juno-sdk@$PKG_VERSION" version 2>/dev/null)" ]; then
+            echo "::error::juno-sdk@$PKG_VERSION is already published. Bump the version and push a new tag."
+            exit 1
+          fi
+
+      - name: Unit tests
+        run: pnpm test:unit
+
+      - name: Build
+        run: pnpm build
+
+      - name: Show package contents
+        run: npm pack --dry-run
+
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Use this version's CHANGELOG section if standard-version produced one,
+          # otherwise fall back to GitHub's auto-generated notes.
+          awk -v v="$PKG_VERSION" '
+            /^##+ \[/ { if (found) exit; if (index($0, "[" v "]")) { found=1; next } }
+            found { print }
+          ' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+
+          if [ -n "$(tr -d '[:space:]' < "$RUNNER_TEMP/notes.md")" ]; then
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
+          else
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+          fi
