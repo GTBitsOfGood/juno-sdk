@@ -2,40 +2,95 @@ name: Juno SDK Sync OpenAPI
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Juno release tag to sync from (leave blank for the newest release, prereleases included)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   updateJunoSdk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
         with:
-          fetch-depth: 0
-      - name: Update files
+          version: 9
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download generated SDK from juno
+        id: fetch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_INPUT: ${{ inputs.tag }}
         run: |
-          # fetch latest prerelease
-          latest_prerelease=$(jq -r 'map(select(.prerelease)) | first | .tag_name' <<< "$(curl --silent https://api.github.com/repos/GTBitsOfGood/juno/releases)")
+          TAG="$TAG_INPUT"
+          if [ -z "$TAG" ]; then
+            # Newest release of any kind. Filtering on prerelease only would pick
+            # the stale v0.0.9, since juno now cuts normal releases.
+            TAG=$(gh release list --repo GTBitsOfGood/juno --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName')
+          fi
+          if [ -z "$TAG" ] || [ "$TAG" = "null" ]; then
+            echo "::error::Could not determine a juno release tag"
+            exit 1
+          fi
 
-          # retrieve auto-generated sdk files
-          wget "https://github.com/GTBitsOfGood/juno/releases/download/${latest_prerelease}/juno-client-sdk.tar.gz"
+          gh release download "$TAG" --repo GTBitsOfGood/juno --pattern juno-client-sdk.tar.gz --dir "$RUNNER_TEMP"
+          tar -xzf "$RUNNER_TEMP/juno-client-sdk.tar.gz" -C "$RUNNER_TEMP"
 
-          # unzip 
-          tar -xvzf "juno-client-sdk.tar.gz"
+          SRC="$RUNNER_TEMP/juno-client-sdk"
+          for p in apis models runtime.ts index.ts; do
+            if [ ! -e "$SRC/$p" ]; then
+              echo "::error::Expected $p in juno-client-sdk.tar.gz ($TAG) but it is missing"
+              ls -A "$SRC"
+              exit 1
+            fi
+          done
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
-          # move relevant api files over 
-          cp -r juno-client-sdk/api src/internal/
-          cp -r juno-client-sdk/api.ts src/internal/
-          cp -r juno-client-sdk/model src/internal/
+      - name: Replace generated code
+        run: |
+          SRC="$RUNNER_TEMP/juno-client-sdk"
+          # Remove old generated files first so deleted endpoints/models don't linger
+          rm -rf src/internal/apis src/internal/models
+          cp -r "$SRC/apis" "$SRC/models" src/internal/
+          cp "$SRC/runtime.ts" "$SRC/index.ts" src/internal/
+          # Generator output isn't prettier-formatted; the Format & Lint check would fail otherwise
+          pnpm exec prettier "src/internal/**/*.ts" --write
 
-
-          # cleanup files
-          rm "juno-client-sdk.tar.gz"
-          rm -r "juno-client-sdk"
+      - name: Build
+        id: build
+        continue-on-error: true
+        run: pnpm build:main
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: Update Juno SDK files
-          title: Update Juno SDK files
-          body: Update Juno SDK files
+          # PRs opened with the default GITHUB_TOKEN don't trigger Format & Lint / Unit Tests.
+          # Add a SYNC_PR_TOKEN secret (PAT) if you want those checks to run automatically.
+          token: ${{ secrets.SYNC_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: sync generated SDK from juno ${{ steps.fetch.outputs.tag }}'
+          title: 'Sync generated SDK from juno ${{ steps.fetch.outputs.tag }}'
+          body: |
+            Regenerated `src/internal/apis`, `src/internal/models`, `runtime.ts` and `index.ts` from
+            `juno-client-sdk.tar.gz` on juno release `${{ steps.fetch.outputs.tag }}`.
+
+            `pnpm build:main` result: **${{ steps.build.outcome }}**
+
+            The wrappers in `src/lib` are hand-written and may need updating for new or changed endpoints.
           branch: update-juno-sdk-files
           base: main
+          delete-branch: true
