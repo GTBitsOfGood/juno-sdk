@@ -27,6 +27,24 @@ import {
  */
 export interface FileProvider {
   /**
+   * Unique id of the provider
+   * @type {number}
+   * @memberof FileProvider
+   */
+  id: number;
+  /**
+   * Id of the file config (and project) that owns the provider
+   * @type {number}
+   * @memberof FileProvider
+   */
+  configId: number;
+  /**
+   * Environment of the file config that owns the provider
+   * @type {string}
+   * @memberof FileProvider
+   */
+  configEnv: string;
+  /**
    * The access key to register with
    * @type {AccessKey}
    * @memberof FileProvider
@@ -56,6 +74,9 @@ export interface FileProvider {
  * Check if a given object implements the FileProvider interface.
  */
 export function instanceOfFileProvider(value: object): value is FileProvider {
+  if (!('id' in value) || value['id'] === undefined) return false;
+  if (!('configId' in value) || value['configId'] === undefined) return false;
+  if (!('configEnv' in value) || value['configEnv'] === undefined) return false;
   if (!('accessKey' in value) || value['accessKey'] === undefined) return false;
   if (!('baseUrl' in value) || value['baseUrl'] === undefined) return false;
   if (!('providerName' in value) || value['providerName'] === undefined)
@@ -76,6 +97,9 @@ export function FileProviderFromJSONTyped(
     return json;
   }
   return {
+    id: json['id'],
+    configId: json['configId'],
+    configEnv: json['configEnv'],
     accessKey: AccessKeyFromJSON(json['accessKey']),
     baseUrl: json['baseUrl'],
     providerName: json['providerName'],
@@ -88,6 +112,9 @@ export function FileProviderToJSON(value?: FileProvider | null): any {
     return value;
   }
   return {
+    id: value['id'],
+    configId: value['configId'],
+    configEnv: value['configEnv'],
     accessKey: AccessKeyToJSON(value['accessKey']),
     baseUrl: value['baseUrl'],
     providerName: value['providerName'],

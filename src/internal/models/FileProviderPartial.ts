@@ -20,7 +20,13 @@ import { mapValues } from '../runtime';
  */
 export interface FileProviderPartial {
   /**
-   * The unique provider name of the file provider
+   * Unique id of the provider
+   * @type {number}
+   * @memberof FileProviderPartial
+   */
+  id: number;
+  /**
+   * The provider's name, unique within its file config
    * @type {string}
    * @memberof FileProviderPartial
    */
@@ -31,6 +37,18 @@ export interface FileProviderPartial {
    * @memberof FileProviderPartial
    */
   metadata: string;
+  /**
+   * Id of the file config (and project) that owns the provider
+   * @type {number}
+   * @memberof FileProviderPartial
+   */
+  configId: number;
+  /**
+   * Environment of the file config that owns the provider
+   * @type {string}
+   * @memberof FileProviderPartial
+   */
+  configEnv: string;
 }
 
 /**
@@ -39,9 +57,12 @@ export interface FileProviderPartial {
 export function instanceOfFileProviderPartial(
   value: object
 ): value is FileProviderPartial {
+  if (!('id' in value) || value['id'] === undefined) return false;
   if (!('providerName' in value) || value['providerName'] === undefined)
     return false;
   if (!('metadata' in value) || value['metadata'] === undefined) return false;
+  if (!('configId' in value) || value['configId'] === undefined) return false;
+  if (!('configEnv' in value) || value['configEnv'] === undefined) return false;
   return true;
 }
 
@@ -57,8 +78,11 @@ export function FileProviderPartialFromJSONTyped(
     return json;
   }
   return {
+    id: json['id'],
     providerName: json['providerName'],
     metadata: json['metadata'],
+    configId: json['configId'],
+    configEnv: json['configEnv'],
   };
 }
 
@@ -69,7 +93,10 @@ export function FileProviderPartialToJSON(
     return value;
   }
   return {
+    id: value['id'],
     providerName: value['providerName'],
     metadata: value['metadata'],
+    configId: value['configId'],
+    configEnv: value['configEnv'],
   };
 }
