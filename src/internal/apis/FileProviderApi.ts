@@ -31,6 +31,10 @@ export interface FileProviderControllerDeleteFileProviderRequest {
   name: string;
 }
 
+export interface FileProviderControllerGetFileProvidersByConfigIdRequest {
+  configId: string;
+}
+
 export interface FileProviderControllerRegisterFileProviderRequest {
   registerFileProviderModel: RegisterFileProviderModel;
 }
@@ -40,7 +44,8 @@ export interface FileProviderControllerRegisterFileProviderRequest {
  */
 export class FileProviderApi extends runtime.BaseAPI {
   /**
-   * Delete File Provider.
+   * Delete a File Provider from the caller\'s project file config.
+   * Delete provider
    */
   async fileProviderControllerDeleteFileProviderRaw(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
@@ -84,7 +89,8 @@ export class FileProviderApi extends runtime.BaseAPI {
   }
 
   /**
-   * Delete File Provider.
+   * Delete a File Provider from the caller\'s project file config.
+   * Delete provider
    */
   async fileProviderControllerDeleteFileProvider(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
@@ -98,7 +104,8 @@ export class FileProviderApi extends runtime.BaseAPI {
   }
 
   /**
-   * Get All File Providers.
+   * Get every File Provider across all projects. Superadmins only (pass a superadmin x-user-jwt); use GET /file/provider/config/{configId} for a project.
+   * List all providers
    */
   async fileProviderControllerGetAllFileProvidersRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -131,7 +138,8 @@ export class FileProviderApi extends runtime.BaseAPI {
   }
 
   /**
-   * Get All File Providers.
+   * Get every File Provider across all projects. Superadmins only (pass a superadmin x-user-jwt); use GET /file/provider/config/{configId} for a project.
+   * List all providers
    */
   async fileProviderControllerGetAllFileProviders(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -143,7 +151,69 @@ export class FileProviderApi extends runtime.BaseAPI {
   }
 
   /**
-   * Registers a File Provider.
+   * Get the File Providers linked to a file config (the config id is the project id) in the API key\'s environment.
+   * List providers by config
+   */
+  async fileProviderControllerGetFileProvidersByConfigIdRaw(
+    requestParameters: FileProviderControllerGetFileProvidersByConfigIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Array<FileProvider>>> {
+    if (requestParameters['configId'] == null) {
+      throw new runtime.RequiredError(
+        'configId',
+        'Required parameter "configId" was null or undefined when calling fileProviderControllerGetFileProvidersByConfigId().'
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('API_Key', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/file/provider/config/{configId}`.replace(
+          `{${'configId'}}`,
+          encodeURIComponent(String(requestParameters['configId']))
+        ),
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(FileProviderFromJSON)
+    );
+  }
+
+  /**
+   * Get the File Providers linked to a file config (the config id is the project id) in the API key\'s environment.
+   * List providers by config
+   */
+  async fileProviderControllerGetFileProvidersByConfigId(
+    requestParameters: FileProviderControllerGetFileProvidersByConfigIdRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Array<FileProvider>> {
+    const response =
+      await this.fileProviderControllerGetFileProvidersByConfigIdRaw(
+        requestParameters,
+        initOverrides
+      );
+    return await response.value();
+  }
+
+  /**
+   * Registers (or updates) a File Provider in the caller\'s project file config.
+   * Register provider
    */
   async fileProviderControllerRegisterFileProviderRaw(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,
@@ -189,7 +259,8 @@ export class FileProviderApi extends runtime.BaseAPI {
   }
 
   /**
-   * Registers a File Provider.
+   * Registers (or updates) a File Provider in the caller\'s project file config.
+   * Register provider
    */
   async fileProviderControllerRegisterFileProvider(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,

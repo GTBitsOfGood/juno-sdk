@@ -165,6 +165,43 @@ export class FileClient {
     );
   }
 
+  /**
+   * Lists the file providers linked to a file config (a config's id is its
+   * project's id). Only the caller's own project is allowed.
+   */
+  async getFileProvidersByConfigId(
+    configId: string | number,
+    credentials?: ApiCredentials
+  ): Promise<FileProvider[]> {
+    if (typeof configId === 'number') {
+      if (!Number.isInteger(configId) || configId < 0) {
+        throw new JunoValidationError(
+          'configId must be a non-negative integer'
+        );
+      }
+    } else {
+      validateString(configId, 'configId must be non-empty');
+    }
+    const headers: Record<string, string> = {};
+    if (credentials?.userJwt) {
+      headers['X-User-JWT'] = credentials.userJwt;
+    }
+    if (credentials?.projectId !== undefined) {
+      headers['X-Project-Id'] = String(credentials.projectId);
+    }
+
+    return await this.providerApi.fileProviderControllerGetFileProvidersByConfigId(
+      { configId: String(configId) },
+      async ({ init }) => ({
+        headers: { ...(init.headers as Record<string, string>), ...headers },
+      })
+    );
+  }
+
+  /**
+   * Lists every file provider across all projects. Superadmins only: pass a
+   * superadmin `userJwt`. Use `getFileProvidersByConfigId` for a project.
+   */
   async getAllFileProviders(
     credentials?: ApiCredentials
   ): Promise<FileProvider[]> {
