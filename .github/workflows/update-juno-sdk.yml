@@ -23,11 +23,13 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
           run_install: false
 
+      # pnpm 9 reads the v9 pnpm-lock.yaml (pnpm 8 ignores it and resolves @types/node versions that
+      # break tsc 4.9). Not --frozen-lockfile: the lockfile still has stale `request` entries.
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Copy generated SDK from Juno release
         id: sync
