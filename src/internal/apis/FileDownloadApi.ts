@@ -31,6 +31,7 @@ export interface FileDownloadControllerDownloadFileRequest {
 export class FileDownloadApi extends runtime.BaseAPI {
   /**
    * Downloads a file
+   * Get download URL
    */
   async fileDownloadControllerDownloadFileRaw(
     requestParameters: FileDownloadControllerDownloadFileRequest,
@@ -75,6 +76,7 @@ export class FileDownloadApi extends runtime.BaseAPI {
 
   /**
    * Downloads a file
+   * Get download URL
    */
   async fileDownloadControllerDownloadFile(
     requestParameters: FileDownloadControllerDownloadFileRequest,

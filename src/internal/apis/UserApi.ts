@@ -83,6 +83,7 @@ export interface UserControllerUnlinkUserFromProjectRequest {
 export class UserApi extends runtime.BaseAPI {
   /**
    * Create a new user.
+   * Create user
    */
   async userControllerCreateUserRaw(
     requestParameters: UserControllerCreateUserRequest,
@@ -139,6 +140,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Create a new user.
+   * Create user
    */
   async userControllerCreateUser(
     requestParameters: UserControllerCreateUserRequest,
@@ -153,6 +155,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Delete an existing user.
+   * Delete user
    */
   async userControllerDeleteUserByIdRaw(
     requestParameters: UserControllerDeleteUserByIdRequest,
@@ -209,6 +212,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Delete an existing user.
+   * Delete user
    */
   async userControllerDeleteUserById(
     requestParameters: UserControllerDeleteUserByIdRequest,
@@ -223,6 +227,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Retrieves all users.
+   * List users
    */
   async userControllerGetAllUsersRaw(
     requestParameters: UserControllerGetAllUsersRequest,
@@ -269,6 +274,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Retrieves all users.
+   * List users
    */
   async userControllerGetAllUsers(
     requestParameters: UserControllerGetAllUsersRequest = {},
@@ -283,6 +289,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Retrieve an existing user.
+   * Get user
    */
   async userControllerGetUserByIdRaw(
     requestParameters: UserControllerGetUserByIdRequest,
@@ -327,6 +334,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Retrieve an existing user.
+   * Get user
    */
   async userControllerGetUserById(
     requestParameters: UserControllerGetUserByIdRequest,
@@ -341,7 +349,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Associates a user with a project ID.
-   * Link user to project.
+   * Link user to project
    */
   async userControllerLinkUserWithProjectIdRaw(
     requestParameters: UserControllerLinkUserWithProjectIdRequest,
@@ -408,7 +416,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Associates a user with a project ID.
-   * Link user to project.
+   * Link user to project
    */
   async userControllerLinkUserWithProjectId(
     requestParameters: UserControllerLinkUserWithProjectIdRequest,
@@ -423,7 +431,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Updates the user type for an existing user. User type can be thought of as a role with role-based permissions, e.g. SUPERADMIN could have permissions an ADMIN would not. Only SUPERADMIN users can set types
-   * Update user type.
+   * Set user type
    */
   async userControllerSetUserTypeRaw(
     requestParameters: UserControllerSetUserTypeRequest,
@@ -480,7 +488,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Updates the user type for an existing user. User type can be thought of as a role with role-based permissions, e.g. SUPERADMIN could have permissions an ADMIN would not. Only SUPERADMIN users can set types
-   * Update user type.
+   * Set user type
    */
   async userControllerSetUserType(
     requestParameters: UserControllerSetUserTypeRequest,
@@ -502,7 +510,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Removes a user from a project.
-   * Unlink user from project.
+   * Unlink user from project
    */
   async userControllerUnlinkUserFromProjectRaw(
     requestParameters: UserControllerUnlinkUserFromProjectRequest,
@@ -569,7 +577,7 @@ export class UserApi extends runtime.BaseAPI {
 
   /**
    * Removes a user from a project.
-   * Unlink user from project.
+   * Unlink user from project
    */
   async userControllerUnlinkUserFromProject(
     requestParameters: UserControllerUnlinkUserFromProjectRequest,

@@ -453,6 +453,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get click events with pagination
+   * List click events
    */
   async analyticsControllerGetClickEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetClickEventsPaginatedRequest,
@@ -514,6 +515,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get click events with pagination
+   * List click events
    */
   async analyticsControllerGetClickEventsPaginated(
     requestParameters: AnalyticsControllerGetClickEventsPaginatedRequest,
@@ -528,6 +530,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom event types for a project
+   * List custom event types
    */
   async analyticsControllerGetCustomEventTypesRaw(
     requestParameters: AnalyticsControllerGetCustomEventTypesRequest,
@@ -573,6 +576,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom event types for a project
+   * List custom event types
    */
   async analyticsControllerGetCustomEventTypes(
     requestParameters: AnalyticsControllerGetCustomEventTypesRequest,
@@ -587,6 +591,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom events with pagination
+   * List custom events
    */
   async analyticsControllerGetCustomEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetCustomEventsPaginatedRequest,
@@ -670,6 +675,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom events with pagination
+   * List custom events
    */
   async analyticsControllerGetCustomEventsPaginated(
     requestParameters: AnalyticsControllerGetCustomEventsPaginatedRequest,
@@ -684,6 +690,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom graph types by event type ID
+   * Get custom graph types
    */
   async analyticsControllerGetCustomGraphTypesByIdRaw(
     requestParameters: AnalyticsControllerGetCustomGraphTypesByIdRequest,
@@ -740,6 +747,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get custom graph types by event type ID
+   * Get custom graph types
    */
   async analyticsControllerGetCustomGraphTypesById(
     requestParameters: AnalyticsControllerGetCustomGraphTypesByIdRequest,
@@ -754,6 +762,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get input events with pagination
+   * List input events
    */
   async analyticsControllerGetInputEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetInputEventsPaginatedRequest,
@@ -815,6 +824,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get input events with pagination
+   * List input events
    */
   async analyticsControllerGetInputEventsPaginated(
     requestParameters: AnalyticsControllerGetInputEventsPaginatedRequest,
@@ -829,6 +839,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get visit events with pagination
+   * List visit events
    */
   async analyticsControllerGetVisitEventsPaginatedRaw(
     requestParameters: AnalyticsControllerGetVisitEventsPaginatedRequest,
@@ -890,6 +901,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
   /**
    * Get visit events with pagination
+   * List visit events
    */
   async analyticsControllerGetVisitEventsPaginated(
     requestParameters: AnalyticsControllerGetVisitEventsPaginatedRequest,

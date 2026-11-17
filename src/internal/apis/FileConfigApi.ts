@@ -38,6 +38,7 @@ export interface FileConfigControllerGetFileConfigByProjectIdRequest {
 export class FileConfigApi extends runtime.BaseAPI {
   /**
    * Delete file configuration by project ID
+   * Delete file config
    */
   async fileConfigControllerDeleteFileConfigByProjectIdRaw(
     requestParameters: FileConfigControllerDeleteFileConfigByProjectIdRequest,
@@ -82,6 +83,7 @@ export class FileConfigApi extends runtime.BaseAPI {
 
   /**
    * Delete file configuration by project ID
+   * Delete file config
    */
   async fileConfigControllerDeleteFileConfigByProjectId(
     requestParameters: FileConfigControllerDeleteFileConfigByProjectIdRequest,
@@ -97,6 +99,7 @@ export class FileConfigApi extends runtime.BaseAPI {
 
   /**
    * Get file configuration by project ID
+   * Get file config
    */
   async fileConfigControllerGetFileConfigByProjectIdRaw(
     requestParameters: FileConfigControllerGetFileConfigByProjectIdRequest,
@@ -141,6 +144,7 @@ export class FileConfigApi extends runtime.BaseAPI {
 
   /**
    * Get file configuration by project ID
+   * Get file config
    */
   async fileConfigControllerGetFileConfigByProjectId(
     requestParameters: FileConfigControllerGetFileConfigByProjectIdRequest,
@@ -155,6 +159,7 @@ export class FileConfigApi extends runtime.BaseAPI {
 
   /**
    * Sets up file services for the Project/Environment
+   * Set up files
    */
   async fileConfigControllerSetupRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -188,6 +193,7 @@ export class FileConfigApi extends runtime.BaseAPI {
 
   /**
    * Sets up file services for the Project/Environment
+   * Set up files
    */
   async fileConfigControllerSetup(
     initOverrides?: RequestInit | runtime.InitOverrideFunction

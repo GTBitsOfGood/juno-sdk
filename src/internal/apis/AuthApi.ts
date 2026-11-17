@@ -83,13 +83,6 @@ export interface AuthControllerGetAllApiKeysRequest {
   xUserEmail?: string;
 }
 
-export interface AuthControllerGetAllApiKeysRequest {
-  offset?: number;
-  limit?: number;
-  xUserPassword?: string;
-  xUserEmail?: string;
-}
-
 export interface AuthControllerGetApiKeyJWTRequest {
   authorization: string;
 }
@@ -109,7 +102,7 @@ export interface AuthControllerTestAuthRequest {
 export class AuthApi extends runtime.BaseAPI {
   /**
    * Accepts a pending account request: creates the user, optionally creates/links a project (for ADMIN requests with a projectName), and deletes the pending request. Requires admin or superadmin credentials.
-   * Accept an account request
+   * Accept account request
    */
   async authControllerAcceptAccountRequestRaw(
     requestParameters: AuthControllerAcceptAccountRequestRequest,
@@ -166,7 +159,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Accepts a pending account request: creates the user, optionally creates/links a project (for ADMIN requests with a projectName), and deletes the pending request. Requires admin or superadmin credentials.
-   * Accept an account request
+   * Accept account request
    */
   async authControllerAcceptAccountRequest(
     requestParameters: AuthControllerAcceptAccountRequestRequest,
@@ -181,7 +174,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
-   * Submit a new account request
+   * Request an account
    */
   async authControllerCreateAccountRequestRaw(
     requestParameters: AuthControllerCreateAccountRequestRequest,
@@ -220,7 +213,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Allows a prospective user to submit a request for a new account. The request is stored and can be reviewed by an admin.
-   * Submit a new account request
+   * Request an account
    */
   async authControllerCreateAccountRequest(
     requestParameters: AuthControllerCreateAccountRequestRequest,
@@ -235,6 +228,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Issues a new API key for the project tied to the specified environment.
+   * Create API key
    */
   async authControllerCreateApiKeyRaw(
     requestParameters: AuthControllerCreateApiKeyRequest,
@@ -283,6 +277,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Issues a new API key for the project tied to the specified environment.
+   * Create API key
    */
   async authControllerCreateApiKey(
     requestParameters: AuthControllerCreateApiKeyRequest,
@@ -297,7 +292,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Deletes an account request by its ID. Requires admin or superadmin credentials.
-   * Delete an account request by ID
+   * Delete account request
    */
   async authControllerDeleteAccountRequestRaw(
     requestParameters: AuthControllerDeleteAccountRequestRequest,
@@ -354,7 +349,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Deletes an account request by its ID. Requires admin or superadmin credentials.
-   * Delete an account request by ID
+   * Delete account request
    */
   async authControllerDeleteAccountRequest(
     requestParameters: AuthControllerDeleteAccountRequestRequest,
@@ -369,6 +364,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Revokes an API key, detaching it from its project.
+   * Delete API key
    */
   async authControllerDeleteApiKeyByIdRaw(
     requestParameters: AuthControllerDeleteApiKeyByIdRequest,
@@ -427,6 +423,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Revokes an API key, detaching it from its project.
+   * Delete API key
    */
   async authControllerDeleteApiKeyById(
     requestParameters: AuthControllerDeleteApiKeyByIdRequest,
@@ -440,7 +437,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Returns all pending account requests. Requires admin or superadmin credentials.
-   * Retrieve all account requests
+   * List account requests
    */
   async authControllerGetAllAccountRequestsRaw(
     requestParameters: AuthControllerGetAllAccountRequestsRequest,
@@ -487,7 +484,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Returns all pending account requests. Requires admin or superadmin credentials.
-   * Retrieve all account requests
+   * List account requests
    */
   async authControllerGetAllAccountRequests(
     requestParameters: AuthControllerGetAllAccountRequestsRequest = {},
@@ -502,6 +499,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Lists all API keys
+   * List API keys
    */
   async authControllerGetAllApiKeysRaw(
     requestParameters: AuthControllerGetAllApiKeysRequest,
@@ -548,6 +546,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Lists all API keys
+   * List API keys
    */
   async authControllerGetAllApiKeys(
     requestParameters: AuthControllerGetAllApiKeysRequest = {},
@@ -562,7 +561,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given a valid API key.
-   * Generates a temporary JWT for the project tied to a specified API key.
+   * Get API key JWT
    */
   async authControllerGetApiKeyJWTRaw(
     requestParameters: AuthControllerGetApiKeyJWTRequest,
@@ -610,7 +609,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * JSON Web Tokens are used for the vast majority of API-gateway calls. The Juno SDK provides the means of automatically authenticating through this route given a valid API key.
-   * Generates a temporary JWT for the project tied to a specified API key.
+   * Get API key JWT
    */
   async authControllerGetApiKeyJWT(
     requestParameters: AuthControllerGetApiKeyJWTRequest,
@@ -625,7 +624,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Generates a user identity token that can be used to authenticate admin and management endpoints in place of email/password credentials.
-   * Generates a temporary JWT tied to a specified user.
+   * Get user JWT
    */
   async authControllerGetUserJWTRaw(
     requestParameters: AuthControllerGetUserJWTRequest,
@@ -686,7 +685,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * Generates a user identity token that can be used to authenticate admin and management endpoints in place of email/password credentials.
-   * Generates a temporary JWT tied to a specified user.
+   * Get user JWT
    */
   async authControllerGetUserJWT(
     requestParameters: AuthControllerGetUserJWTRequest,
@@ -701,7 +700,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * This endpoint validates a user JWT token and returns the associated user information if valid
-   * Validates user JWT and returns user data
+   * Validate user JWT
    */
   async authControllerTestAuthRaw(
     requestParameters: AuthControllerTestAuthRequest,
@@ -747,7 +746,7 @@ export class AuthApi extends runtime.BaseAPI {
 
   /**
    * This endpoint validates a user JWT token and returns the associated user information if valid
-   * Validates user JWT and returns user data
+   * Validate user JWT
    */
   async authControllerTestAuth(
     requestParameters: AuthControllerTestAuthRequest,

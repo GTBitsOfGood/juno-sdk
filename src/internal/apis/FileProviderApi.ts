@@ -41,6 +41,7 @@ export interface FileProviderControllerRegisterFileProviderRequest {
 export class FileProviderApi extends runtime.BaseAPI {
   /**
    * Delete File Provider.
+   * Delete provider
    */
   async fileProviderControllerDeleteFileProviderRaw(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
@@ -85,6 +86,7 @@ export class FileProviderApi extends runtime.BaseAPI {
 
   /**
    * Delete File Provider.
+   * Delete provider
    */
   async fileProviderControllerDeleteFileProvider(
     requestParameters: FileProviderControllerDeleteFileProviderRequest,
@@ -99,6 +101,7 @@ export class FileProviderApi extends runtime.BaseAPI {
 
   /**
    * Get All File Providers.
+   * List providers
    */
   async fileProviderControllerGetAllFileProvidersRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -132,6 +135,7 @@ export class FileProviderApi extends runtime.BaseAPI {
 
   /**
    * Get All File Providers.
+   * List providers
    */
   async fileProviderControllerGetAllFileProviders(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -144,6 +148,7 @@ export class FileProviderApi extends runtime.BaseAPI {
 
   /**
    * Registers a File Provider.
+   * Register provider
    */
   async fileProviderControllerRegisterFileProviderRaw(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,
@@ -190,6 +195,7 @@ export class FileProviderApi extends runtime.BaseAPI {
 
   /**
    * Registers a File Provider.
+   * Register provider
    */
   async fileProviderControllerRegisterFileProvider(
     requestParameters: FileProviderControllerRegisterFileProviderRequest,

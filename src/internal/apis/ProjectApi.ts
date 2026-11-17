@@ -80,6 +80,7 @@ export interface ProjectControllerLinkUserWithProjectNameRequest {
 export class ProjectApi extends runtime.BaseAPI {
   /**
    * Creates a new project with the specified parameters.
+   * Create project
    */
   async projectControllerCreateProjectRaw(
     requestParameters: ProjectControllerCreateProjectRequest,
@@ -136,6 +137,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Creates a new project with the specified parameters.
+   * Create project
    */
   async projectControllerCreateProject(
     requestParameters: ProjectControllerCreateProjectRequest,
@@ -150,6 +152,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Delete an existing project.
+   * Delete project
    */
   async projectControllerDeleteProjectByIdRaw(
     requestParameters: ProjectControllerDeleteProjectByIdRequest,
@@ -206,6 +209,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Delete an existing project.
+   * Delete project
    */
   async projectControllerDeleteProjectById(
     requestParameters: ProjectControllerDeleteProjectByIdRequest,
@@ -220,6 +224,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves all projects.
+   * List projects
    */
   async projectControllerGetAllProjectsRaw(
     requestParameters: ProjectControllerGetAllProjectsRequest,
@@ -266,6 +271,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves all projects.
+   * List projects
    */
   async projectControllerGetAllProjects(
     requestParameters: ProjectControllerGetAllProjectsRequest = {},
@@ -280,6 +286,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves a project by its unique ID.
+   * Get project by ID
    */
   async projectControllerGetProjectByIdRaw(
     requestParameters: ProjectControllerGetProjectByIdRequest,
@@ -324,6 +331,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves a project by its unique ID.
+   * Get project by ID
    */
   async projectControllerGetProjectById(
     requestParameters: ProjectControllerGetProjectByIdRequest,
@@ -338,6 +346,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves a project by its unique name.
+   * Get project by name
    */
   async projectControllerGetProjectByNameRaw(
     requestParameters: ProjectControllerGetProjectByNameRequest,
@@ -382,6 +391,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieves a project by its unique name.
+   * Get project by name
    */
   async projectControllerGetProjectByName(
     requestParameters: ProjectControllerGetProjectByNameRequest,
@@ -396,6 +406,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieve all users associated with a project.
+   * List project users
    */
   async projectControllerGetUsersByProjectRaw(
     requestParameters: ProjectControllerGetUsersByProjectRequest,
@@ -452,6 +463,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Retrieve all users associated with a project.
+   * List project users
    */
   async projectControllerGetUsersByProject(
     requestParameters: ProjectControllerGetUsersByProjectRequest,
@@ -466,6 +478,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Links a specified user with a given project ID.
+   * Link user to project by ID
    */
   async projectControllerLinkUserWithProjectIdRaw(
     requestParameters: ProjectControllerLinkUserWithProjectIdRequest,
@@ -518,6 +531,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Links a specified user with a given project ID.
+   * Link user to project by ID
    */
   async projectControllerLinkUserWithProjectId(
     requestParameters: ProjectControllerLinkUserWithProjectIdRequest,
@@ -531,6 +545,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Links a specified user with a given project name.
+   * Link user to project by name
    */
   async projectControllerLinkUserWithProjectNameRaw(
     requestParameters: ProjectControllerLinkUserWithProjectNameRequest,
@@ -583,6 +598,7 @@ export class ProjectApi extends runtime.BaseAPI {
 
   /**
    * Links a specified user with a given project name.
+   * Link user to project by name
    */
   async projectControllerLinkUserWithProjectName(
     requestParameters: ProjectControllerLinkUserWithProjectNameRequest,
