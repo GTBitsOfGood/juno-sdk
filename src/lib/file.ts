@@ -173,7 +173,15 @@ export class FileAPI {
     configId: string | number,
     credentials?: ApiCredentials
   ): Promise<FileProvider[]> {
-    validateString(String(configId), 'configId must be non-empty');
+    if (typeof configId === 'number') {
+      if (!Number.isInteger(configId) || configId < 0) {
+        throw new JunoValidationError(
+          'configId must be a non-negative integer'
+        );
+      }
+    } else {
+      validateString(configId, 'configId must be non-empty');
+    }
     const headers: Record<string, string> = {};
     if (credentials?.userJwt) {
       headers['X-User-JWT'] = credentials.userJwt;
