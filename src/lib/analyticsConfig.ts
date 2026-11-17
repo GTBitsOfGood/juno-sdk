@@ -8,7 +8,7 @@ import {
 import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
-export class AnalyticsConfigAPI {
+export class AnalyticsConfigClient {
   private internalApi: AnalyticsConfigApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new AnalyticsConfigApi(
@@ -104,3 +104,14 @@ export class AnalyticsConfigAPI {
     );
   }
 }
+
+/**
+ * @deprecated Renamed to {@link AnalyticsConfigClient} to avoid confusion with the generated `AnalyticsConfigApi`.
+ * This alias will be removed in a future release.
+ */
+export const AnalyticsConfigAPI = AnalyticsConfigClient;
+/**
+ * @deprecated Renamed to {@link AnalyticsConfigClient} to avoid confusion with the generated `AnalyticsConfigApi`.
+ * This alias will be removed in a future release.
+ */
+export type AnalyticsConfigAPI = AnalyticsConfigClient;
