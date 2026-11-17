@@ -102,7 +102,9 @@ Pass `{ userJwt, projectId }` as the `credentials` argument to act on a specific
 
 ## Releasing
 
-Releases are published to npm by the **Publish to npm** GitHub Action whenever a `v*` tag is pushed. It needs the `NPM_TOKEN` repo secret (a publish token for `juno-sdk` from the gtbitsofgood npm account).
+Releases are published to npm by the **Publish to npm** GitHub Action whenever a `v*` tag is pushed. It uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so there's no npm token to manage: npm accepts the publish because it comes from this repo's `publish.yml` over GitHub OIDC, and attaches a provenance attestation.
+
+One-time setup, done by an owner of the `juno-sdk` package on npmjs.com: **juno-sdk > Settings > Trusted Publisher > GitHub Actions**, with organization `GTBitsOfGood`, repository `juno-sdk`, workflow filename `publish.yml`, no environment, and **`npm publish` allowed** (new configurations only allow `npm stage publish` unless you tick it). The first publish has to happen within 2 days of creating the configuration, or it expires. Once a release has gone out this way, set **Publishing access** to "Require two-factor authentication and disallow tokens" and revoke any old automation tokens.
 
 1. **Sync generated code (only if juno changed its API).** In GitHub, go to Actions, select **Juno SDK Sync OpenAPI**, and click Run workflow. Leave the tag blank to use the newest juno release. Review and merge the PR it opens, and update the hand-written wrappers in `src/lib` if endpoints changed.
 2. **Bump the version.** Branch off an up-to-date `main`, then run:
