@@ -18,7 +18,7 @@ import {
   VerifyDomainModel,
 } from '../internal/index';
 import { ApiCredentials } from './apiCredentials';
-import { AuthAPI } from './auth';
+import { AuthClient } from './auth';
 import { JunoValidationError } from './errors';
 import {
   validateEmailContent,
@@ -28,10 +28,10 @@ import {
   validateString,
 } from './validators';
 
-export class EmailAPI {
+export class EmailClient {
   private internalApi: EmailApi;
-  private auth?: AuthAPI;
-  constructor(baseURL?: string, auth?: AuthAPI) {
+  private auth?: AuthClient;
+  constructor(baseURL?: string, auth?: AuthClient) {
     this.auth = auth;
     this.internalApi = new EmailApi(
       new Configuration({ basePath: baseURL, accessToken: auth?.junoApiKey })
@@ -352,3 +352,14 @@ export class EmailAPI {
     return headers;
   }
 }
+
+/**
+ * @deprecated Renamed to {@link EmailClient} to avoid confusion with the generated `EmailApi`.
+ * This alias will be removed in a future release.
+ */
+export const EmailAPI = EmailClient;
+/**
+ * @deprecated Renamed to {@link EmailClient} to avoid confusion with the generated `EmailApi`.
+ * This alias will be removed in a future release.
+ */
+export type EmailAPI = EmailClient;
