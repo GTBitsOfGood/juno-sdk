@@ -69,6 +69,9 @@ jobs:
       - name: Format generated code
         run: pnpm exec prettier "src/internal/**/*.ts" --write
 
+      # `pnpm build` (run-p) fails under pnpm with "Unknown option: juno-sdk:commitizen_path",
+      # so the build targets run directly.
+      #
       # PRs opened with the default GITHUB_TOKEN don't trigger the pull_request
       # workflows, so run the same checks here and report them in the PR body.
       - name: Check
@@ -78,7 +81,7 @@ jobs:
           status() { echo "::group::$*" >&2; if "$@" >&2; then echo "::endgroup::" >&2;  echo ":white_check_mark:"; else echo "::endgroup::" >&2; echo ":x:"; fi; }
           prettier=$(status pnpm test:prettier)
           lint=$(status pnpm test:lint)
-          build=$(status pnpm build)
+          build=$(status sh -c "pnpm build:main && pnpm build:module")
           unit=$(status pnpm test:unit)
           {
             echo "summary<<EOF"
@@ -86,7 +89,7 @@ jobs:
             echo "| --- | --- |"
             echo "| \`pnpm test:prettier\` | $prettier |"
             echo "| \`pnpm test:lint\` | $lint |"
-            echo "| \`pnpm build\` | $build |"
+            echo "| \`pnpm build:main && pnpm build:module\` | $build |"
             echo "| \`pnpm test:unit\` | $unit |"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
