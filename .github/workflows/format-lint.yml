@@ -31,3 +31,6 @@ jobs:
 
       - name: Run prettier
         run: pnpm test:prettier
+
+      - name: Run eslint
+        run: pnpm test:lint

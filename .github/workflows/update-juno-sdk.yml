@@ -3,8 +3,8 @@ name: Juno SDK Sync OpenAPI
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Juno release tag to sync from (leave blank for the newest release, prereleases included)'
+      juno_tag:
+        description: 'Juno release tag to pull juno-client-sdk.tar.gz from (default: newest non-draft release)'
         required: false
         default: ''
 
@@ -18,79 +18,110 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+
       - uses: pnpm/action-setup@v3
         with:
           version: 9
           run_install: false
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
+      # pnpm 9 reads the v9 pnpm-lock.yaml (pnpm 8 ignores it and resolves @types/node versions that
+      # break tsc 4.9). Not --frozen-lockfile: the lockfile still has stale `request` entries.
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
-      - name: Download generated SDK from juno
-        id: fetch
+      - name: Copy generated SDK from Juno release
+        id: sync
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG_INPUT: ${{ inputs.tag }}
+          JUNO_TAG: ${{ inputs.juno_tag }}
         run: |
-          TAG="$TAG_INPUT"
-          if [ -z "$TAG" ]; then
-            # Newest release of any kind. Filtering on prerelease only would pick
-            # the stale v0.0.9, since juno now cuts normal releases.
-            TAG=$(gh release list --repo GTBitsOfGood/juno --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName')
-          fi
-          if [ -z "$TAG" ] || [ "$TAG" = "null" ]; then
-            echo "::error::Could not determine a juno release tag"
-            exit 1
-          fi
+          set -euo pipefail
 
-          gh release download "$TAG" --repo GTBitsOfGood/juno --pattern juno-client-sdk.tar.gz --dir "$RUNNER_TEMP"
-          tar -xzf "$RUNNER_TEMP/juno-client-sdk.tar.gz" -C "$RUNNER_TEMP"
+          tag="$JUNO_TAG"
+          if [ -z "$tag" ]; then
+            # newest release (including prereleases), not just prereleases:
+            # juno stopped marking releases as prereleases after v0.0.9
+            tag=$(gh api repos/GTBitsOfGood/juno/releases --jq 'map(select(.draft | not)) | first | .tag_name')
+          fi
+          echo "Using GTBitsOfGood/juno release $tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-          SRC="$RUNNER_TEMP/juno-client-sdk"
-          for p in apis models runtime.ts index.ts; do
-            if [ ! -e "$SRC/$p" ]; then
-              echo "::error::Expected $p in juno-client-sdk.tar.gz ($TAG) but it is missing"
-              ls -A "$SRC"
+          tmp=$(mktemp -d)
+          gh release download "$tag" -R GTBitsOfGood/juno -p juno-client-sdk.tar.gz -D "$tmp"
+          tar -xzf "$tmp/juno-client-sdk.tar.gz" -C "$tmp"
+          sdk="$tmp/juno-client-sdk"
+
+          # juno generates with `openapi-generator-cli generate -g typescript-fetch`,
+          # which outputs apis/, models/, runtime.ts and index.ts
+          for path in apis models runtime.ts index.ts; do
+            if [ ! -e "$sdk/$path" ]; then
+              echo "::error::$tag's juno-client-sdk.tar.gz has no $path; the generator layout changed, update this workflow"
               exit 1
             fi
           done
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Replace generated code
-        run: |
-          SRC="$RUNNER_TEMP/juno-client-sdk"
-          # Remove old generated files first so deleted endpoints/models don't linger
+          # replace (not merge) so endpoints/models removed upstream are removed here too
           rm -rf src/internal/apis src/internal/models
-          cp -r "$SRC/apis" "$SRC/models" src/internal/
-          cp "$SRC/runtime.ts" "$SRC/index.ts" src/internal/
-          # Generator output isn't prettier-formatted; the Format & Lint check would fail otherwise
-          pnpm exec prettier "src/internal/**/*.ts" --write
+          cp -r "$sdk/apis" "$sdk/models" "$sdk/runtime.ts" "$sdk/index.ts" src/internal/
 
-      - name: Build
-        id: build
-        continue-on-error: true
-        run: pnpm build:main
+          rm -rf "$tmp"
+
+      - name: Format generated code
+        run: pnpm exec prettier "src/internal/**/*.ts" --write
+
+      # `pnpm build` (run-p) fails under pnpm with "Unknown option: juno-sdk:commitizen_path",
+      # so the build targets run directly.
+      #
+      # PRs opened with the default GITHUB_TOKEN don't trigger the pull_request
+      # workflows, so run the same checks here and report them in the PR body.
+      - name: Check
+        id: check
+        run: |
+          set -uo pipefail
+          status() { echo "::group::$*" >&2; if "$@" >&2; then echo "::endgroup::" >&2;  echo ":white_check_mark:"; else echo "::endgroup::" >&2; echo ":x:"; fi; }
+          prettier=$(status pnpm test:prettier)
+          lint=$(status pnpm test:lint)
+          build=$(status sh -c "pnpm build:main && pnpm build:module")
+          unit=$(status pnpm test:unit)
+          {
+            echo "summary<<EOF"
+            echo "| check | result |"
+            echo "| --- | --- |"
+            echo "| \`pnpm test:prettier\` | $prettier |"
+            echo "| \`pnpm test:lint\` | $lint |"
+            echo "| \`pnpm build:main && pnpm build:module\` | $build |"
+            echo "| \`pnpm test:unit\` | $unit |"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          if [[ "$prettier$lint$build$unit" == *":x:"* ]]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          # PRs opened with the default GITHUB_TOKEN don't trigger Format & Lint / Unit Tests.
-          # Add a SYNC_PR_TOKEN secret (PAT) if you want those checks to run automatically.
-          token: ${{ secrets.SYNC_PR_TOKEN || secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: sync generated SDK from juno ${{ steps.fetch.outputs.tag }}'
-          title: 'Sync generated SDK from juno ${{ steps.fetch.outputs.tag }}'
+          # Optional PAT / app token. With it, the PR's pull_request checks run as usual.
+          token: ${{ secrets.SDK_SYNC_TOKEN || github.token }}
+          commit-message: 'chore: sync generated SDK from juno ${{ steps.sync.outputs.tag }}'
+          title: 'chore: sync generated SDK from juno ${{ steps.sync.outputs.tag }}'
           body: |
-            Regenerated `src/internal/apis`, `src/internal/models`, `runtime.ts` and `index.ts` from
-            `juno-client-sdk.tar.gz` on juno release `${{ steps.fetch.outputs.tag }}`.
+            Generated code in `src/internal` from [GTBitsOfGood/juno ${{ steps.sync.outputs.tag }}](https://github.com/GTBitsOfGood/juno/releases/tag/${{ steps.sync.outputs.tag }}), formatted with prettier.
 
-            `pnpm build:main` result: **${{ steps.build.outcome }}**
+            Checks run by the sync workflow ([run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})):
 
-            The wrappers in `src/lib` are hand-written and may need updating for new or changed endpoints.
-          branch: update-juno-sdk-files
-          base: main
+            ${{ steps.check.outputs.summary }}
+
+            If `src/lib` wrappers don't build against the new generated code, fix them on this branch before merging.
+          branch: update-juno-sdk/${{ github.ref_name }}
+          base: ${{ github.ref_name }}
           delete-branch: true
+          add-paths: src/internal
+
+      - name: Fail if checks failed
+        if: steps.check.outputs.failed == 'true'
+        run: |
+          echo "::error::Generated code fails checks; see the table in ${{ steps.cpr.outputs.pull-request-url }}"
+          exit 1
