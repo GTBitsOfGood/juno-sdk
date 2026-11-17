@@ -98,6 +98,7 @@ export interface EmailControllerVerifySenderDomainRequest {
 export class EmailApi extends runtime.BaseAPI {
   /**
    * Gets all authenticated domains from SendGrid
+   * List domains
    */
   async emailControllerGetDomainsRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -131,6 +132,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Gets all authenticated domains from SendGrid
+   * List domains
    */
   async emailControllerGetDomains(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -141,6 +143,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Get email configuration by ID
+   * Get email config
    */
   async emailControllerGetEmailConfigByIdRaw(
     requestParameters: EmailControllerGetEmailConfigByIdRequest,
@@ -185,6 +188,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Get email configuration by ID
+   * Get email config
    */
   async emailControllerGetEmailConfigById(
     requestParameters: EmailControllerGetEmailConfigByIdRequest,
@@ -199,6 +203,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Gets all verified senders from SendGrid
+   * List senders
    */
   async emailControllerGetSendersRaw(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -232,6 +237,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Gets all verified senders from SendGrid
+   * List senders
    */
   async emailControllerGetSenders(
     initOverrides?: RequestInit | runtime.InitOverrideFunction
@@ -242,6 +248,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Gets overall email analytics
+   * Get email statistics
    */
   async emailControllerGetStatisticsRaw(
     requestParameters: EmailControllerGetStatisticsRequest,
@@ -303,6 +310,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Gets overall email analytics
+   * Get email statistics
    */
   async emailControllerGetStatistics(
     requestParameters: EmailControllerGetStatisticsRequest,
@@ -317,6 +325,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Registers a sender domain with SendGrid.
+   * Register domain
    */
   async emailControllerRegisterEmailDomainRaw(
     requestParameters: EmailControllerRegisterEmailDomainRequest,
@@ -363,6 +372,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Registers a sender domain with SendGrid.
+   * Register domain
    */
   async emailControllerRegisterEmailDomain(
     requestParameters: EmailControllerRegisterEmailDomainRequest,
@@ -377,6 +387,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Registers a sender email address.
+   * Register sender
    */
   async emailControllerRegisterSenderAddressRaw(
     requestParameters: EmailControllerRegisterSenderAddressRequest,
@@ -421,6 +432,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Registers a sender email address.
+   * Register sender
    */
   async emailControllerRegisterSenderAddress(
     requestParameters: EmailControllerRegisterSenderAddressRequest,
@@ -435,6 +447,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Sends an email using Juno services.
+   * Send email
    */
   async emailControllerSendEmailRaw(
     requestParameters: EmailControllerSendEmailRequest,
@@ -479,6 +492,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Sends an email using Juno services.
+   * Send email
    */
   async emailControllerSendEmail(
     requestParameters: EmailControllerSendEmailRequest,
@@ -493,6 +507,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Sets up an email service with the given Sendgrid API Key
+   * Set up email
    */
   async emailControllerSetupRaw(
     requestParameters: EmailControllerSetupRequest,
@@ -539,6 +554,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Sets up an email service with the given Sendgrid API Key
+   * Set up email
    */
   async emailControllerSetup(
     requestParameters: EmailControllerSetupRequest,
@@ -553,6 +569,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Verifies a sender domain registration status.
+   * Verify domain
    */
   async emailControllerVerifySenderDomainRaw(
     requestParameters: EmailControllerVerifySenderDomainRequest,
@@ -597,6 +614,7 @@ export class EmailApi extends runtime.BaseAPI {
 
   /**
    * Verifies a sender domain registration status.
+   * Verify domain
    */
   async emailControllerVerifySenderDomain(
     requestParameters: EmailControllerVerifySenderDomainRequest,

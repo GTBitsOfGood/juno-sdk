@@ -31,6 +31,7 @@ export interface FileDeleteControllerDeleteFilesRequest {
 export class FileDeleteApi extends runtime.BaseAPI {
   /**
    * Delete files from a bucket
+   * Delete files
    */
   async fileDeleteControllerDeleteFilesRaw(
     requestParameters: FileDeleteControllerDeleteFilesRequest,
@@ -75,6 +76,7 @@ export class FileDeleteApi extends runtime.BaseAPI {
 
   /**
    * Delete files from a bucket
+   * Delete files
    */
   async fileDeleteControllerDeleteFiles(
     requestParameters: FileDeleteControllerDeleteFilesRequest,

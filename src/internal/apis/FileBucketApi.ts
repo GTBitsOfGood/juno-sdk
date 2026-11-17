@@ -49,6 +49,7 @@ export interface FileBucketControllerRegisterFileBucketRequest {
 export class FileBucketApi extends runtime.BaseAPI {
   /**
    * Delete a File Bucket.
+   * Delete bucket
    */
   async fileBucketControllerDeleteFileBucketRaw(
     requestParameters: FileBucketControllerDeleteFileBucketRequest,
@@ -95,6 +96,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Delete a File Bucket.
+   * Delete bucket
    */
   async fileBucketControllerDeleteFileBucket(
     requestParameters: FileBucketControllerDeleteFileBucketRequest,
@@ -109,6 +111,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Get all files from all buckets for a config.
+   * List files
    */
   async fileBucketControllerGetAllFilesRaw(
     requestParameters: FileBucketControllerGetAllFilesRequest,
@@ -151,6 +154,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Get all files from all buckets for a config.
+   * List files
    */
   async fileBucketControllerGetAllFiles(
     requestParameters: FileBucketControllerGetAllFilesRequest,
@@ -165,6 +169,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Get File Buckets by Config Id and Config Env.
+   * List buckets
    */
   async fileBucketControllerGetBucketsByConfigIdAndEnvRaw(
     requestParameters: FileBucketControllerGetBucketsByConfigIdAndEnvRequest,
@@ -209,6 +214,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Get File Buckets by Config Id and Config Env.
+   * List buckets
    */
   async fileBucketControllerGetBucketsByConfigIdAndEnv(
     requestParameters: FileBucketControllerGetBucketsByConfigIdAndEnvRequest,
@@ -224,6 +230,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Registers a File Bucket.
+   * Register bucket
    */
   async fileBucketControllerRegisterFileBucketRaw(
     requestParameters: FileBucketControllerRegisterFileBucketRequest,
@@ -270,6 +277,7 @@ export class FileBucketApi extends runtime.BaseAPI {
 
   /**
    * Registers a File Bucket.
+   * Register bucket
    */
   async fileBucketControllerRegisterFileBucket(
     requestParameters: FileBucketControllerRegisterFileBucketRequest,

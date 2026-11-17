@@ -31,6 +31,7 @@ export interface FileUploadControllerUploadFileRequest {
 export class FileUploadApi extends runtime.BaseAPI {
   /**
    * Upload a file to a File Storage Provider\'s Bucket
+   * Get upload URL
    */
   async fileUploadControllerUploadFileRaw(
     requestParameters: FileUploadControllerUploadFileRequest,
@@ -75,6 +76,7 @@ export class FileUploadApi extends runtime.BaseAPI {
 
   /**
    * Upload a file to a File Storage Provider\'s Bucket
+   * Get upload URL
    */
   async fileUploadControllerUploadFile(
     requestParameters: FileUploadControllerUploadFileRequest,

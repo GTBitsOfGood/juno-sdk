@@ -50,6 +50,7 @@ export interface AnalyticsConfigControllerUpdateAnalyticsConfigRequest {
 export class AnalyticsConfigApi extends runtime.BaseAPI {
   /**
    * Create analytics configuration
+   * Create analytics config
    */
   async analyticsConfigControllerCreateAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerCreateAnalyticsConfigRequest,
@@ -96,6 +97,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Create analytics configuration
+   * Create analytics config
    */
   async analyticsConfigControllerCreateAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerCreateAnalyticsConfigRequest,
@@ -111,6 +113,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Delete analytics configuration
+   * Delete analytics config
    */
   async analyticsConfigControllerDeleteAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerDeleteAnalyticsConfigRequest,
@@ -155,6 +158,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Delete analytics configuration
+   * Delete analytics config
    */
   async analyticsConfigControllerDeleteAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerDeleteAnalyticsConfigRequest,
@@ -170,6 +174,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Get analytics configuration
+   * Get analytics config
    */
   async analyticsConfigControllerGetAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerGetAnalyticsConfigRequest,
@@ -214,6 +219,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Get analytics configuration
+   * Get analytics config
    */
   async analyticsConfigControllerGetAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerGetAnalyticsConfigRequest,
@@ -228,6 +234,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Update analytics configuration
+   * Update analytics config
    */
   async analyticsConfigControllerUpdateAnalyticsConfigRaw(
     requestParameters: AnalyticsConfigControllerUpdateAnalyticsConfigRequest,
@@ -284,6 +291,7 @@ export class AnalyticsConfigApi extends runtime.BaseAPI {
 
   /**
    * Update analytics configuration
+   * Update analytics config
    */
   async analyticsConfigControllerUpdateAnalyticsConfig(
     requestParameters: AnalyticsConfigControllerUpdateAnalyticsConfigRequest,
