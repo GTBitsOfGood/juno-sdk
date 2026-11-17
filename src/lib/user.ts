@@ -58,7 +58,7 @@ export class UserAPI {
     project: LinkProjectModel;
     credentials: UserCredentials;
   }): Promise<void> {
-    let { userId, project, credentials } = options;
+    const { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
@@ -154,7 +154,7 @@ export class UserAPI {
     project: UnlinkProjectModel;
     credentials: UserCredentials;
   }): Promise<void> {
-    let { userId, project, credentials } = options;
+    const { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
 
@@ -192,7 +192,7 @@ export class UserAPI {
     userId: string;
     credentials: UserCredentials;
   }): Promise<UserResponse> {
-    let { userId, credentials } = options;
+    const { userId, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     validateUserCredentials(credentials);
