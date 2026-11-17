@@ -99,3 +99,28 @@ Pass `{ userJwt, projectId }` as the `credentials` argument to act on a specific
 1. **Authentication**: Start by using the **AuthClient** to issue an API key and generate a JWT token.
 2. **Project and User Management**: Set up projects and link users using **ProjectClient** and **UserClient**.
 3. **Email Operations**: If your project involves email management, use **EmailClient** to register sender domains and send emails.
+
+## Releasing
+
+Releases are published to npm by the **Publish to npm** GitHub Action whenever a `v*` tag is pushed. It uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so there's no npm token to manage: npm accepts the publish because it comes from this repo's `publish.yml` over GitHub OIDC, and attaches a provenance attestation.
+
+One-time setup, done by an owner of the `juno-sdk` package on npmjs.com: **juno-sdk > Settings > Trusted Publisher > GitHub Actions**, with organization `GTBitsOfGood`, repository `juno-sdk`, workflow filename `publish.yml`, no environment, and **`npm publish` allowed** (new configurations only allow `npm stage publish` unless you tick it). The first publish has to happen within 2 days of creating the configuration, or it expires. Once a release has gone out this way, set **Publishing access** to "Require two-factor authentication and disallow tokens" and revoke any old automation tokens.
+
+1. **Sync generated code (only if juno changed its API).** In GitHub, go to Actions, select **Juno SDK Sync OpenAPI**, and click Run workflow. Leave the tag blank to use the newest juno release. Review and merge the PR it opens, and update the hand-written wrappers in `src/lib` if endpoints changed.
+2. **Bump the version.** Branch off an up-to-date `main`, then run:
+   ```bash
+   pnpm install
+   pnpm exec standard-version --skip.tag
+   ```
+   This bumps `package.json`, updates `CHANGELOG.md` and commits. Add `--release-as 0.0.12` to force a specific version, since on 0.x `standard-version` may otherwise pick a minor bump. Open a PR and merge it.
+3. **Tag the merged commit.** After the PR is merged:
+   ```bash
+   git checkout main && git pull
+   git tag v0.0.12
+   git push origin v0.0.12
+   ```
+   The tag must match the `package.json` version, or the action fails.
+4. **Check the run.** The action tests, builds, publishes to npm and creates a GitHub release. It fails if that version is already on npm. Confirm with `npm view juno-sdk version`.
+5. **Update consumers**, such as `juno-dashboard`, to the new version.
+
+Don't run `npm version` or `pnpm version`: the `version` script in `package.json` runs `standard-version`.
