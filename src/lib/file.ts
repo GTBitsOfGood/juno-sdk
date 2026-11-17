@@ -25,7 +25,7 @@ import { ApiCredentials } from './apiCredentials';
 import { JunoValidationError } from './errors';
 import { validateString } from './validators';
 
-export class FileAPI {
+export class FileClient {
   private configApi: FileConfigApi;
   private uploadApi: FileUploadApi;
   private downloadApi: FileDownloadApi;
@@ -393,3 +393,14 @@ export class FileAPI {
     });
   }
 }
+
+/**
+ * @deprecated Renamed to {@link FileClient} to avoid confusion with the generated `File*Api` classes.
+ * This alias will be removed in a future release.
+ */
+export const FileAPI = FileClient;
+/**
+ * @deprecated Renamed to {@link FileClient} to avoid confusion with the generated `File*Api` classes.
+ * This alias will be removed in a future release.
+ */
+export type FileAPI = FileClient;

@@ -11,7 +11,7 @@ import {
 import { UserCredentials } from './auth';
 import { validateString, validateUserCredentials } from './validators';
 
-export class UserAPI {
+export class UserClient {
   private internalApi: UserApi;
   constructor(baseURL?: string) {
     this.internalApi = new UserApi(new Configuration({ basePath: baseURL }));
@@ -216,3 +216,14 @@ export class UserAPI {
     }
   }
 }
+
+/**
+ * @deprecated Renamed to {@link UserClient} to avoid confusion with the generated `UserApi`.
+ * This alias will be removed in a future release.
+ */
+export const UserAPI = UserClient;
+/**
+ * @deprecated Renamed to {@link UserClient} to avoid confusion with the generated `UserApi`.
+ * This alias will be removed in a future release.
+ */
+export type UserAPI = UserClient;
