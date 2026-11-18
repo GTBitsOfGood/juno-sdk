@@ -22,7 +22,7 @@ export type UserCredentials = string | { email: string; password: string };
 
 export type UserType = 'SUPERADMIN' | 'ADMIN' | 'USER';
 
-export class AuthAPI {
+export class AuthClient {
   private internalApi: AuthApi;
   private apiKey?: string;
   constructor(baseURL?: string, apiKey?: string) {
@@ -296,3 +296,14 @@ export class AuthAPI {
     }
   }
 }
+
+/**
+ * @deprecated Renamed to {@link AuthClient} to avoid confusion with the generated `AuthApi`.
+ * This alias will be removed in a future release.
+ */
+export const AuthAPI = AuthClient;
+/**
+ * @deprecated Renamed to {@link AuthClient} to avoid confusion with the generated `AuthApi`.
+ * This alias will be removed in a future release.
+ */
+export type AuthAPI = AuthClient;

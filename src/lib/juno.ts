@@ -1,96 +1,101 @@
-import { AnalyticsAPI } from './analytics';
-import { AnalyticsConfigAPI } from './analyticsConfig';
-import { AuthAPI } from './auth';
-import { EmailAPI } from './email';
+import { AnalyticsClient } from './analytics';
+import { AnalyticsConfigClient } from './analyticsConfig';
+import { AuthClient } from './auth';
+import { EmailClient } from './email';
 import { JunoValidationError } from './errors';
-import { FileAPI } from './file';
-import { ProjectAPI } from './project';
-import { UserAPI } from './user';
+import { FileClient } from './file';
+import { ProjectClient } from './project';
+import { UserClient } from './user';
 
-class JunoAPI {
+export class JunoClient {
   private apiKey?: string;
-  private userAPI?: UserAPI;
-  private emailAPI?: EmailAPI;
-  private projectAPI?: ProjectAPI;
-  private authAPI?: AuthAPI;
-  private analyticsAPI?: AnalyticsAPI;
-  private analyticsConfigAPI?: AnalyticsConfigAPI;
-  private fileAPI?: FileAPI;
+  private userClient?: UserClient;
+  private emailClient?: EmailClient;
+  private projectClient?: ProjectClient;
+  private authClient?: AuthClient;
+  private analyticsClient?: AnalyticsClient;
+  private analyticsConfigClient?: AnalyticsConfigClient;
+  private fileClient?: FileClient;
 
-  get analyticsConfig(): AnalyticsConfigAPI {
-    if (!this.analyticsConfigAPI) {
+  get analyticsConfig(): AnalyticsConfigClient {
+    if (!this.analyticsConfigClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.analyticsConfigAPI;
-  }
-
-  get analytics(): AnalyticsAPI {
-    if (!this.analyticsAPI) {
-      throw new JunoValidationError(
-        'juno.init() must be called before using the Juno SDK'
-      );
-    }
-    return this.analyticsAPI;
+    return this.analyticsConfigClient;
   }
 
-  get user(): UserAPI {
-    if (!this.userAPI) {
+  get analytics(): AnalyticsClient {
+    if (!this.analyticsClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.userAPI;
+    return this.analyticsClient;
   }
 
-  get email(): EmailAPI {
-    if (!this.emailAPI) {
+  get user(): UserClient {
+    if (!this.userClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.emailAPI;
+    return this.userClient;
   }
 
-  get project(): ProjectAPI {
-    if (!this.projectAPI) {
+  get email(): EmailClient {
+    if (!this.emailClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.projectAPI;
+    return this.emailClient;
   }
-  get file(): FileAPI {
-    if (!this.fileAPI) {
+
+  get project(): ProjectClient {
+    if (!this.projectClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.fileAPI;
+    return this.projectClient;
   }
-  get auth(): AuthAPI {
-    if (!this.authAPI) {
+  get file(): FileClient {
+    if (!this.fileClient) {
       throw new JunoValidationError(
         'juno.init() must be called before using the Juno SDK'
       );
     }
-    return this.authAPI;
+    return this.fileClient;
+  }
+  get auth(): AuthClient {
+    if (!this.authClient) {
+      throw new JunoValidationError(
+        'juno.init() must be called before using the Juno SDK'
+      );
+    }
+    return this.authClient;
   }
 
   init(options: { apiKey: string; baseURL?: string }) {
     this.apiKey = options.apiKey;
-    this.authAPI = new AuthAPI(options.baseURL, this.apiKey);
-    this.userAPI = new UserAPI(options.baseURL);
-    this.emailAPI = new EmailAPI(options.baseURL, this.authAPI);
-    this.projectAPI = new ProjectAPI(options.baseURL, this.apiKey);
-    this.analyticsAPI = new AnalyticsAPI(options.baseURL, this.apiKey);
-    this.analyticsConfigAPI = new AnalyticsConfigAPI(
+    this.authClient = new AuthClient(options.baseURL, this.apiKey);
+    this.userClient = new UserClient(options.baseURL);
+    this.emailClient = new EmailClient(options.baseURL, this.authClient);
+    this.projectClient = new ProjectClient(options.baseURL, this.apiKey);
+    this.analyticsClient = new AnalyticsClient(options.baseURL, this.apiKey);
+    this.analyticsConfigClient = new AnalyticsConfigClient(
       options.baseURL,
       this.apiKey
     );
-    this.fileAPI = new FileAPI(options.baseURL, this.apiKey);
+    this.fileClient = new FileClient(options.baseURL, this.apiKey);
   }
 }
 
-export const juno: JunoAPI = new JunoAPI();
+export const juno: JunoClient = new JunoClient();
+
+/**
+ * @deprecated Renamed to {@link JunoClient} to avoid confusion with the generated `*Api` classes.
+ */
+export type JunoAPI = JunoClient;

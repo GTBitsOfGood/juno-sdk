@@ -16,7 +16,7 @@ import {
   validateUserIdentifier,
 } from './validators';
 
-export class ProjectAPI {
+export class ProjectClient {
   private internalApi: ProjectApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new ProjectApi(
@@ -178,3 +178,14 @@ export class ProjectAPI {
     }
   }
 }
+
+/**
+ * @deprecated Renamed to {@link ProjectClient} to avoid confusion with the generated `ProjectApi`.
+ * This alias will be removed in a future release.
+ */
+export const ProjectAPI = ProjectClient;
+/**
+ * @deprecated Renamed to {@link ProjectClient} to avoid confusion with the generated `ProjectApi`.
+ * This alias will be removed in a future release.
+ */
+export type ProjectAPI = ProjectClient;

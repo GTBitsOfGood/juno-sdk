@@ -11,7 +11,7 @@ import {
 import { UserCredentials } from './auth';
 import { validateString, validateUserCredentials } from './validators';
 
-export class UserAPI {
+export class UserClient {
   private internalApi: UserApi;
   constructor(baseURL?: string) {
     this.internalApi = new UserApi(new Configuration({ basePath: baseURL }));
@@ -58,7 +58,7 @@ export class UserAPI {
     project: LinkProjectModel;
     credentials: UserCredentials;
   }): Promise<void> {
-    let { userId, project, credentials } = options;
+    const { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     if (project.name) {
@@ -154,7 +154,7 @@ export class UserAPI {
     project: UnlinkProjectModel;
     credentials: UserCredentials;
   }): Promise<void> {
-    let { userId, project, credentials } = options;
+    const { userId, project, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
 
@@ -192,7 +192,7 @@ export class UserAPI {
     userId: string;
     credentials: UserCredentials;
   }): Promise<UserResponse> {
-    let { userId, credentials } = options;
+    const { userId, credentials } = options;
 
     validateString(userId, 'The user ID must be a non-empty string.');
     validateUserCredentials(credentials);
@@ -216,3 +216,14 @@ export class UserAPI {
     }
   }
 }
+
+/**
+ * @deprecated Renamed to {@link UserClient} to avoid confusion with the generated `UserApi`.
+ * This alias will be removed in a future release.
+ */
+export const UserAPI = UserClient;
+/**
+ * @deprecated Renamed to {@link UserClient} to avoid confusion with the generated `UserApi`.
+ * This alias will be removed in a future release.
+ */
+export type UserAPI = UserClient;

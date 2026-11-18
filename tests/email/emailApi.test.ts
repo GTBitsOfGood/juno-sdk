@@ -1,10 +1,10 @@
-import { EmailAPI } from '../../src/lib/email';
-import { AuthAPI } from '../../src/lib/auth';
+import { EmailClient } from '../../src/lib/email';
+import { AuthClient } from '../../src/lib/auth';
 import { JunoValidationError } from '../../src/lib/errors';
 
 describe('sendEmail validation tests', () => {
   it('throws a validation error with a recipient', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -32,7 +32,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('does not throw an validation error with a recipient', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -60,7 +60,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('does not throw an validation error with a recipient', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -86,7 +86,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('throws an validation error with no recipient, cc, or bcc', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -125,7 +125,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('throws an validation error with an empty content array', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -142,7 +142,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('does not throw a validation error with only cc', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -168,7 +168,7 @@ describe('sendEmail validation tests', () => {
   });
 
   it('does not throw a validation error with only bcc', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -196,7 +196,7 @@ describe('sendEmail validation tests', () => {
 
 describe('Registering sender test validation tests', () => {
   it('throws a validation error if name is null or blank', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     let name: unknown = null;
 
@@ -236,7 +236,7 @@ describe('Registering sender test validation tests', () => {
   });
 
   it('throws a validation error if email is null or blank', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     let email: unknown = null;
 
@@ -276,7 +276,7 @@ describe('Registering sender test validation tests', () => {
   });
 
   it('does not throw a validation error if email and name are valid', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     await expect(
       (async () => {
@@ -298,7 +298,7 @@ describe('Registering sender test validation tests', () => {
 
 describe('register domain validation tests', () => {
   it('throws a validation error if domain is null or blank', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     let domain: unknown = null;
 
@@ -326,7 +326,7 @@ describe('register domain validation tests', () => {
 
 describe('verify domain validation tests', () => {
   it('throws a validation error if domain is null or blank', async () => {
-    let emailApi = new EmailAPI();
+    let emailApi = new EmailClient();
 
     let domain: unknown = null;
 
@@ -364,7 +364,7 @@ function mockFetch(status: number, body: unknown) {
   return fetchMock;
 }
 
-const authWithKey = { junoApiKey: 'test-api-key' } as unknown as AuthAPI;
+const authWithKey = { junoApiKey: 'test-api-key' } as unknown as AuthClient;
 
 describe('getSenders tests', () => {
   const originalFetch = global.fetch;
@@ -393,7 +393,7 @@ describe('getSenders tests', () => {
       ],
     });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     const result = await emailApi.getSenders({
       userJwt: 'test-jwt',
       projectId: 1,
@@ -411,7 +411,7 @@ describe('getSenders tests', () => {
   it('sends the API key, user JWT and project id', async () => {
     const fetchMock = mockFetch(200, { senders: [] });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     await emailApi.getSenders({ userJwt: 'test-jwt', projectId: 1 });
 
     const [url, init] = fetchMock.mock.calls[0];
@@ -427,7 +427,7 @@ describe('getSenders tests', () => {
   it('sends project id 0', async () => {
     const fetchMock = mockFetch(200, { senders: [] });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     await emailApi.getSenders({ projectId: 0 });
 
     const init = fetchMock.mock.calls[0][1];
@@ -438,7 +438,7 @@ describe('getSenders tests', () => {
   it('sends no project headers without credentials', async () => {
     const fetchMock = mockFetch(200, { senders: [] });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     await emailApi.getSenders();
 
     const init = fetchMock.mock.calls[0][1];
@@ -449,7 +449,7 @@ describe('getSenders tests', () => {
   it('throws when the gateway rejects the request', async () => {
     mockFetch(401, { message: 'Unauthorized' });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
 
     await expect(
       emailApi.getSenders({ userJwt: 'bad-jwt', projectId: 1 })
@@ -475,7 +475,7 @@ describe('getDomains tests', () => {
       ],
     });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     const result = await emailApi.getDomains({
       userJwt: 'test-jwt',
       projectId: 1,
@@ -495,7 +495,7 @@ describe('getDomains tests', () => {
   it('sends the API key, user JWT and project id', async () => {
     const fetchMock = mockFetch(200, { domains: [] });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     await emailApi.getDomains({ userJwt: 'test-jwt', projectId: 1 });
 
     const [url, init] = fetchMock.mock.calls[0];
@@ -511,7 +511,7 @@ describe('getDomains tests', () => {
   it('sends no project headers without credentials', async () => {
     const fetchMock = mockFetch(200, { domains: [] });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
     await emailApi.getDomains();
 
     const init = fetchMock.mock.calls[0][1];
@@ -522,7 +522,7 @@ describe('getDomains tests', () => {
   it('throws when the gateway rejects the request', async () => {
     mockFetch(403, { message: 'Forbidden' });
 
-    const emailApi = new EmailAPI('http://localhost:8888', authWithKey);
+    const emailApi = new EmailClient('http://localhost:8888', authWithKey);
 
     await expect(
       emailApi.getDomains({ userJwt: 'test-jwt', projectId: 1 })

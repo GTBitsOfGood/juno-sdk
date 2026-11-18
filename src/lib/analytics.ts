@@ -23,7 +23,7 @@ import {
 import { ApiCredentials } from './apiCredentials';
 import { validateString } from './validators';
 
-export class AnalyticsAPI {
+export class AnalyticsClient {
   private internalApi: AnalyticsApi;
   constructor(baseURL?: string, apiKey?: string) {
     this.internalApi = new AnalyticsApi(
@@ -469,3 +469,14 @@ export class AnalyticsAPI {
     );
   }
 }
+
+/**
+ * @deprecated Renamed to {@link AnalyticsClient} to avoid confusion with the generated `AnalyticsApi`.
+ * This alias will be removed in a future release.
+ */
+export const AnalyticsAPI = AnalyticsClient;
+/**
+ * @deprecated Renamed to {@link AnalyticsClient} to avoid confusion with the generated `AnalyticsApi`.
+ * This alias will be removed in a future release.
+ */
+export type AnalyticsAPI = AnalyticsClient;

@@ -8,7 +8,7 @@ import { JunoValidationError } from './errors';
 import { ProjectIdentifier, UserIdentifier } from './identifiers';
 
 export const validateString = (
-  str?: String,
+  str?: string,
   errorMessage = 'Invalid string argument'
 ) => {
   if (typeof str !== 'string' || !str || str.trim().length === 0) {
